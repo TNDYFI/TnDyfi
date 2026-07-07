@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Youth Connect Tamil Nadu</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<meta name="theme-color" content="#d50000">
+<meta name="description" content="Youth Connect Tamil Nadu">
+
+<link rel="manifest" href="manifest.json">
+
+</head>
+
+<body>
+
+<!-- Splash Screen -->
+
+<div id="loader">
+
+<div class="loader-logo">
+
+<img src="assets/logo.png">
+
+<h1>Youth Connect</h1>
+
+<p>Tamil Nadu</p>
+
+</div>
+
+<div class="loader-progress">
+
+<div class="progress"></div>
+
+</div>
+
+</div>
+
+<!-- Moving Background -->
+
+<div class="moving-bg"></div>
+
+<!-- Header -->
+
+<header>
+
+<button class="menu-btn">
+
+<i class="fas fa-bars"></i>
+
+</button>
+
+<div class="logo">
+
+<img src="assets/logo.png">
+
+<span>Youth Connect</span>
+
+</div>
+
+<div class="header-actions">
+
+<button id="searchBtn">
+
+<i class="fas fa-search"></i>
+
+</button>
+
+<button id="themeBtn">
+
+<i class="fas fa-moon"></i>
+
+</button>
+
+<button id="moreBtn">
+
+<i class="fas fa-ellipsis-vertical"></i>
+
+</button>
+
+</div>
+
+</header>
+
+<!-- Sidebar -->
+
+<aside id="sidebar">
+
+<div class="profile">
+
+<img src="assets/logo.png">
+
+<h2>Youth Connect</h2>
+
+<p>Tamil Nadu</p>
+
+</div>
+
+<ul>
+
+<li><i class="fas fa-house"></i> Home</li>
+
+<li><i class="fas fa-newspaper"></i> News</li>
+
+<li><i class="fas fa-calendar"></i> Events</li>
+
+<li><i class="fas fa-bullhorn"></i> Campaigns</li>
+
+<li><i class="fas fa-users"></i> Members</li>
+
+<li><i class="fas fa-image"></i> Gallery</li>
+
+<li><i class="fas fa-video"></i> Videos</li>
+
+<li><i class="fas fa-map-location-dot"></i> Districts</li>
+
+<li><i class="fas fa-phone"></i> Contact</li>
+
+<li><i class="fas fa-circle-info"></i> About</li>
+
+</ul>
+
+</aside>
+
+<!-- Hero Banner -->
+
+<section class="hero">
+
+<div class="hero-slider">
+
+<div class="slide active">
+
+<img src="assets/banner1.jpg">
+
+<div class="caption">
+
+<h2>Welcome Youth</h2>
+
+<p>Together We Build Tomorrow</p>
+
+</div>
+
+</div>
+
+<div class="slide">
+
+<img src="assets/banner2.jpg">
+
+<div class="caption">
+
+<h2>Serve Society</h2>
+
+<p>Unity • Equality • Progress</p>
+
+</div>
+
+</div>
+
+<div class="slide">
+
+<img src="assets/banner3.jpg">
+
+<div class="caption">
+
+<h2>Empower Youth</h2>
+
+<p>Knowledge • Service • Leadership</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Breaking News -->
+
+<section class="breaking">
+
+<span>LIVE</span>
+
+<marquee>
+
+Welcome to Youth Connect Tamil Nadu Web Application
+
+</marquee>
+
+</section>
+
+<!-- Search -->
+
+<section class="search-area">
+
+<input
+
+type="text"
+
+id="searchInput"
+
+placeholder="Search news, events, campaigns...">
+
+</section>
+
+<!-- News Section -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>Latest News</h2>
+
+<a href="#">View All</a>
+
+</div>
+
+<div id="newsContainer">
+
+<!-- Firebase Data -->
+
+</div>
+
+</section>
+<!-- ===========================
+     EVENTS SECTION
+=========================== -->
+
+<section class="section">
+
+    <div class="section-title">
+        <h2>Upcoming Events</h2>
+        <a href="events.html">View All</a>
+    </div>
+
+    <div id="eventsContainer" class="card-grid">
+
+        <div class="event-card">
+            <img src="assets/event1.jpg" alt="">
+            <div class="card-content">
+                <span class="badge">EVENT</span>
+                <h3>State Youth Conference</h3>
+                <p>Chennai • 15 Aug 2026</p>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <img src="assets/event2.jpg" alt="">
+            <div class="card-content">
+                <span class="badge">MEETING</span>
+                <h3>District Committee Meeting</h3>
+                <p>Madurai • 20 Aug 2026</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+     CAMPAIGNS
+=========================== -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>Campaigns</h2>
+
+<a href="campaigns.html">View All</a>
+
+</div>
+
+<div class="campaign-slider">
+
+<div class="campaign-card">
+
+<i class="fa-solid fa-tree"></i>
+
+<h3>Green Tamil Nadu</h3>
+
+<p>Join tree plantation campaign.</p>
+
+</div>
+
+<div class="campaign-card">
+
+<i class="fa-solid fa-book"></i>
+
+<h3>Education For All</h3>
+
+<p>Support students through volunteering.</p>
+
+</div>
+
+<div class="campaign-card">
+
+<i class="fa-solid fa-heart"></i>
+
+<h3>Blood Donation</h3>
+
+<p>Donate blood and save lives.</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===========================
+     GALLERY
+=========================== -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>Gallery</h2>
+
+<a href="gallery.html">View All</a>
+
+</div>
+
+<div class="gallery-grid">
+
+<img src="assets/gallery1.jpg">
+
+<img src="assets/gallery2.jpg">
+
+<img src="assets/gallery3.jpg">
+
+<img src="assets/gallery4.jpg">
+
+<img src="assets/gallery5.jpg">
+
+<img src="assets/gallery6.jpg">
+
+</div>
+
+</section>
+
+<!-- ===========================
+     VIDEOS
+=========================== -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>Videos</h2>
+
+<a href="videos.html">View All</a>
+
+</div>
+
+<div class="video-list">
+
+<div class="video-card">
+
+<img src="assets/video1.jpg">
+
+<div class="play-btn">
+
+<i class="fas fa-play"></i>
+
+</div>
+
+<p>Youth Awareness Program</p>
+
+</div>
+
+<div class="video-card">
+
+<img src="assets/video2.jpg">
+
+<div class="play-btn">
+
+<i class="fas fa-play"></i>
+
+</div>
+
+<p>Social Service Activities</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===========================
+     MEMBERSHIP
+=========================== -->
+
+<section class="join-banner">
+
+<div>
+
+<h2>Become a Volunteer</h2>
+
+<p>Join our youth movement and participate in social activities.</p>
+
+<a href="membership.html" class="join-btn">
+
+Register Now
+
+</a>
+
+</div>
+
+</section>
+<!-- ===========================
+     Bottom Navigation
+=========================== -->
+
+<nav class="bottom-nav">
+
+    <a href="index.html" class="active">
+        <i class="fas fa-house"></i>
+        <span>Home</span>
+    </a>
+
+    <a href="news.html">
+        <i class="fas fa-newspaper"></i>
+        <span>News</span>
+    </a>
+
+    <a href="events.html">
+        <i class="fas fa-calendar"></i>
+        <span>Events</span>
+    </a>
+
+    <a href="gallery.html">
+        <i class="fas fa-image"></i>
+        <span>Gallery</span>
+    </a>
+
+    <a href="profile.html">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+    </a>
+
+</nav>
+
+<!-- Sidebar Overlay -->
+
+<div id="overlay"></div>
+
+<!-- Search Popup -->
+
+<div id="searchPopup" class="popup">
+
+    <div class="popup-content">
+
+        <input
+            type="text"
+            placeholder="Search anything..."
+            id="globalSearch">
+
+        <button id="closeSearch">
+
+            <i class="fas fa-times"></i>
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Notification Popup -->
+
+<div id="notificationPanel" class="notification-panel">
+
+    <div class="panel-header">
+
+        <h3>Notifications</h3>
+
+        <button id="closeNotification">
+
+            <i class="fas fa-times"></i>
+
+        </button>
+
+    </div>
+
+    <div class="notification-list">
+
+        <div class="notification-item">
+
+            <i class="fas fa-bell"></i>
+
+            <div>
+
+                <h4>Welcome</h4>
+
+                <p>Thank you for joining Youth Connect.</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Floating Action Button -->
+
+<button id="fab">
+
+    <i class="fas fa-plus"></i>
+
+</button>
+
+<!-- Footer -->
+
+<footer>
+
+    <div class="footer-logo">
+
+        <img src="assets/logo.png" alt="Logo">
+
+    </div>
+
+    <h3>Youth Connect Tamil Nadu</h3>
+
+    <p>
+        Building an informed, active and socially responsible youth community.
+    </p>
+
+    <div class="footer-social">
+
+        <a href="#"><i class="fab fa-facebook"></i></a>
+
+        <a href="#"><i class="fab fa-instagram"></i></a>
+
+        <a href="#"><i class="fab fa-youtube"></i></a>
+
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+
+    </div>
+
+    <p class="copyright">
+        © 2026 Youth Connect. All Rights Reserved.
+    </p>
+
+</footer>
+
+<!-- Firebase -->
+
+<script type="module" src="firebase.js"></script>
+
+<!-- Main App -->
+
+<script type="module" src="app.js"></script>
+
+<!-- Search -->
+
+<script src="search.js"></script>
+
+<!-- Notifications -->
+
+<script src="notification.js"></script>
+
+<!-- PWA -->
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+window.addEventListener("load", () => {
+
+navigator.serviceWorker.register("service-worker.js");
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
