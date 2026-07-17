@@ -180,18 +180,30 @@ document.addEventListener("DOMContentLoaded", () => {
         .forEach(el => observer.observe(el));
 
 });
+
+
 const menuBtn = document.getElementById("menuBtn");
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
 
-menuBtn.addEventListener("click", () => {
-    menuBtn.classList.toggle("active");
-    sidebar.classList.toggle("active");
-    overlay.classList.toggle("active");
-});
+function openSidebar(){
+    sidebar.classList.add("active");
+    overlay.classList.add("active");
+    menuBtn.classList.add("active");
+}
 
-overlay.addEventListener("click", () => {
-    menuBtn.classList.remove("active");
+function closeSidebar(){
     sidebar.classList.remove("active");
     overlay.classList.remove("active");
+    menuBtn.classList.remove("active");
+}
+
+menuBtn.addEventListener("click", () => {
+    if(sidebar.classList.contains("active")){
+        closeSidebar();
+    }else{
+        openSidebar();
+    }
 });
+
+overlay.addEventListener("click", closeSidebar);
