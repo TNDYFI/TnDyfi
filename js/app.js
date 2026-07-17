@@ -115,3 +115,36 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".section, .event-card, .news-card, .campaign-card, .gallery-grid img, .video-card")
         .forEach(element => viewObserver.observe(element));
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const videoCards = document.querySelectorAll(".video-card");
+    const modal = document.getElementById("videoModal");
+    const iframe = document.getElementById("youtubePlayer");
+    const closeBtn = document.querySelector(".close-btn");
+
+    // ஒவ்வொறு வீடியோ கார்டுக்கும் கிளிக் ஈவென்ட் சேர்க்கிறோம்
+    videoCards.forEach(card => {
+        card.addEventListener("click", () => {
+            const videoId = card.getAttribute("data-video-id");
+            // autoplay=1 கொடுத்தால் கிளிக் செய்தவுடன் வீடியோ ஓடும்
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            modal.style.display = "flex"; // பாப்-அப் ஓபன் ஆகும்
+        });
+    });
+
+    // க்ளோஸ் பட்டன் கிளிக் செய்யும்போது
+    closeBtn.addEventListener("click", closeModal);
+
+    // வீடியோவுக்கு வெளியே கருப்பு பக்கத்தில் கிளிக் செய்தாலும் க்ளோஸ் ஆகும்
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    function closeModal() {
+        modal.style.display = "none";
+        iframe.src = ""; // வீடியோவை ஸ்டாப் செய்ய src-ஐ காலி செய்கிறோம்
+    }
+});
