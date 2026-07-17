@@ -1,0 +1,210 @@
+:root {
+    --dyfi-green: #2b7a4d;
+    --navy: #1a1a3a;
+}
+
+body { 
+    font-family: 'Arial', sans-serif; 
+    background: #eef2f3; 
+    margin: 0; 
+    padding: 0; 
+    overflow-x: hidden; 
+}
+
+/* LOADER DESIGN */
+#loader { 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    background: white; 
+    text-align: center; 
+}
+.spinner { 
+    border: 5px solid #f3f3f3; 
+    border-top: 5px solid var(--dyfi-green); 
+    border-radius: 50%; 
+    width: 50px; 
+    height: 50px; 
+    animation: spin 1s linear infinite; 
+}
+.loading-bar-bg { 
+    width: 220px; 
+    height: 8px; 
+    background: #eee; 
+    border-radius: 10px; 
+    margin: 15px auto; 
+    overflow: hidden; 
+}
+.loading-bar-fill { 
+    height: 100%; 
+    background: var(--dyfi-green); 
+    width: 0%; 
+    animation: loadProgress 1.5s forwards; 
+}
+@keyframes spin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+@keyframes loadProgress { 
+    0% { width: 0%; } 
+    100% { width: 100%; } 
+}
+
+/* APP LAYOUT */
+#app-container { 
+    max-width: 480px; 
+    margin: auto; 
+    background: white; 
+    min-height: 100vh; 
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+header { 
+    background: var(--dyfi-green); 
+    color: white; 
+    padding: 18px; 
+    text-align: center; 
+    font-weight: bold; 
+    font-size: 18px; 
+}
+.form-section { padding: 15px; }
+.input-card { display: flex; flex-direction: column; gap: 10px; }
+
+input { 
+    padding: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 14px; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.row { display: flex; gap: 8px; width: 100%; }
+.row input { flex: 1; min-width: 0; }
+
+.gen-btn { 
+    width: 100%; 
+    padding: 15px; 
+    background: var(--dyfi-green); 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    font-weight: bold; 
+    font-size: 18px; 
+    margin-top: 15px; 
+    cursor: pointer; 
+}
+
+/* SCREEN DISPLAY FRAME LIST */
+.card-frame-wrapper {
+    max-width: 390px;
+    width: 92%;
+    padding: 20px; 
+    margin: 20px auto;
+    background: #ffffff;
+    border: 2px solid #dcdcdc; 
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    will-change: transform;
+}
+
+/* ID CARD MASTER SIZE */
+.id-card { 
+    width: 350px; 
+    height: 510px; 
+    position: relative; 
+    border: 1px solid #b5b5b5; 
+    border-radius: 6px;
+    overflow: hidden; 
+    background: white; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.front-template-img { width: 100%; height: 100%; object-fit: fill; display: block; }
+.serial-no { font-size: 24px; font-weight: bold; margin: 15px; text-align: left; color: #000; }
+.data-rows { padding: 0 15px; }
+.d-row { display: flex; align-items: flex-end; margin-bottom: 12px; }
+.d-label { font-weight: bold; font-size: 14px; color: #333; margin-right: 6px; white-space: nowrap; }
+.d-val { flex-grow: 1; border-bottom: 1px dotted #555; font-weight: 900; font-size: 14px; color: #000; min-height: 18px; line-height: 1.2; word-break: break-word; padding-left: 4px; }
+.d-row-split { display: flex; gap: 10px; }
+.sub-fee { font-size: 14px; font-weight: 900; margin-top: 15px; text-align: left; color: #111; }
+
+.back-footer-container { position: absolute; bottom: 0; left: 0; width: 100%; }
+.sign-section { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 15px 10px 15px; }
+.date-txt { font-weight: bold; font-size: 14px; }
+.sec-sign { text-align: center; }
+.sign-img { width: 70px; margin-bottom: -5px; }
+.sign-title { font-size: 12px; font-weight: bold; border-top: 1px solid #000; padding-top: 2px; }
+.black-footer { background: #000; color: white; text-align: center; padding: 8px 5px; line-height: 1.3; }
+.f-title { font-size: 14px; font-weight: bold; }
+.f-state { font-size: 13px; }
+.f-addr, .f-contact { font-size: 9px; opacity: 0.9; }
+
+/* DOWNLOAD BUTTON DESIGN */
+.dl-btn { 
+    width: 90%; 
+    max-width: 390px; 
+    padding: 15px; 
+    background: #1976d2; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    font-weight: bold; 
+    margin: 20px auto; 
+    display: block; 
+    cursor: pointer; 
+    font-size: 16px; 
+    text-align: center;
+}
+.dl-btn:disabled { 
+    background: #555555; 
+    color: #cccccc;
+    cursor: wait; 
+}
+
+/* DOWNLOAD ENGINE HIDDEN CANVAS (White Page பிழை சரிசெய்யப்பட்டது) */
+#hidden-download-box {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    width: 450px;
+    overflow: hidden;
+    display: none; /* ஆரம்பத்தில் மறைக்கப்பட்டிருக்கும் */
+}
+.download-master-layout {
+    width: 430px;
+    padding: 20px;
+    background: #f5f7f8; 
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    box-sizing: border-box;
+}
+.dl-frame-wrapper {
+    width: 390px;
+    padding: 20px;
+    background: #ffffff;
+    border: 2px solid #dcdcdc;
+    border-radius: 12px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MOBILE VIEW SCREEN SCALING */
+@media (max-width: 430px) {
+    .card-frame-wrapper { padding: 10px; overflow: hidden; }
+    .card-frame-wrapper .id-card {
+        transform: scale(calc(1 * (var(--viewport-width, 340) / 370))) translateZ(0);
+        transform-origin: center center;
+        margin: -30px 0;
+    }
+}

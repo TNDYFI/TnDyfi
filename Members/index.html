@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DYFI ID Generator 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-ui">
+            <div class="spinner"></div>
+            <h1>DYFI 2026</h1>
+            <p class="loading-text">MEMBERSHIP CARD GENERATOR</p>
+            <div class="loading-bar-bg"><div class="loading-bar-fill"></div></div>
+            <p>தயாராகிறது...</p>
+        </div>
+    </div>
+
+    <div id="app-container" style="display: none;">
+        <header>DYFI Membership Form - 2026</header>
+
+        <div class="form-section">
+            <div class="input-card">
+                <input type="text" id="id_num" placeholder="உறுப்பினர் எண் (Serial No)">
+                <input type="text" id="name" placeholder="பெயர் (Name)">
+                <div class="row">
+                    <input type="number" id="age" placeholder="வயது">
+                    <input type="text" id="edu" placeholder="கல்வி">
+                </div>
+                <input type="text" id="addr" placeholder="முகவரி (Address)">
+                <input type="text" id="branch" placeholder="கிளை (Branch)">
+                <input type="text" id="area" placeholder="பகுதி (Area)">
+                <input type="text" id="dist" placeholder="மாவட்டம் (District)">
+                <input type="text" id="blood" placeholder="இரத்த வகை (Blood Group)">
+                <input type="text" id="date" value="22/01/2026">
+            </div>
+            <button class="gen-btn" id="generateTrigger">Generate My Card</button>
+        </div>
+
+        <div id="result-area" style="display: none;">
+            
+            <!-- FRONT CARD ON-SCREEN DISPLAY -->
+            <div class="card-frame-wrapper">
+                <div class="id-card look-card-front">
+                    <img src="https://raw.githubusercontent.com/TNDYFI/membership/main/etc/front.png" class="front-template-img" alt="Front Card" onerror="this.src='/etc/front.png'">
+                </div>
+            </div>
+
+            <!-- BACK CARD ON-SCREEN DISPLAY -->
+            <div class="card-frame-wrapper">
+                <div class="id-card look-card-back">
+                    <div class="serial-no out-id-val">246380</div>
+                    
+                    <div class="data-rows">
+                        <div class="d-row">
+                            <span class="d-label">பெயர் :</span>
+                            <span class="d-val out-name-val"></span>
+                        </div>
+                        
+                        <div class="d-row-split">
+                            <div class="d-row" style="flex: 0.4;">
+                                <span class="d-label">வயது :</span>
+                                <span class="d-val out-age-val"></span>
+                            </div>
+                            <div class="d-row" style="flex: 0.6;">
+                                <span class="d-label">கல்வி :</span>
+                                <span class="d-val out-edu-val"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-row">
+                            <span class="d-label">முகவரி :</span>
+                            <span class="d-val out-addr-val"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">கிளை :</span>
+                            <span class="d-val out-branch-val"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">பகுதி :</span>
+                            <span class="d-val out-area-val"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">மாவட்டம் :</span>
+                            <span class="d-val out-dist-val"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">இரத்த வகை :</span>
+                            <span class="d-val out-blood-val"></span>
+                        </div>
+                        
+                        <div class="sub-fee">உறுப்பினர் சந்தா ரூ. 2/- பெற்றுக்கொண்டோம்</div>
+                    </div>
+
+                    <div class="back-footer-container">
+                        <div class="sign-section">
+                            <div class="date-txt">தேதி : <span class="out-date-val"></span></div>
+                            <div class="sec-sign">
+                                <img src="https://raw.githubusercontent.com/TNDYFI/membership/main/etc/sign.png" class="sign-img">
+                                <div class="sign-title">மாநிலச் செயலாளர்</div>
+                            </div>
+                        </div>
+                        <div class="black-footer">
+                            <div class="f-title">இந்திய ஜனநாயக வாலிபர் சங்கம்</div>
+                            <div class="f-state">தமிழ் மாநிலக் குழு</div>
+                            <div class="f-addr">57/21, அருணோதயா வளாகம், ஈ.வே.ரா. நெடுஞ்சாலை,</div>
+                            <div class="f-contact">பெரியமேடு, சென்னை - 600 003. போன் : 044 - 2561 1343</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="dl-btn" id="downloadTrigger">Download ID Card</button>
+        </div>
+    </div>
+
+    <!-- BACKGROUND HIDDEN CANVAS GENERATOR (டவுன்லோடு பிழைகளைத் தடுக்கும் மாஸ்டர் பகுதி) -->
+    <div id="hidden-download-box">
+        <div class="download-master-layout" id="download-capture-area">
+            
+            <div class="dl-frame-wrapper">
+                <div class="id-card" id="dl-card-front">
+                    <img src="https://raw.githubusercontent.com/TNDYFI/membership/main/etc/front.png" class="front-template-img" alt="Front Card" onerror="this.src='/etc/front.png'">
+                </div>
+            </div>
+
+            <div class="dl-frame-wrapper">
+                <div class="id-card" id="dl-card-back">
+                    <div class="serial-no" id="dl-out-id">246380</div>
+                    
+                    <div class="data-rows">
+                        <div class="d-row">
+                            <span class="d-label">பெயர் :</span>
+                            <span class="d-val" id="dl-out-name"></span>
+                        </div>
+                        
+                        <div class="d-row-split">
+                            <div class="d-row" style="flex: 0.4;">
+                                <span class="d-label">வயது :</span>
+                                <span class="d-val" id="dl-out-age"></span>
+                            </div>
+                            <div class="d-row" style="flex: 0.6;">
+                                <span class="d-label">கல்வி :</span>
+                                <span class="d-val" id="dl-out-edu"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-row">
+                            <span class="d-label">முகவரி :</span>
+                            <span class="d-val" id="dl-out-addr"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">கிளை :</span>
+                            <span class="d-val" id="dl-out-branch"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">பகுதி :</span>
+                            <span class="d-val" id="dl-out-area"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">மாவட்டம் :</span>
+                            <span class="d-val" id="dl-out-dist"></span>
+                        </div>
+                        
+                        <div class="d-row">
+                            <span class="d-label">இரத்த வகை :</span>
+                            <span class="d-val" id="dl-out-blood"></span>
+                        </div>
+                        
+                        <div class="sub-fee">உறுப்பினர் சந்தா ரூ. 2/- பெற்றுக்கொண்டோம்</div>
+                    </div>
+
+                    <div class="back-footer-container">
+                        <div class="sign-section">
+                            <div class="date-txt">தேதி : <span id="dl-out-date"></span></div>
+                            <div class="sec-sign">
+                                <img src="etc/karthi.png" class="sign-img">
+                                <div class="sign-title">மாநிலச் செயலாளர்</div>
+                            </div>
+                        </div>
+                        <div class="black-footer">
+                            <div class="f-title">இந்திய ஜனநாயக வாலிபர் சங்கம்</div>
+                            <div class="f-state">தமிழ் மாநிலக் குழு</div>
+                            <div class="f-addr">57/21, அருணோதயா வளாகம், ஈ.வே.ரா. நெடுஞ்சாலை,</div>
+                            <div class="f-contact">பெரியமேடு, சென்னை - 600 003. போன் : 044 - 2561 1343</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
