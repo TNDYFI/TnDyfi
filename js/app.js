@@ -1,209 +1,117 @@
-// ==========================
-// Youth Connect Tamil Nadu
-// app.js
-// ==========================
+// ==========================================
+// Youth Connect Tamil Nadu - Enterprise JS V3
+// ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Loader
+    // 1. Perfect Loader Logic (4 Seconds Dismissal)
     const loader = document.getElementById("loader");
+    
+    const dismissLoader = () => {
+        if (loader) {
+            loader.style.opacity = "0";
+            loader.style.visibility = "hidden";
+            loader.style.pointerEvents = "none"; // பின்னணியில் உள்ள எலிமெண்ட்களை க்ளிக் செய்ய அனுமதிக்கும்
+        }
+    };
 
-    window.addEventListener("load", () => {
-        setTimeout(() => {
-            if (loader) {
-                loader.style.opacity = "0";
-                loader.style.visibility = "hidden";
-            }
-        }, 1500);
-    });
+    // பக்கம் முழுமையாக லோடானாலும், அதிகபட்சம் 4 வினாடிகளில் லோடர் தானாக மறைந்துவிடும்
+    setTimeout(dismissLoader, 1000);
 
-    // Sidebar
+    // 2. Unified Sidebar & Menu Logic
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
-    const menuBtn = document.querySelector(".menu-btn");
+    const menuBtn = document.getElementById("menuBtn");
 
-    function closeSidebar() {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-    }
+    const toggleSidebar = (state) => {
+        const isOpen = state !== undefined ? state : !sidebar.classList.contains("active");
+        sidebar.classList.toggle("active", isOpen);
+        overlay.classList.toggle("active", isOpen);
+        if (menuBtn) menuBtn.classList.toggle("active", isOpen);
+    };
 
     if (menuBtn) {
-        menuBtn.onclick = () => {
-            sidebar.classList.add("active");
-            overlay.classList.add("active");
-        };
+        menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleSidebar();
+        });
     }
 
-    if (overlay) {
-        overlay.onclick = closeSidebar;
-    }
+    if (overlay) overlay.addEventListener("click", () => toggleSidebar(false));
 
-    // Dark Mode
+    // 3. Dark Mode Configuration
     const themeBtn = document.getElementById("themeBtn");
-
-    if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark");
-        if (themeBtn) {
-            themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    
+    const applyTheme = (theme) => {
+        if (theme === "dark") {
+            document.body.classList.add("dark");
+            if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.body.classList.remove("dark");
+            if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
         }
-    }
+    };
+
+    // Local Storage Check
+    const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    applyTheme(savedTheme);
 
     if (themeBtn) {
-        themeBtn.onclick = () => {
-
-            document.body.classList.toggle("dark");
-
-            if (document.body.classList.contains("dark")) {
-
-                localStorage.setItem("theme", "dark");
-                themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-
-            } else {
-
-                localStorage.setItem("theme", "light");
-                themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-
-            }
-
-        };
+        themeBtn.addEventListener("click", () => {
+            const isDark = document.body.classList.contains("dark");
+            const newTheme = isDark ? "light" : "dark";
+            localStorage.setItem("theme", newTheme);
+            applyTheme(newTheme);
+        });
     }
 
-    // Hero Slider
+    // 4. Hero Banner Carousel
     const slides = document.querySelectorAll(".slide");
-
-    let current = 0;
-
-    function showSlide(index) {
-
-        slides.forEach(slide => slide.classList.remove("active"));
-
-        slides[index].classList.add("active");
-
-    }
+    let currentSlide = 0;
 
     if (slides.length > 0) {
-
         setInterval(() => {
-
-            current++;
-
-            if (current >= slides.length) current = 0;
-
-            showSlide(current);
-
+            slides[currentSlide].classList.remove("active");
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add("active");
         }, 4000);
-
     }
 
-    // Search Popup
-    const searchBtn = document.getElementById("searchBtn");
-    const searchPopup = document.getElementById("searchPopup");
-    const closeSearch = document.getElementById("closeSearch");
+    // 5. Dynamic Modal Helper Function
+    const configurePopup = (triggerId, panelId, closeId) => {
+        const trigger = document.getElementById(triggerId);
+        const panel = document.getElementById(panelId);
+        const close = document.getElementById(closeId);
 
-    if (searchBtn) {
+        if (trigger && panel) {
+            trigger.addEventListener("click", () => panel.classList.add("active"));
+        }
+        if (close && panel) {
+            close.addEventListener("click", () => panel.classList.remove("active"));
+        }
+    };
 
-        searchBtn.onclick = () => {
+    configurePopup("searchBtn", "searchPopup", "closeSearch");
+    configurePopup("moreBtn", "notificationPanel", "closeNotification");
 
-            searchPopup.classList.add("active");
-
-        };
-
-    }
-
-    if (closeSearch) {
-
-        closeSearch.onclick = () => {
-
-            searchPopup.classList.remove("active");
-
-        };
-
-    }
-
-    // Notification
-    const moreBtn = document.getElementById("moreBtn");
-    const notificationPanel = document.getElementById("notificationPanel");
-    const closeNotification = document.getElementById("closeNotification");
-
-    if (moreBtn) {
-
-        moreBtn.onclick = () => {
-
-            notificationPanel.classList.add("active");
-
-        };
-
-    }
-
-    if (closeNotification) {
-
-        closeNotification.onclick = () => {
-
-            notificationPanel.classList.remove("active");
-
-        };
-
-    }
-
-    // Floating Button
+    // 6. Smooth Scroll-to-Top (FAB)
     const fab = document.getElementById("fab");
-
     if (fab) {
-
-        fab.onclick = () => {
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        };
-
-    }
-
-    // Fade Animation
-    const observer = new IntersectionObserver((entries) => {
-
-        entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-                entry.target.classList.add("fade-up");
-
-            }
-
+        fab.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
         });
-
-    });
-
-    document.querySelectorAll(".section,.event-card,.news-card,.campaign-card,.gallery-grid img,.video-card")
-        .forEach(el => observer.observe(el));
-
-});
-
-
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-
-function openSidebar(){
-    sidebar.classList.add("active");
-    overlay.classList.add("active");
-    menuBtn.classList.add("active");
-}
-
-function closeSidebar(){
-    sidebar.classList.remove("active");
-    overlay.classList.remove("active");
-    menuBtn.classList.remove("active");
-}
-
-menuBtn.addEventListener("click", () => {
-    if(sidebar.classList.contains("active")){
-        closeSidebar();
-    }else{
-        openSidebar();
     }
-});
 
-overlay.addEventListener("click", closeSidebar);
+    // 7. Advanced Element Viewport Observer (Fade-In Effect)
+    const viewObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("fade-up");
+                viewObserver.unobserve(entry.target); // ஒருமுறை அனிமேட் ஆனதும் கண்காணிப்பதை நிறுத்தும்
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".section, .event-card, .news-card, .campaign-card, .gallery-grid img, .video-card")
+        .forEach(element => viewObserver.observe(element));
+});
