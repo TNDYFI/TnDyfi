@@ -193,18 +193,29 @@
         <a href="videos.html">View All</a>
     </div>
     <div class="video-list">
-        <div class="video-card">
+        <!-- data-video-id-ல் உங்க யூடியூப் வீடியோ ID-யை போடுங்க -->
+        <div class="video-card" data-video-id="CiaoaOPV16w">
             <img src="assets/video1.jpg" alt="V1">
             <div class="play-btn"><i class="fas fa-play"></i></div>
             <p>Youth Awareness Program</p>
         </div>
-        <div class="video-card">
+        <div class="video-card" data-video-id="P5_nUPUNqh4">
             <img src="assets/video2.jpg" alt="V2">
             <div class="play-btn"><i class="fas fa-play"></i></div>
             <p>Social Service Activities</p>
         </div>
     </div>
 </section>
+
+<!-- வீடியோ ப்ளே ஆகுறதுக்கான பாப்-அப் (Modal) -->
+<div id="videoModal" class="modal">
+    <span class="close-btn">&times;</span>
+    <div class="modal-content">
+        <!-- Full Screen வேலை செய்ய 'allowfullscreen' முக்கியம் -->
+        <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>
+
 
 <!-- MEMBERSHIP -->
 <section class="join-banner">
