@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
   const districts = [
     {name:"Ariyalur", ta:"அரியலூர்", count:21000, color:"#16a085"},
     {name:"Chengalpattu", ta:"செங்கல்பட்டு", count:36000, color:"#1abc9c"},
@@ -83,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   districtCount.textContent = districts.length.toString();
   animateCounter(tnCount, districts.reduce((sum, d) => sum + d.count, 0));
 
-  function animateCounter(el, end, duration = 1800) {
+  function animateCounter(el, end, duration = 1500) {
     let start = 0, startTime = null;
     function step(t) {
       if (!startTime) startTime = t;
@@ -99,8 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
     scrollBox.innerHTML = "";
 
     if (list.length === 0) {
-      grid.innerHTML = `<div class="empty-box">No district found</div>`;
-      scrollBox.innerHTML = `<div class="empty-box">No district found</div>`;
+      grid.innerHTML = `<div class="empty-box">No district found matching your search.</div>`;
+      scrollBox.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:13px;">No district found</div>`;
       return;
     }
 
@@ -108,7 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = document.createElement("article");
       card.className = "dist-card";
       card.style.background = `linear-gradient(135deg, ${d.color}, #111827)`;
-      card.innerHTML = `<div class="name">${d.ta}</div><div class="count">${d.count.toLocaleString()} Members</div><div class="tap">Tap for details</div>`;
+      card.innerHTML = `
+        <div class="name">${d.ta}</div>
+        <div class="count">${d.count.toLocaleString()} Members</div>
+        <div class="tap">Tap for details</div>
+      `;
       card.addEventListener("click", () => openDistrict(d));
       grid.appendChild(card);
 
@@ -123,13 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openDistrict(d) {
     const data = detailsMap[d.name];
+    if(!data) return;
     document.getElementById("dlgName").textContent = d.ta;
     document.getElementById("dlgCount").textContent = `${d.count.toLocaleString()} Members`;
     document.getElementById("dlgTag").textContent = d.name;
     document.getElementById("dlgBanner").style.background = `linear-gradient(135deg, ${d.color}, #111827)`;
     document.getElementById("dlgDistrictDetails").textContent = data.districtDetails;
     document.getElementById("dlgMembership").innerHTML = data.membership.map(i => `<li>${i}</li>`).join("");
-    document.getElementById("dlgSocial").innerHTML = data.social.map(s => `<a class="social-link" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.label}</a>`).join("");
+    document.getElementById("dlgSocial").innerHTML = data.social.map(s => `<a class="social-link" href="${s.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-link"></i> ${s.label}</a>`).join("");
     document.getElementById("dlgContact").innerHTML = data.contacts.map(c => `<a class="contact-link" href="${c.href}">${c.label}: ${c.value}</a>`).join("");
     dialog.showModal();
   }
@@ -157,12 +161,11 @@ document.addEventListener("DOMContentLoaded", () => {
   dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
 
   copyBtn.addEventListener("click", async () => {
-    const text = districts.map(d => `${d.ta} (${d.name}) - ${d.count.toLocaleString()}`).join("
-");
+    const text = districts.map(d => `${d.ta} (${d.name}) - ${d.count.toLocaleString()} Members`).join("\n");
     try {
       await navigator.clipboard.writeText(text);
       copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-      setTimeout(() => copyBtn.innerHTML = '<i class="fas fa-copy"></i>', 1200);
+      setTimeout(() => copyBtn.innerHTML = '<i class="fas fa-copy"></i>', 1500);
     } catch {}
   });
 
