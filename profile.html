@@ -4,26 +4,161 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Profile - Youth Connect Tamil Nadu</title>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
+
 <div class="page-header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <h1>Profile</h1>
 </div>
 
-<section class="section">
-  <div class="event-card">
-    <div class="card-content">
-      <span class="badge">USER</span>
-      <h3>Youth Connect Member</h3>
-      <p>Profile section ready for member information and settings.</p>
+<section class="profile-hero">
+  <div class="profile-cover"></div>
+  <div class="profile-main">
+    <div class="profile-avatar-wrap">
+      <img src="assets/profile.jpg" alt="Profile" class="profile-avatar" id="profilePreview">
+      <label class="avatar-edit">
+        <input type="file" id="profileImageInput" accept="image/*">
+        <i class="fas fa-camera"></i>
+      </label>
+    </div>
+
+    <h2 class="profile-name" id="profileNameView">Youth Connect Member</h2>
+    <p class="profile-username" id="profileUserView">@youthconnect</p>
+    <p class="profile-bio" id="profileBioView">Social service | Youth movement | Community support</p>
+
+    <div class="profile-status">
+      <span class="status-badge online">Active</span>
+      <span class="status-badge">Tamil Nadu</span>
+    </div>
+
+    <div class="profile-actions">
+      <button class="action-btn primary" id="editProfileBtn"><i class="fas fa-pen"></i> Edit Profile</button>
+      <button class="action-btn" id="loginBtn"><i class="fas fa-right-to-bracket"></i> Login</button>
+      <button class="action-btn danger" id="logoutBtn"><i class="fas fa-right-from-bracket"></i> Logout</button>
     </div>
   </div>
 </section>
 
-<script type="module" src="js/app.js"></script>
+<section class="profile-card">
+  <div class="section-title">
+    <h2>About</h2>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-item">
+      <span>Full Name</span>
+      <strong id="fullNameText">Youth Connect Member</strong>
+    </div>
+    <div class="info-item">
+      <span>Username</span>
+      <strong id="usernameText">@youthconnect</strong>
+    </div>
+    <div class="info-item">
+      <span>Date of Birth</span>
+      <strong id="dobText">2000-01-01</strong>
+    </div>
+    <div class="info-item">
+      <span>Email</span>
+      <strong id="emailText">hidden</strong>
+    </div>
+    <div class="info-item">
+      <span>Phone</span>
+      <strong id="phoneText">hidden</strong>
+    </div>
+  </div>
+</section>
+
+<section class="profile-card">
+  <div class="section-title">
+    <h2>Social Links</h2>
+  </div>
+
+  <div class="social-links-grid">
+    <a href="#" class="social-link"><i class="fab fa-facebook"></i><span>Facebook</span></a>
+    <a href="#" class="social-link"><i class="fab fa-instagram"></i><span>Instagram</span></a>
+    <a href="#" class="social-link"><i class="fab fa-x-twitter"></i><span>X / Twitter</span></a>
+    <a href="#" class="social-link"><i class="fab fa-youtube"></i><span>YouTube</span></a>
+    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+    <a href="#" class="social-link"><i class="fab fa-telegram"></i><span>Telegram</span></a>
+    <a href="#" class="social-link"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
+    <a href="#" class="social-link"><i class="fab fa-github"></i><span>GitHub</span></a>
+    <a href="#" class="social-link"><i class="fas fa-globe"></i><span>Website</span></a>
+    <a href="#" class="social-link"><i class="fas fa-envelope"></i><span>Mail</span></a>
+  </div>
+</section>
+
+<section class="profile-card">
+  <div class="section-title">
+    <h2>Quick Actions</h2>
+  </div>
+
+  <div class="quick-links">
+    <a href="members.html" class="quick-item"><i class="fas fa-users"></i><span>Members</span></a>
+    <a href="events.html" class="quick-item"><i class="fas fa-calendar"></i><span>Events</span></a>
+    <a href="news.html" class="quick-item"><i class="fas fa-newspaper"></i><span>News</span></a>
+    <a href="contact.html" class="quick-item"><i class="fas fa-phone"></i><span>Contact</span></a>
+  </div>
+</section>
+
+<div id="profileModal" class="popup">
+  <div class="popup-content profile-form-box">
+    <div class="panel-header">
+      <h3>Edit Profile</h3>
+      <button id="closeProfileModal" class="popup-close"><i class="fas fa-times"></i></button>
+    </div>
+
+    <form id="profileForm" class="profile-form">
+      <div class="form-group">
+        <label>Profile Image URL</label>
+        <input type="text" id="imageUrl" placeholder="Paste image URL or use upload">
+      </div>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter name">
+      </div>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="Enter username">
+      </div>
+
+      <div class="form-group">
+        <label>Bio</label>
+        <textarea id="bio" rows="3" placeholder="Write bio"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="date" id="dob">
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter email">
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" id="phone" placeholder="Enter phone number">
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="action-btn" id="cancelEdit">Cancel</button>
+        <button type="submit" class="action-btn primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p class="copyright">© 2026 Youth Connect. All Rights Reserved.</p>
+</footer>
+
+<script type="module" src="profile.js"></script>
 </body>
 </html>
