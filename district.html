@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Districts - DYFI Tamil Nadu</title>
+  <link rel="stylesheet" href="css/district.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <meta name="theme-color" content="#d50000">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back-btn" href="index.html" aria-label="Back">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  <div class="top-title">
+    <h1>Districts</h1>
+    <p>Tap any district to view full details</p>
+  </div>
+  <button class="mini-btn" id="copyDistrictBtn" aria-label="Copy district info">
+    <i class="fas fa-copy"></i>
+  </button>
+</header>
+
+<section class="hero-box">
+  <span class="pill">Mini Map</span>
+  <h2>Tamil Nadu District Network</h2>
+  <p>All districts, membership counts, contacts and social links in one interactive view.</p>
+</section>
+
+<section class="summary-row">
+  <div class="summary-card">
+    <h3 id="tnCount">0</h3>
+    <p>Total Members</p>
+  </div>
+  <div class="summary-card">
+    <h3>41</h3>
+    <p>District Units</p>
+  </div>
+  <div class="summary-card">
+    <h3>1</h3>
+    <p>State Network</p>
+  </div>
+</section>
+
+<section class="search-area">
+  <div class="search-bar">
+    <i class="fas fa-search"></i>
+    <input id="districtSearch" type="text" placeholder="Search district...">
+  </div>
+</section>
+
+<section class="district-wrap">
+  <div class="section-title">
+    <h2>District Mini Map</h2>
+    <span>Click to open details</span>
+  </div>
+  <div id="districtGrid" class="district-grid"></div>
+</section>
+
+<section class="district-list-wrap">
+  <div class="section-title">
+    <h2>District Name List</h2>
+    <span>Fast view</span>
+  </div>
+  <div id="districtScrollBox" class="district-scroll-box"></div>
+</section>
+
+<dialog id="districtDialog" class="district-dialog">
+  <div class="dialog-head">
+    <div>
+      <span class="dialog-tag" id="dlgTag">District</span>
+      <h3 id="dlgName">District Name</h3>
+      <p id="dlgCount">0 Members</p>
+    </div>
+    <button class="close-x" id="closeDialog"><i class="fas fa-times"></i></button>
+  </div>
+
+  <div class="dialog-banner" id="dlgBanner">
+    <i class="fas fa-map-location-dot"></i>
+    <span>District Overview</span>
+  </div>
+
+  <div class="dialog-sections">
+    <section class="dlg-card">
+      <h4>District Details</h4>
+      <p id="dlgDistrictDetails"></p>
+    </section>
+
+    <section class="dlg-card">
+      <h4>Membership Details</h4>
+      <ul id="dlgMembership" class="info-list"></ul>
+    </section>
+
+    <section class="dlg-card">
+      <h4>Social Media Details</h4>
+      <div id="dlgSocial" class="social-row"></div>
+    </section>
+
+    <section class="dlg-card">
+      <h4>Contact Details</h4>
+      <div id="dlgContact" class="contact-row"></div>
+    </section>
+  </div>
+</dialog>
+
+<footer class="footer">
+  <p>© 2026 DYFI Tamil Nadu</p>
+</footer>
+
+<script src="js/district.js"></script>
+</body>
+</html>
