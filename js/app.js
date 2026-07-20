@@ -1,150 +1,166 @@
-// ==========================================
-// Youth Connect Tamil Nadu - Enterprise JS V3
-// ==========================================
-
 document.addEventListener("DOMContentLoaded", () => {
+  const loader = document.getElementById("loader");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  const themeBtn = document.getElementById("themeBtn");
+  const fab = document.getElementById("fab");
+  const searchBtn = document.getElementById("searchBtn");
+  const moreBtn = document.getElementById("moreBtn");
+  const searchPopup = document.getElementById("searchPopup");
+  const notificationPanel = document.getElementById("notificationPanel");
+  const closeSearch = document.getElementById("closeSearch");
+  const closeNotification = document.getElementById("closeNotification");
+  const slides = document.querySelectorAll(".slide");
+  const videoCards = document.querySelectorAll(".video-card");
+  const videoModal = document.getElementById("videoModal");
+  const youtubePlayer = document.getElementById("youtubePlayer");
+  const searchInput = document.getElementById("searchInput");
+  const navLinks = document.querySelectorAll(".bottom-nav a, .side-list a");
 
-    // 1. Perfect Loader Logic (4 Seconds Dismissal)
-    const loader = document.getElementById("loader");
-    
-    const dismissLoader = () => {
-        if (loader) {
-            loader.style.opacity = "0";
-            loader.style.visibility = "hidden";
-            loader.style.pointerEvents = "none"; // பின்னணியில் உள்ள எலிமெண்ட்களை க்ளிக் செய்ய அனுமதிக்கும்
-        }
-    };
+  const closeAll = () => {
+    sidebar?.classList.remove("active");
+    searchPopup?.classList.remove("active");
+    notificationPanel?.classList.remove("active");
+    overlay?.classList.remove("active");
+    menuBtn?.classList.remove("active");
+  };
 
-    // பக்கம் முழுமையாக லோடானாலும், அதிகபட்சம் 4 வினாடிகளில் லோடர் தானாக மறைந்துவிடும்
-    setTimeout(dismissLoader, 1000);
+  const closeVideo = () => {
+    if (!videoModal || !youtubePlayer) return;
+    videoModal.classList.remove("active");
+    youtubePlayer.src = "";
+  };
 
-    // 2. Unified Sidebar & Menu Logic
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
-    const menuBtn = document.getElementById("menuBtn");
-
-    const toggleSidebar = (state) => {
-        const isOpen = state !== undefined ? state : !sidebar.classList.contains("active");
-        sidebar.classList.toggle("active", isOpen);
-        overlay.classList.toggle("active", isOpen);
-        if (menuBtn) menuBtn.classList.toggle("active", isOpen);
-    };
-
-    if (menuBtn) {
-        menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleSidebar();
-        });
+  setTimeout(() => {
+    if (loader) {
+      loader.style.opacity = "0";
+      loader.style.visibility = "hidden";
+      loader.style.pointerEvents = "none";
     }
+  }, 1200);
 
-    if (overlay) overlay.addEventListener("click", () => toggleSidebar(false));
+  menuBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const willOpen = !sidebar?.classList.contains("active");
+    closeAll();
+    if (willOpen) {
+      sidebar?.classList.add("active");
+      overlay?.classList.add("active");
+      menuBtn.classList.add("active");
+    }
+  });
 
-    // 3. Dark Mode Configuration
-    const themeBtn = document.getElementById("themeBtn");
-    
-    const applyTheme = (theme) => {
-        if (theme === "dark") {
-            document.body.classList.add("dark");
-            if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-        } else {
-            document.body.classList.remove("dark");
-            if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-        }
-    };
+  overlay?.addEventListener("click", () => {
+    closeAll();
+    closeVideo();
+  });
 
-    // Local Storage Check
-    const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    applyTheme(savedTheme);
+  searchBtn?.addEventListener("click", () => {
+    closeAll();
+    searchPopup?.classList.add("active");
+    overlay?.classList.add("active");
+    searchInput?.focus();
+  });
 
+  moreBtn?.addEventListener("click", () => {
+    closeAll();
+    notificationPanel?.classList.add("active");
+    overlay?.classList.add("active");
+  });
+
+  closeSearch?.addEventListener("click", () => {
+    searchPopup?.classList.remove("active");
+    overlay?.classList.remove("active");
+  });
+
+  closeNotification?.addEventListener("click", () => {
+    notificationPanel?.classList.remove("active");
+    overlay?.classList.remove("active");
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeAll();
+      closeVideo();
+    }
+  });
+
+  const applyTheme = (theme) => {
+    document.body.classList.toggle("dark", theme === "dark");
     if (themeBtn) {
-        themeBtn.addEventListener("click", () => {
-            const isDark = document.body.classList.contains("dark");
-            const newTheme = isDark ? "light" : "dark";
-            localStorage.setItem("theme", newTheme);
-            applyTheme(newTheme);
-        });
+      themeBtn.innerHTML = theme === "dark"
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
     }
+  };
 
-    // 4. Hero Banner Carousel
-    const slides = document.querySelectorAll(".slide");
-    let currentSlide = 0;
+  applyTheme(localStorage.getItem("theme") || "light");
 
-    if (slides.length > 0) {
-        setInterval(() => {
-            slides[currentSlide].classList.remove("active");
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add("active");
-        }, 4000);
-    }
+  themeBtn?.addEventListener("click", () => {
+    const next = document.body.classList.contains("dark") ? "light" : "dark";
+    localStorage.setItem("theme", next);
+    applyTheme(next);
+  });
 
-    // 5. Dynamic Modal Helper Function
-    const configurePopup = (triggerId, panelId, closeId) => {
-        const trigger = document.getElementById(triggerId);
-        const panel = document.getElementById(panelId);
-        const close = document.getElementById(closeId);
+  let currentSlide = 0;
+  if (slides.length > 1) {
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, 4200);
+  }
 
-        if (trigger && panel) {
-            trigger.addEventListener("click", () => panel.classList.add("active"));
+  fab?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("fade-up");
+          observer.unobserve(entry.target);
         }
-        if (close && panel) {
-            close.addEventListener("click", () => panel.classList.remove("active"));
-        }
-    };
+      });
+    }, { threshold: 0.12 });
 
-    configurePopup("searchBtn", "searchPopup", "closeSearch");
-    configurePopup("moreBtn", "notificationPanel", "closeNotification");
-
-    // 6. Smooth Scroll-to-Top (FAB)
-    const fab = document.getElementById("fab");
-    if (fab) {
-        fab.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-
-    // 7. Advanced Element Viewport Observer (Fade-In Effect)
-    const viewObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("fade-up");
-                viewObserver.unobserve(entry.target); // ஒருமுறை அனிமேட் ஆனதும் கண்காணிப்பதை நிறுத்தும்
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll(".section, .event-card, .news-card, .campaign-card, .gallery-grid img, .video-card")
-        .forEach(element => viewObserver.observe(element));
-});
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const videoCards = document.querySelectorAll(".video-card");
-    const modal = document.getElementById("videoModal");
-    const iframe = document.getElementById("youtubePlayer");
-    const closeBtn = document.querySelector(".close-btn");
-
-    // ஒவ்வொறு வீடியோ கார்டுக்கும் கிளிக் ஈவென்ட் சேர்க்கிறோம்
-    videoCards.forEach(card => {
-        card.addEventListener("click", () => {
-            const videoId = card.getAttribute("data-video-id");
-            // autoplay=1 கொடுத்தால் கிளிக் செய்தவுடன் வீடியோ ஓடும்
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            modal.style.display = "flex"; // பாப்-அப் ஓபன் ஆகும்
-        });
+    document.querySelectorAll(".section, .event-card, .campaign-card, .gallery-grid img, .video-card").forEach((el) => {
+      observer.observe(el);
     });
+  }
 
-    // க்ளோஸ் பட்டன் கிளிக் செய்யும்போது
-    closeBtn.addEventListener("click", closeModal);
-
-    // வீடியோவுக்கு வெளியே கருப்பு பக்கத்தில் கிளிக் செய்தாலும் க்ளோஸ் ஆகும்
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
+  navLinks.forEach((a) => {
+    a.addEventListener("click", () => {
+      navLinks.forEach((x) => x.classList.remove("active"));
+      a.classList.add("active");
     });
+  });
 
-    function closeModal() {
-        modal.style.display = "none";
-        iframe.src = ""; // வீடியோவை ஸ்டாப் செய்ய src-ஐ காலி செய்கிறோம்
-    }
+  videoCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const videoId = card.dataset.videoId;
+      if (!videoId || !videoModal || !youtubePlayer) return;
+      youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      videoModal.classList.add("active");
+    });
+  });
+
+  document.querySelector(".close-btn")?.addEventListener("click", closeVideo);
+
+  videoModal?.addEventListener("click", (e) => {
+    if (e.target === videoModal) closeVideo();
+  });
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+    document.querySelectorAll(".event-card, .campaign-card, .video-card").forEach((card) => {
+      card.style.display = card.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) closeAll();
+  });
 });
