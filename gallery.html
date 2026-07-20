@@ -1,29 +1,117 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Gallery</title>
-<link rel="stylesheet" href="css/gallery.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Gallery</title>
+  <link rel="stylesheet" href="gallery.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
+
 <header class="topbar">
-  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <a class="back-btn" href="index.html" aria-label="Back">
+    <i class="fas fa-arrow-left"></i>
+  </a>
   <div class="top-title">
     <h1>Gallery</h1>
-    <p>Tap to zoom and like</p>
+    <p>Tap image to zoom</p>
   </div>
+  <button class="mini-btn" id="filterBtn" aria-label="Filter">
+    <i class="fas fa-images"></i>
+  </button>
 </header>
 
-<section class="gallery-grid" id="galleryGrid"></section>
+<section class="hero-box">
+  <div>
+    <span class="pill">Photos</span>
+    <h2>Memories & Moments</h2>
+    <p>Touch the image to open full view. Use like button to save favorites.</p>
+  </div>
+</section>
 
-<dialog id="zoomDialog" class="zoom-dialog">
-  <button class="close-x" id="closeZoom"><i class="fas fa-times"></i></button>
-  <img id="zoomImg" src="" alt="zoom">
+<section class="tools">
+  <div class="search-bar">
+    <i class="fas fa-search"></i>
+    <input type="text" id="gallerySearch" placeholder="Search photos...">
+  </div>
+
+  <div class="chips" id="galleryChips">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="events">Events</button>
+    <button class="chip" data-filter="campaigns">Campaigns</button>
+    <button class="chip" data-filter="meetings">Meetings</button>
+  </div>
+</section>
+
+<section class="gallery-grid" id="galleryGrid">
+  <article class="gallery-card" data-category="events">
+    <img src="assets/gallery1.jpg" alt="Gallery 1" class="gallery-img">
+    <button class="like-btn"><i class="far fa-heart"></i></button>
+    <div class="gallery-meta">
+      <h3>Youth Conference</h3>
+      <p>#events #youth</p>
+    </div>
+  </article>
+
+  <article class="gallery-card" data-category="campaigns">
+    <img src="assets/gallery2.jpg" alt="Gallery 2" class="gallery-img">
+    <button class="like-btn"><i class="far fa-heart"></i></button>
+    <div class="gallery-meta">
+      <h3>Green Drive</h3>
+      <p>#campaign #nature</p>
+    </div>
+  </article>
+
+  <article class="gallery-card" data-category="meetings">
+    <img src="assets/gallery3.jpg" alt="Gallery 3" class="gallery-img">
+    <button class="like-btn"><i class="far fa-heart"></i></button>
+    <div class="gallery-meta">
+      <h3>District Meeting</h3>
+      <p>#meeting #district</p>
+    </div>
+  </article>
+
+  <article class="gallery-card" data-category="events">
+    <img src="assets/gallery4.jpg" alt="Gallery 4" class="gallery-img">
+    <button class="like-btn"><i class="far fa-heart"></i></button>
+    <div class="gallery-meta">
+      <h3>Volunteer Gathering</h3>
+      <p>#volunteer #community</p>
+    </div>
+  </article>
+
+  <article class="gallery-card" data-category="campaigns">
+    <img src="assets/gallery5.jpg" alt="Gallery 5" class="gallery-img">
+    <button class="like-btn"><i class="far fa-heart"></i></button>
+    <div class="gallery-meta">
+      <h3>Education Support</h3>
+      <p>#education #support</p>
+    </div>
+  </article>
+
+  <article class="gallery-card" data-category="meetings">
+    <img src="assets/gallery6.jpg" alt="Gallery 6" class="gallery-img">
+    <button class="like-btn"><i class="far fa-heart"></i></button>
+    <div class="gallery-meta">
+      <h3>Team Planning</h3>
+      <p>#planning #team</p>
+    </div>
+  </article>
+</section>
+
+<button class="load-more" id="loadMoreBtn">Load More</button>
+
+<dialog id="imageDialog" class="image-dialog">
+  <button class="close-x" id="closeImage"><i class="fas fa-times"></i></button>
+  <img id="zoomImage" src="" alt="Zoomed view">
+  <div class="dialog-bottom">
+    <button class="dialog-like" id="dialogLikeBtn"><i class="far fa-heart"></i> Like</button>
+    <button class="dialog-share" id="dialogShareBtn"><i class="fas fa-share-nodes"></i> Share</button>
+  </div>
 </dialog>
 
-<script type="module" src="js/gallery.js"></script>
+<script type="module" src="gallery.js"></script>
 </body>
 </html>
