@@ -86,8 +86,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // --- Theme Controller (அனைத்து பக்கங்களுக்கும் வேலை செய்யும்) ---
   const applyTheme = (theme) => {
-    document.body.classList.toggle("dark", theme === "dark");
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    
     if (themeBtn) {
       themeBtn.innerHTML = theme === "dark"
         ? '<i class="fas fa-sun"></i>'
@@ -95,13 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // பக்கத்தின் தொடக்கத்தில் சேமிக்கப்பட்ட தீமை எடுப்பது
   applyTheme(localStorage.getItem("theme") || "light");
 
   themeBtn?.addEventListener("click", () => {
-    const next = document.body.classList.contains("dark") ? "light" : "dark";
+    const isDark = document.documentElement.classList.contains("dark");
+    const next = isDark ? "light" : "dark";
     localStorage.setItem("theme", next);
     applyTheme(next);
   });
+  // -------------------------------------------------------------
 
   let currentSlide = 0;
   if (slides.length > 1) {
