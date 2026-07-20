@@ -4,45 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>News - Youth Connect Tamil Nadu</title>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
+
 <div class="page-header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <h1>Latest News</h1>
+  <button class="page-icon-btn" id="newsFilterBtn" aria-label="Filter News"><i class="fas fa-filter"></i></button>
 </div>
 
-<section class="section">
-  <div class="card-grid">
-    <div class="news-card">
-      <img src="assets/news1.jpg" alt="News 1">
-      <div class="card-content">
-        <span class="badge">NEWS</span>
-        <h3>Youth Awareness Camp Conducted</h3>
-        <p>District-level awareness program completed successfully.</p>
+<section class="news-hero">
+  <div class="news-hero-content">
+    <span class="hero-tag">Breaking</span>
+    <h2>Youth Connect Tamil Nadu Updates</h2>
+    <p>Latest announcements, events, campaigns, and community actions in one place.</p>
+  </div>
+</section>
+
+<section class="news-tools">
+  <div class="search-box">
+    <i class="fas fa-search"></i>
+    <input type="text" id="newsSearch" placeholder="Search news, event, campaign...">
+  </div>
+
+  <div class="news-tabs">
+    <button class="tab-btn active" data-tab="all">All</button>
+    <button class="tab-btn" data-tab="breaking">Breaking</button>
+    <button class="tab-btn" data-tab="events">Events</button>
+    <button class="tab-btn" data-tab="campaigns">Campaigns</button>
+  </div>
+</section>
+
+<section class="news-section" id="newsList">
+
+  <article class="news-card featured" data-category="breaking events">
+    <img src="assets/news1.jpg" alt="Featured News">
+    <div class="card-content">
+      <div class="card-top">
+        <span class="badge">BREAKING</span>
+        <span class="news-date"><i class="far fa-clock"></i> 20 Jul 2026</span>
       </div>
-    </div>
-    <div class="news-card">
-      <img src="assets/news2.jpg" alt="News 2">
-      <div class="card-content">
-        <span class="badge">UPDATE</span>
-        <h3>Volunteer Registration Open</h3>
-        <p>New members can join the movement through online registration.</p>
+      <h3>State Level Youth Conference Announced</h3>
+      <p>Major youth conference scheduled with district-level participation and public outreach.</p>
+
+      <div class="meta-row">
+        <span><i class="fas fa-map-marker-alt"></i> Chennai</span>
+        <span><i class="fas fa-users"></i> 500+ Participants</span>
       </div>
+
+      <details class="news-details">
+        <summary>Read More</summary>
+        <p>The conference will focus on youth leadership, education, employment, and social development programs. Volunteers and district teams are preparing the event logistics.</p>
+      </details>
+
+      <a href="events.html" class="read-more-btn">View Event</a>
     </div>
-    <div class="news-card">
-      <img src="assets/news3.jpg" alt="News 3">
-      <div class="card-content">
+  </article>
+
+  <article class="news-card" data-category="campaigns">
+    <img src="assets/news2.jpg" alt="Campaign News">
+    <div class="card-content">
+      <div class="card-top">
+        <span class="badge alt">CAMPAIGN</span>
+        <span class="news-date"><i class="far fa-clock"></i> 19 Jul 2026</span>
+      </div>
+      <h3>Green Tamil Nadu Tree Plantation Drive</h3>
+      <p>Community plantation drive expanded to multiple districts with youth volunteer support.</p>
+
+      <div class="meta-row">
+        <span><i class="fas fa-map-marker-alt"></i> Madurai</span>
+        <span><i class="fas fa-seedling"></i> Environment</span>
+      </div>
+
+      <details class="news-details">
+        <summary>Read More</summary>
+        <p>Each district is receiving saplings and volunteer coordination. The campaign aims to increase green cover and community awareness.</p>
+      </details>
+
+      <a href="campaigns.html" class="read-more-btn">Open Campaign</a>
+    </div>
+  </article>
+
+  <article class="news-card" data-category="events">
+    <img src="assets/news3.jpg" alt="Event News">
+    <div class="card-content">
+      <div class="card-top">
         <span class="badge">EVENT</span>
-        <h3>State Committee Meeting</h3>
-        <p>Important decisions made for upcoming youth activities.</p>
+        <span class="news-date"><i class="far fa-clock"></i> 18 Jul 2026</span>
       </div>
+      <h3>District Committee Meeting Completed</h3>
+      <p>New action plan approved for volunteer outreach, registration, and upcoming field work.</p>
+
+      <div class="meta-row">
+        <span><i class="fas fa-map-marker-alt"></i> Coimbatore</span>
+        <span><i class="fas fa-clipboard-check"></i> Approved</span>
+      </div>
+
+      <details class="news-details">
+        <summary>Read More</summary>
+        <p>District coordinators discussed member growth, local support activities, and digital awareness initiatives.</p>
+      </details>
+
+      <a href="members.html" class="read-more-btn">Members Area</a>
+    </div>
+  </article>
+
+  <article class="news-card" data-category="breaking">
+    <div class="card-content full-width">
+      <div class="card-top">
+        <span class="badge">UPDATE</span>
+        <span class="news-date"><i class="far fa-clock"></i> 17 Jul 2026</span>
+      </div>
+      <h3>Volunteer Registration Portal Updated</h3>
+      <p>The registration section now supports faster onboarding and profile details for new members.</p>
+
+      <details class="news-details">
+        <summary>Read More</summary>
+        <p>New profile, contact, and district mapping fields are added for better volunteer management.</p>
+      </details>
+
+      <div class="news-actions">
+        <a href="members.html" class="read-more-btn">Register</a>
+        <a href="profile.html" class="ghost-btn">Open Profile</a>
+      </div>
+    </div>
+  </article>
+
+</section>
+
+<section class="news-sidebar">
+  <div class="news-widget">
+    <h3>Quick Links</h3>
+    <div class="widget-links">
+      <a href="events.html"><i class="fas fa-calendar"></i> Upcoming Events</a>
+      <a href="campaigns.html"><i class="fas fa-bullhorn"></i> Campaigns</a>
+      <a href="gallery.html"><i class="fas fa-image"></i> Gallery</a>
+      <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
     </div>
   </div>
 </section>
 
-<script type="module" src="js/app.js"></script>
+<footer>
+  <p class="copyright">© 2026 Youth Connect. All Rights Reserved.</p>
+</footer>
+
+<script type="module" src="js/news.js"></script>
 </body>
 </html>
