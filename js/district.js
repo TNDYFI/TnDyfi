@@ -70,13 +70,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("districtGrid");
   const scrollBox = document.getElementById("districtScrollBox");
   const search = document.getElementById("districtSearch");
+  const clearBtn = document.getElementById("clearSearchBtn");
   const dialog = document.getElementById("districtDialog");
   const closeDialog = document.getElementById("closeDialog");
   const tnCount = document.getElementById("tnCount");
+  const districtCount = document.getElementById("districtCount");
   const copyBtn = document.getElementById("copyDistrictBtn");
 
-  const total = districts.reduce((sum, d) => sum + d.count, 0);
-  animateCounter(tnCount, total);
+  if (!grid || !scrollBox || !search || !dialog) return;
+
+  districtCount.textContent = districts.length.toString();
+  animateCounter(tnCount, districts.reduce((sum, d) => sum + d.count, 0));
 
   function animateCounter(el, end, duration = 1800) {
     let start = 0, startTime = null;
@@ -92,6 +96,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderDistricts(list) {
     grid.innerHTML = "";
     scrollBox.innerHTML = "";
+
+    if (list.length === 0) {
+      grid.innerHTML = `<div class="empty-box">No district found</div>`;
+      scrollBox.innerHTML = `<div class="empty-box">No district found</div>`;
+      return;
+    }
 
     list.forEach(d => {
       const card = document.createElement("article");
@@ -118,25 +128,34 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("dlgBanner").style.background = `linear-gradient(135deg, ${d.color}, #111827)`;
     document.getElementById("dlgDistrictDetails").textContent = data.districtDetails;
     document.getElementById("dlgMembership").innerHTML = data.membership.map(i => `<li>${i}</li>`).join("");
-    document.getElementById("dlgSocial").innerHTML = data.social.map(s => `<a class="social-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`).join("");
+    document.getElementById("dlgSocial").innerHTML = data.social.map(s => `<a class="social-link" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.label}</a>`).join("");
     document.getElementById("dlgContact").innerHTML = data.contacts.map(c => `<a class="contact-link" href="${c.href}">${c.label}: ${c.value}</a>`).join("");
     dialog.showModal();
   }
 
-  renderDistricts(districts);
-
-  search?.addEventListener("input", () => {
-    const q = search.value.toLowerCase().trim();
-    renderDistricts(q === ""
-      ? districts
-      : districts.filter(d => d.ta.toLowerCase().includes(q) || d.name.toLowerCase().includes(q))
+  function applySearch() {
+    const q = search.value.trim().toLowerCase();
+    if (q === "") {
+      renderDistricts(districts);
+      return;
+    }
+    const filtered = districts.filter(d =>
+      d.ta.toLowerCase().includes(q) || d.name.toLowerCase().includes(q)
     );
+    renderDistricts(filtered);
+  }
+
+  search.addEventListener("input", applySearch);
+  clearBtn.addEventListener("click", () => {
+    search.value = "";
+    applySearch();
+    search.focus();
   });
 
-  closeDialog?.addEventListener("click", () => dialog.close());
-  dialog?.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
+  closeDialog.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
 
-  copyBtn?.addEventListener("click", async () => {
+  copyBtn.addEventListener("click", async () => {
     const text = districts.map(d => `${d.ta} (${d.name}) - ${d.count.toLocaleString()}`).join("
 ");
     try {
@@ -145,4 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => copyBtn.innerHTML = '<i class="fas fa-copy"></i>', 1200);
     } catch {}
   });
+
+  renderDistricts(districts);
 });
