@@ -75,31 +75,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const tnCount = document.getElementById("tnCount");
   const copyBtn = document.getElementById("copyDistrictBtn");
 
-  let total = 0;
-  districts.forEach(d => total += d.count);
+  if (!grid || !scrollBox || !dialog) return;
 
-  function animateCounter(el, end, duration = 1800) {
-    let start = 0;
-    let startTime = null;
-    function step(t) {
-      if (!startTime) startTime = t;
-      const p = Math.min((t - startTime) / duration, 1);
-      el.textContent = Math.floor(p * (end - start) + start).toLocaleString();
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  animateCounter(tnCount, total);
+  const total = districts.reduce((sum, d) => sum + d.count, 0);
+  tnCount.textContent = total.toLocaleString();
 
   function renderDistricts(list) {
     grid.innerHTML = "";
     scrollBox.innerHTML = "";
+
     list.forEach(d => {
       const card = document.createElement("article");
       card.className = "dist-card";
-      card.style.background = `linear-gradient(135deg, ${d.color}, ${shadeColor(d.color, -20)})`;
-      card.innerHTML = `<div class="name">${d.name}</div><div class="count">${d.count.toLocaleString()} Members</div><div class="tap">Tap for details</div>`;
+      card.style.background = `linear-gradient(135deg, ${d.color}, #111827)`;
+      card.innerHTML = `
+        <div class="name">${d.name}</div>
+        <div class="count">${d.count.toLocaleString()} Members</div>
+        <div class="tap">Tap for details</div>
+      `;
       card.addEventListener("click", () => openDistrict(d));
       grid.appendChild(card);
 
@@ -116,58 +109,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = detailsMap[d.name];
     document.getElementById("dlgName").textContent = d.name;
     document.getElementById("dlgCount").textContent = `${d.count.toLocaleString()} Members`;
-    document.getElementById("dlgTag").textContent = "District Unit";
-    document.getElementById("dlgBanner").style.background = `linear-gradient(135deg, ${d.color}, ${shadeColor(d.color, -20)})`;
     document.getElementById("dlgDistrictDetails").textContent = data.districtDetails;
 
     const membership = document.getElementById("dlgMembership");
-    membership.innerHTML = "";
-    data.membership.forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      membership.appendChild(li);
-    });
-
     const social = document.getElementById("dlgSocial");
-    social.innerHTML = "";
-    data.social.forEach(s => {
-      const a = document.createElement("a");
-      a.href = s.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.className = "social-link";
-      a.textContent = s.label;
-      social.appendChild(a);
-    });
-
     const contact = document.getElementById("dlgContact");
-    contact.innerHTML = "";
-    data.contacts.forEach(c => {
-      const a = document.createElement("a");
-      a.href = c.href;
-      a.className = "contact-link";
-      a.textContent = `${c.label}: ${c.value}`;
-      contact.appendChild(a);
-    });
 
-    dialog.showModal();
-  }
+    membership.innerHTML = data.membership.map(item => `<li>${item}</li>`).join("");
+    social.innerHTML = data.social.map(s => `<a class="social-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`).join("");
+    contact.innerHTML = data.contacts.map(c => `<a class="contact-link" href="${c.href}">${c.label}: ${c.value}</a>`).join("");
 
-  function shadeColor(color, percent) {
-    const f = parseInt(color.slice(1),16), t = percent < 0 ? 0 : 255, p = Math.abs(percent)/100;
-    const R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
-    return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+    if (dialog.showModal) dialog.showModal();
+    else dialog.setAttribute("open", "");
   }
 
   renderDistricts(districts);
 
   search?.addEventListener("input", () => {
     const q = search.value.toLowerCase().trim();
-    const filtered = districts.filter(d => d.name.toLowerCase().includes(q));
-    renderDistricts(filtered);
+    renderDistricts(districts.filter(d => d.name.toLowerCase().includes(q)));
   });
 
   closeDialog?.addEventListener("click", () => dialog.close());
+  dialog?.addEventListener("click", e => {
+    if (e.target === dialog) dialog.close();
+  });
 
   copyBtn?.addEventListener("click", async () => {
     const text = districts.map(d => `${d.name} - ${d.count.toLocaleString()}`).join("
