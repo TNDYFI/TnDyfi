@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
+  <!-- இதை எல்லா பக்கங்களின் <head>-லயும் சேர்க்கவும் -->
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>News</title>
 <link rel="stylesheet" href="css/news.css">
+  <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
@@ -42,7 +49,7 @@
     </div>
   </div>
 </dialog>
-
 <script type="module" src="js/news.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
