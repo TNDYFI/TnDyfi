@@ -21,8 +21,8 @@ html,body{
   scroll-behavior:smooth;
 }
 a{text-decoration:none;color:inherit}
+button{border:none;cursor:pointer;font:inherit}
 body{padding-top:74px}
-button{border:none;background:none;cursor:pointer;color:inherit}
 
 .topbar{
   position:fixed;top:0;left:0;right:0;height:74px;
@@ -30,10 +30,11 @@ button{border:none;background:none;cursor:pointer;color:inherit}
   background:var(--glass);backdrop-filter:blur(18px);
   border-bottom:1px solid var(--border);z-index:1000;
 }
-.back-btn,.mini-btn{
+.back-btn,.mini-btn,.clear-btn,.close-x{
   width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
-  background:var(--card);box-shadow:var(--shadow)
+  background:var(--card);box-shadow:var(--shadow);color:var(--text)
 }
+.clear-btn{width:auto;padding:0 14px;font-weight:800}
 .top-title{flex:1;min-width:0}
 .top-title h1{font-size:18px;font-weight:900;line-height:1.1}
 .top-title p{font-size:12px;color:var(--muted);margin-top:2px}
@@ -69,12 +70,12 @@ button{border:none;background:none;cursor:pointer;color:inherit}
 
 .search-area{padding:0 14px 14px}
 .search-bar{
-  height:56px;display:flex;align-items:center;gap:10px;padding:0 16px;
+  min-height:56px;display:flex;align-items:center;gap:10px;padding:0 16px;
   border-radius:18px;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)
 }
 .search-bar i{color:var(--primary)}
 .search-bar input{
-  flex:1;height:100%;border:none;outline:none;background:transparent;font:inherit;color:var(--text)
+  flex:1;height:54px;border:none;outline:none;background:transparent;font:inherit;color:var(--text)
 }
 
 .district-wrap,.district-list-wrap{
@@ -92,22 +93,15 @@ button{border:none;background:none;cursor:pointer;color:inherit}
   gap:12px;
 }
 .dist-card{
-  position:relative;
-  min-height:132px;
-  border-radius:22px;
-  padding:14px;
-  color:#fff;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  cursor:pointer;
-  transition:transform .2s ease;
+  position:relative;min-height:132px;border-radius:22px;padding:14px;color:#fff;
+  overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s ease
 }
 .dist-card:active{transform:scale(.98)}
 .dist-card::after{
   content:"";position:absolute;right:-18px;top:-18px;width:78px;height:78px;border-radius:50%;
   background:rgba(255,255,255,.14)
 }
-.dist-card .name{font-size:16px;font-weight:900;line-height:1.35;max-width:10ch}
+.dist-card .name{font-size:16px;font-weight:900;line-height:1.35;max-width:11ch}
 .dist-card .count{margin-top:8px;font-size:13px;opacity:.95;font-weight:700}
 .dist-card .tap{position:absolute;left:14px;bottom:14px;font-size:12px;opacity:.9}
 
@@ -116,30 +110,14 @@ button{border:none;background:none;cursor:pointer;color:inherit}
 }
 .district-scroll-box::-webkit-scrollbar{display:none}
 .dist-row{
-  flex:0 0 auto;
-  min-width:210px;
-  padding:14px 16px;
-  border-radius:18px;
-  color:#fff;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:var(--shadow);
-  font-weight:800;
+  flex:0 0 auto;min-width:210px;padding:14px 16px;border-radius:18px;color:#fff;
+  display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow);font-weight:800
 }
 
 .district-dialog{
-  width:min(96vw,900px);
-  border:none;
-  border-radius:24px;
-  padding:16px;
-  background:var(--card);
-  box-shadow:var(--shadow);
+  width:min(96vw,900px);border:none;border-radius:24px;padding:16px;background:var(--card);box-shadow:var(--shadow)
 }
-.district-dialog::backdrop{
-  background:rgba(0,0,0,.68);
-  backdrop-filter:blur(4px);
-}
+.district-dialog::backdrop{background:rgba(0,0,0,.68);backdrop-filter:blur(4px)}
 .dialog-head{
   display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:12px
 }
@@ -149,56 +127,29 @@ button{border:none;background:none;cursor:pointer;color:inherit}
 }
 .dialog-head h3{font-size:22px;font-weight:900;margin-top:8px}
 .dialog-head p{font-size:13px;color:var(--muted);margin-top:4px}
-.close-x{
-  width:40px;height:40px;border-radius:12px;background:var(--bg);display:grid;place-items:center
-}
 .dialog-banner{
-  display:flex;align-items:center;gap:10px;
-  padding:14px 16px;border-radius:18px;
-  background:linear-gradient(135deg,var(--primary),var(--primary-2));
-  color:#fff;font-weight:800;margin-bottom:14px
+  display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:18px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;font-weight:800;margin-bottom:14px
 }
-.dialog-sections{
-  display:grid;
-  gap:12px;
-}
-.dlg-card{
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:14px;
-  background:#fff;
-}
+.dialog-sections{display:grid;gap:12px}
+.dlg-card{border:1px solid var(--border);border-radius:18px;padding:14px;background:#fff}
 .dlg-card h4{font-size:16px;font-weight:900;margin-bottom:10px}
-.dlg-card p{
-  font-size:14px;color:var(--muted);line-height:1.9
-}
-.info-list{
-  list-style:none;
-  display:grid;
-  gap:8px;
-}
+.dlg-card p{font-size:14px;color:var(--muted);line-height:1.9}
+.info-list{list-style:none;display:grid;gap:8px}
 .info-list li{
   padding:10px 12px;border-radius:12px;background:rgba(213,0,0,.05);
   color:var(--text);font-size:13px;line-height:1.7
 }
-.social-row,.contact-row{
-  display:flex;flex-wrap:wrap;gap:10px
-}
+.social-row,.contact-row{display:flex;flex-wrap:wrap;gap:10px}
 .social-link,.contact-link{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 12px;border-radius:999px;
-  background:rgba(213,0,0,.06);
-  font-weight:800;font-size:13px
+  display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:999px;
+  background:rgba(213,0,0,.06);font-weight:800;font-size:13px
 }
 .footer{
-  padding:24px 16px 100px;
-  text-align:center;
-  color:var(--muted);
-  font-size:13px
+  padding:24px 16px 100px;text-align:center;color:var(--muted);font-size:13px
 }
-@media(min-width:700px){
-  .district-grid{grid-template-columns:repeat(3,1fr)}
-}
+
+@media(min-width:700px){.district-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:1000px){
   .district-grid{grid-template-columns:repeat(4,1fr)}
   .dialog-sections{grid-template-columns:repeat(2,1fr)}
