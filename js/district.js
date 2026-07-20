@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  
   const districts = [
     {name:"Ariyalur", ta:"அரியலூர்", count:21000, color:"#16a085"},
     {name:"Chengalpattu", ta:"செங்கல்பட்டு", count:36000, color:"#1abc9c"},
