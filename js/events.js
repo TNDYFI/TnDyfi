@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const search = document.getElementById("eventsSearch");
   const modal = document.getElementById("eventDialog");
   const closeBtn = document.getElementById("closeEventDialog");
-  const clearBtn = document.getElementById("clearEventsBtn");
 
   if (!grid) return;
 
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.innerHTML = "";
 
     if (list.length === 0) {
-      grid.innerHTML = `<div class="empty-box">No events found</div>`;
+      grid.innerHTML = `<div class="empty-box" style="padding: 20px; text-align: center; color: var(--muted);">No events found</div>`;
       return;
     }
 
@@ -54,13 +53,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = document.createElement("article");
       card.className = "event-card";
       card.style.background = `linear-gradient(135deg, ${eventItem.color}, #111827)`;
+      card.style.color = "#fff";
+      card.style.padding = "20px";
+      card.style.borderRadius = "24px";
       card.innerHTML = `
-        <span class="event-type">${eventItem.type}</span>
-        <h3>${eventItem.title}</h3>
-        <p><i class="fas fa-calendar"></i> ${eventItem.date}</p>
-        <p><i class="fas fa-clock"></i> ${eventItem.time}</p>
-        <p><i class="fas fa-location-dot"></i> ${eventItem.place}</p>
-        <button class="view-btn" type="button">View Details</button>
+        <span class="event-type" style="background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;">${eventItem.type}</span>
+        <h3 style="margin-top: 12px; font-size: 20px;">${eventItem.title}</h3>
+        <p style="margin-top: 8px; opacity: 0.9;"><i class="fas fa-calendar"></i> ${eventItem.date}</p>
+        <p style="margin-top: 4px; opacity: 0.9;"><i class="fas fa-clock"></i> ${eventItem.time}</p>
+        <p style="margin-top: 4px; opacity: 0.9;"><i class="fas fa-location-dot"></i> ${eventItem.place}</p>
+        <button class="view-btn" type="button" style="margin-top: 14px; background: #fff; color: #000; padding: 8px 16px; border-radius: 12px; font-weight: 700; cursor: pointer;">View Details</button>
       `;
 
       card.querySelector(".view-btn").addEventListener("click", () => {
@@ -105,12 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
   render(events);
 
   search?.addEventListener("input", applySearch);
-
-  clearBtn?.addEventListener("click", () => {
-    if (search) search.value = "";
-    applySearch();
-    search?.focus();
-  });
 
   closeBtn?.addEventListener("click", () => {
     modal?.close();
