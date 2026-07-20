@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Districts - DYFI Tamil Nadu</title>
-  <link rel="stylesheet" href="css/district.css">
+  <link rel="stylesheet" href="district.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <meta name="theme-color" content="#d50000">
@@ -12,22 +12,18 @@
 <body>
 
 <header class="topbar">
-  <a class="back-btn" href="index.html" aria-label="Back">
-    <i class="fas fa-arrow-left"></i>
-  </a>
+  <a class="back-btn" href="index.html" aria-label="Back"><i class="fas fa-arrow-left"></i></a>
   <div class="top-title">
     <h1>Districts</h1>
-    <p>Tap any district to view full details</p>
+    <p>Search and tap any district</p>
   </div>
-  <button class="mini-btn" id="copyDistrictBtn" aria-label="Copy district info">
-    <i class="fas fa-copy"></i>
-  </button>
+  <button class="mini-btn" id="copyDistrictBtn" aria-label="Copy districts"><i class="fas fa-copy"></i></button>
 </header>
 
 <section class="hero-box">
   <span class="pill">Mini Map</span>
   <h2>Tamil Nadu District Network</h2>
-  <p>All districts, membership counts, contacts and social links in one interactive view.</p>
+  <p>All districts, membership counts, contact details and social media links in one place.</p>
 </section>
 
 <section class="summary-row">
@@ -36,8 +32,8 @@
     <p>Total Members</p>
   </div>
   <div class="summary-card">
-    <h3>41</h3>
-    <p>District Units</p>
+    <h3 id="districtCount">0</h3>
+    <p>Districts</p>
   </div>
   <div class="summary-card">
     <h3>1</h3>
@@ -48,14 +44,15 @@
 <section class="search-area">
   <div class="search-bar">
     <i class="fas fa-search"></i>
-    <input id="districtSearch" type="text" placeholder="Search district...">
+    <input id="districtSearch" type="text" placeholder="Search district..." autocomplete="off">
+    <button class="clear-btn" id="clearSearchBtn" type="button">Clear</button>
   </div>
 </section>
 
 <section class="district-wrap">
   <div class="section-title">
     <h2>District Mini Map</h2>
-    <span>Click to open details</span>
+    <span>Tap to open details</span>
   </div>
   <div id="districtGrid" class="district-grid"></div>
 </section>
@@ -63,7 +60,7 @@
 <section class="district-list-wrap">
   <div class="section-title">
     <h2>District Name List</h2>
-    <span>Fast view</span>
+    <span>Quick scroll</span>
   </div>
   <div id="districtScrollBox" class="district-scroll-box"></div>
 </section>
@@ -75,7 +72,7 @@
       <h3 id="dlgName">District Name</h3>
       <p id="dlgCount">0 Members</p>
     </div>
-    <button class="close-x" id="closeDialog"><i class="fas fa-times"></i></button>
+    <button class="close-x" id="closeDialog" type="button"><i class="fas fa-times"></i></button>
   </div>
 
   <div class="dialog-banner" id="dlgBanner">
@@ -110,6 +107,6 @@
   <p>© 2026 DYFI Tamil Nadu</p>
 </footer>
 
-<script src="js/district.js"></script>
+<script src="district.js"></script>
 </body>
 </html>
