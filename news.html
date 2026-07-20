@@ -1,66 +1,58 @@
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>News - Youth Connect Tamil Nadu</title>
-<link rel="stylesheet" href="css/style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
-</head>
-<body>
-
-<div class="page-header">
-  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
-  <h1>Latest News</h1>
-  <button class="page-icon-btn" id="openPostBtn"><i class="fas fa-plus"></i></button>
-</div>
-
-<section class="news-hero">
-  <div class="news-hero-content">
-    <span class="hero-tag">Live</span>
-    <h2>Youth Connect News Feed</h2>
-    <p>Realtime updates, campaigns, events and community news.</p>
+<article class="news-card">
+  <div class="news-media">
+    <img src="assets/news1.jpg" alt="News">
+    <div class="top-badge">
+      <span class="badge-pill">BREAKING</span>
+      <span class="badge-pill">#youthconnect</span>
+    </div>
+    <button class="news-save"><i class="far fa-bookmark"></i></button>
   </div>
-</section>
 
-<section class="news-tools">
-  <div class="search-box">
-    <i class="fas fa-search"></i>
-    <input type="text" id="newsSearch" placeholder="Search news...">
-  </div>
-</section>
-
-<section class="news-section" id="newsList"></section>
-
-<button id="loadMoreBtn" class="load-more-btn">Load More</button>
-
-<dialog id="postDialog" class="post-dialog">
-  <form id="postForm" class="post-form">
-    <div class="dialog-head">
-      <h3>Post News</h3>
-      <button type="button" id="closePostBtn" class="popup-close"><i class="fas fa-times"></i></button>
+  <div class="news-body">
+    <div class="news-head">
+      <h3 class="news-title">State Youth Conference Announced</h3>
+      <span class="news-date">20 Jul 2026</span>
     </div>
 
-    <input type="text" id="postTitle" placeholder="News title" required>
-    <textarea id="postDescription" placeholder="News description" rows="4" required></textarea>
-    <input type="text" id="postCategory" placeholder="Category: breaking / events / campaigns" required>
-    <input type="file" id="postImage" accept="image/*">
-
-    <div class="form-actions">
-      <button type="button" id="cancelPostBtn" class="ghost-btn">Cancel</button>
-      <button type="submit" class="read-more-btn">Upload</button>
+    <div class="news-meta">
+      <span class="hashtag">#education</span>
+      <span class="hashtag">#volunteer</span>
+      <span class="hashtag">#tamilnadu</span>
     </div>
-  </form>
-</dialog>
 
-<footer>
-  <p class="copyright">© 2026 Youth Connect. All Rights Reserved.</p>
-</footer>
+    <p class="news-desc">
+      Youth Connect is preparing a statewide initiative focused on leadership, education and community service.
+    </p>
 
-<script type="module" src="js/news-firebase.js"></script>
-</body>
-</html>
+    <div class="news-author-row">
+      <img src="assets/profile.jpg" class="author-avatar" alt="Author">
+      <div class="author-info">
+        <span class="author-name">Youth Connect Team</span>
+        <span class="author-role">Official News Publisher</span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-group">
+        <button class="action-btn like"><i class="fas fa-heart"></i> Like <span>0</span></button>
+        <button class="action-btn comment"><i class="fas fa-comment"></i> Comment</button>
+        <button class="action-btn share"><i class="fas fa-share-nodes"></i> Share</button>
+      </div>
+      <button class="action-btn save"><i class="far fa-bookmark"></i></button>
+    </div>
+
+    <div class="comment-panel">
+      <div class="comment-list">
+        <div class="comment-item">
+          <strong>Arun</strong>
+          <p>Super update!</p>
+        </div>
+      </div>
+
+      <div class="reply-row">
+        <input type="text" placeholder="Write a comment...">
+        <button>Reply</button>
+      </div>
+    </div>
+  </div>
+</article>
