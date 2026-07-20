@@ -1,36 +1,32 @@
-import { db } from "./firebase.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+document.addEventListener("DOMContentLoaded", () => {
+  const eventFeed = document.getElementById("eventFeed");
+  const events = Array.from({ length: 10 }, (_, i) => ({
+    title: `Event ${i + 1}`,
+    desc: "Upcoming youth event, meeting, and campaign schedule.",
+    img: "44837.jpg"
+  }));
 
-const container = document.getElementById("eventsContainer");
+  eventFeed.innerHTML = events.map((e, i) => `
+    <article class="event-card">
+      <img src="${e.img}" alt="event">
+      <div class="event-body">
+        <div class="event-top">
+          <h3 class="event-title">${e.title}</h3>
+          <span class="tag">EVENT</span>
+        </div>
+        <p class="event-desc">${e.desc}</p>
+        <div class="event-meta">
+          <span class="tag">#meeting</span>
+          <span class="tag">#district</span>
+        </div>
+        <div class="share-row">
+          <button class="share-btn"><i class="fas fa-share-nodes"></i> Share</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
 
-async function loadEvents() {
-
-    container.innerHTML = '<div class="loading"></div>';
-
-    const snapshot = await getDocs(collection(db, "events"));
-
-    container.innerHTML = "";
-
-    snapshot.forEach((doc) => {
-
-        const e = doc.data();
-
-        container.innerHTML += `
-        <div class="event-card">
-            <img src="${e.image}">
-            <div class="card-content">
-                <span class="badge">${e.date}</span>
-                <h3>${e.title}</h3>
-                <p>${e.location}</p>
-                <p>${e.description}</p>
-
-                <a href="${e.registerLink}" class="join-btn">
-                    Register
-                </a>
-            </div>
-        </div>`;
-    });
-
-}
-
-loadEvents();
+  document.querySelectorAll(".share-btn").forEach(btn => {
+    btn.addEventListener("click", () => alert("Share action ready"));
+  });
+});
