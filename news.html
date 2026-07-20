@@ -1,58 +1,48 @@
-<article class="news-card">
-  <div class="news-media">
-    <img src="assets/news1.jpg" alt="News">
-    <div class="top-badge">
-      <span class="badge-pill">BREAKING</span>
-      <span class="badge-pill">#youthconnect</span>
-    </div>
-    <button class="news-save"><i class="far fa-bookmark"></i></button>
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>News</title>
+<link rel="stylesheet" href="news.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <div class="top-title">
+    <h1>News Feed</h1>
+    <p>Instagram style updates</p>
   </div>
+</header>
 
-  <div class="news-body">
-    <div class="news-head">
-      <h3 class="news-title">State Youth Conference Announced</h3>
-      <span class="news-date">20 Jul 2026</span>
+<section class="story-strip">
+  <div class="story-chip active">All</div>
+  <div class="story-chip">Breaking</div>
+  <div class="story-chip">Events</div>
+  <div class="story-chip">Campaigns</div>
+  <div class="story-chip">District</div>
+</section>
+
+<section class="feed" id="newsFeed"></section>
+
+<dialog id="shareDialog" class="share-dialog">
+  <div class="dialog-inner">
+    <div class="dialog-head">
+      <h3>Share Post</h3>
+      <button class="close-x" id="closeShare"><i class="fas fa-times"></i></button>
     </div>
-
-    <div class="news-meta">
-      <span class="hashtag">#education</span>
-      <span class="hashtag">#volunteer</span>
-      <span class="hashtag">#tamilnadu</span>
-    </div>
-
-    <p class="news-desc">
-      Youth Connect is preparing a statewide initiative focused on leadership, education and community service.
-    </p>
-
-    <div class="news-author-row">
-      <img src="assets/profile.jpg" class="author-avatar" alt="Author">
-      <div class="author-info">
-        <span class="author-name">Youth Connect Team</span>
-        <span class="author-role">Official News Publisher</span>
-      </div>
-    </div>
-
-    <div class="action-row">
-      <div class="action-group">
-        <button class="action-btn like"><i class="fas fa-heart"></i> Like <span>0</span></button>
-        <button class="action-btn comment"><i class="fas fa-comment"></i> Comment</button>
-        <button class="action-btn share"><i class="fas fa-share-nodes"></i> Share</button>
-      </div>
-      <button class="action-btn save"><i class="far fa-bookmark"></i></button>
-    </div>
-
-    <div class="comment-panel">
-      <div class="comment-list">
-        <div class="comment-item">
-          <strong>Arun</strong>
-          <p>Super update!</p>
-        </div>
-      </div>
-
-      <div class="reply-row">
-        <input type="text" placeholder="Write a comment...">
-        <button>Reply</button>
-      </div>
+    <div class="share-grid">
+      <button class="share-item"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></button>
+      <button class="share-item"><i class="fab fa-facebook"></i><span>Facebook</span></button>
+      <button class="share-item"><i class="fab fa-x-twitter"></i><span>X</span></button>
+      <button class="share-item"><i class="fas fa-link"></i><span>Copy Link</span></button>
     </div>
   </div>
-</article>
+</dialog>
+
+<script type="module" src="news.js"></script>
+</body>
+</html>
