@@ -1,0 +1,263 @@
+:root{
+  --primary:#d50000;
+  --primary-2:#ff5a64;
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#687185;
+  --border:#e7eaf0;
+  --shadow:0 14px 40px rgba(15,23,42,.08);
+  --glass:rgba(255,255,255,.82);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Poppins,sans-serif;
+  scroll-behavior:smooth;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+body{
+  padding-top:74px;
+}
+
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:74px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  z-index:1000;
+}
+
+.back-btn{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:var(--card);
+  box-shadow:var(--shadow);
+  color:var(--text);
+}
+
+.top-title{
+  flex:1;
+  min-width:0;
+}
+
+.top-title h1{
+  font-size:18px;
+  font-weight:900;
+  line-height:1.1;
+}
+
+.top-title p{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.hero-box{
+  margin:14px;
+  padding:22px;
+  border-radius:28px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;
+  box-shadow:var(--shadow);
+}
+
+.hero-box h2{
+  margin-top:10px;
+  font-size:28px;
+  line-height:1.15;
+  font-weight:900;
+}
+
+.hero-box p{
+  margin-top:10px;
+  font-size:14px;
+  line-height:1.8;
+  opacity:.96;
+}
+
+.pill{
+  display:inline-flex;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.16);
+  font-size:12px;
+  font-weight:800;
+}
+
+.content-wrap{
+  padding:0 14px 20px;
+  display:grid;
+  gap:16px;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.about-card{
+  background:var(--card);
+  border-radius:26px;
+  padding:18px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+
+.about-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.section-tag{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(213,0,0,.08);
+  color:var(--primary);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.3px;
+  margin-bottom:8px;
+}
+
+.about-head h3,
+.highlight-card h3{
+  font-size:20px;
+  line-height:1.4;
+  font-weight:900;
+}
+
+.short-text,
+.long-text p{
+  color:var(--muted);
+  line-height:1.9;
+  font-size:14px;
+}
+
+.see-more{
+  flex:0 0 auto;
+  color:var(--primary);
+  font-size:13px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.long-text{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px dashed var(--border);
+}
+
+.bullet-list{
+  list-style:none;
+  display:grid;
+  gap:10px;
+}
+
+.bullet-list li{
+  position:relative;
+  padding-left:22px;
+  line-height:1.8;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.bullet-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.75em;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--primary);
+}
+
+.chip-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.chip{
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(213,0,0,.06);
+  color:var(--text);
+  font-weight:700;
+  font-size:13px;
+}
+
+.mini-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.mini-grid span{
+  padding:12px 14px;
+  border-radius:14px;
+  background:rgba(213,0,0,.05);
+  font-size:13px;
+  line-height:1.6;
+  font-weight:600;
+}
+
+.highlight-card{
+  background:linear-gradient(180deg,#fff,rgba(255,90,100,.05));
+}
+
+.highlight-card p{
+  margin-top:10px;
+}
+
+.footer{
+  padding:30px 16px 110px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+}
+
+@media (min-width:768px){
+  .content-wrap{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero-box{
+    max-width:1100px;
+    margin:14px auto;
+  }
+}
+
+@media (min-width:1100px){
+  .content-wrap{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
