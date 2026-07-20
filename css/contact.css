@@ -1,0 +1,236 @@
+:root{
+  --primary:#d50000;
+  --primary-2:#ff5a64;
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#687185;
+  --border:#e7eaf0;
+  --shadow:0 14px 40px rgba(15,23,42,.08);
+  --glass:rgba(255,255,255,.82);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Poppins,sans-serif;
+  scroll-behavior:smooth;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+body{
+  padding-top:74px;
+}
+
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:74px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  z-index:1000;
+}
+
+.back-btn,.mini-btn{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:var(--card);
+  box-shadow:var(--shadow);
+  color:var(--text);
+}
+
+.top-title{
+  flex:1;
+  min-width:0;
+}
+
+.top-title h1{
+  font-size:18px;
+  font-weight:900;
+  line-height:1.1;
+}
+
+.top-title p{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.hero-box{
+  margin:14px;
+  padding:22px;
+  border-radius:28px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;
+  box-shadow:var(--shadow);
+}
+
+.hero-box h2{
+  margin-top:10px;
+  font-size:28px;
+  line-height:1.15;
+  font-weight:900;
+}
+
+.hero-box p{
+  margin-top:10px;
+  font-size:14px;
+  line-height:1.8;
+  opacity:.96;
+}
+
+.pill{
+  display:inline-flex;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.16);
+  font-size:12px;
+  font-weight:800;
+}
+
+.contact-grid{
+  padding:0 14px 16px;
+  display:grid;
+  gap:14px;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.contact-card{
+  background:var(--card);
+  border-radius:24px;
+  padding:18px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  text-align:center;
+}
+
+.contact-card.highlight{
+  background:linear-gradient(180deg,#fff,rgba(213,0,0,.05));
+}
+
+.card-icon{
+  width:62px;
+  height:62px;
+  border-radius:18px;
+  margin:0 auto 12px;
+  display:grid;
+  place-items:center;
+  background:rgba(213,0,0,.08);
+  color:var(--primary);
+  font-size:24px;
+}
+
+.card-icon.facebook{background:rgba(24,119,242,.10);color:#1877f2}
+.card-icon.instagram{background:rgba(225,48,108,.10);color:#e1306c}
+.card-icon.youtube{background:rgba(255,0,0,.10);color:#ff0000}
+.card-icon.x{background:rgba(15,23,42,.08);color:#111827}
+.card-icon.website{background:rgba(0,0,0,.06);color:var(--primary)}
+
+.contact-card h3{
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.contact-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:14px;
+}
+
+.contact-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:120px;
+  height:44px;
+  padding:0 16px;
+  border-radius:14px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:900;
+  box-shadow:var(--shadow);
+}
+
+.info-panel{
+  margin:0 14px 14px;
+  padding:18px;
+  background:var(--card);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  max-width:1100px;
+}
+
+.info-panel h3{
+  font-size:18px;
+  margin-bottom:12px;
+  font-weight:900;
+}
+
+.info-panel p{
+  color:var(--muted);
+  line-height:1.9;
+  font-size:14px;
+}
+
+.action-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.action-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 14px;
+  border-radius:999px;
+  background:rgba(213,0,0,.06);
+  color:var(--text);
+  font-weight:800;
+}
+
+.footer{
+  padding:24px 16px 110px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+}
+
+@media (min-width:768px){
+  .contact-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media (min-width:1100px){
+  .contact-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
