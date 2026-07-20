@@ -1,41 +1,73 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const grid = document.getElementById("galleryGrid");
-  const zoomDialog = document.getElementById("zoomDialog");
-  const zoomImg = document.getElementById("zoomImg");
-  const closeZoom = document.getElementById("closeZoom");
+  const chips = document.querySelectorAll(".chip");
+  const cards = document.querySelectorAll(".gallery-card");
+  const search = document.getElementById("gallerySearch");
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
+  const dialog = document.getElementById("imageDialog");
+  const zoomImage = document.getElementById("zoomImage");
+  const closeImage = document.getElementById("closeImage");
+  const dialogLikeBtn = document.getElementById("dialogLikeBtn");
+  const dialogShareBtn = document.getElementById("dialogShareBtn");
+  let currentCard = null;
 
-  const images = Array.from({ length: 12 }, () => "44837.jpg");
+  chips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      chips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      const filter = chip.dataset.filter;
+      cards.forEach(card => {
+        const ok = filter === "all" || (card.dataset.category || "").includes(filter);
+        card.style.display = ok ? "" : "none";
+      });
+    });
+  });
 
-  grid.innerHTML = images.map((src, i) => `
-    <article class="gallery-card">
-      <img src="${src}" alt="gallery ${i + 1}">
-      <div class="gallery-actions">
-        <button class="like-btn"><i class="far fa-heart"></i> <span>Like</span></button>
-        <button class="zoom-btn"><i class="fas fa-magnifying-glass-plus"></i></button>
-      </div>
-    </article>
-  `).join("");
+  search?.addEventListener("input", () => {
+    const q = search.value.toLowerCase().trim();
+    cards.forEach(card => {
+      card.style.display = card.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
 
-  document.querySelectorAll(".gallery-card").forEach((card, idx) => {
+  cards.forEach(card => {
     const img = card.querySelector("img");
     const likeBtn = card.querySelector(".like-btn");
-    const zoomBtn = card.querySelector(".zoom-btn");
 
-    const openZoom = () => {
-      zoomImg.src = img.src;
-      zoomDialog.showModal();
-    };
-
-    img.addEventListener("click", openZoom);
-    zoomBtn.addEventListener("click", openZoom);
+    img.addEventListener("click", () => {
+      currentCard = card;
+      zoomImage.src = img.src;
+      zoomImage.alt = img.alt;
+      if (dialog?.showModal) dialog.showModal();
+    });
 
     likeBtn.addEventListener("click", () => {
       likeBtn.classList.toggle("active");
       likeBtn.innerHTML = likeBtn.classList.contains("active")
-        ? '<i class="fas fa-heart"></i> <span>Liked</span>'
-        : '<i class="far fa-heart"></i> <span>Like</span>';
+        ? '<i class="fas fa-heart"></i>'
+        : '<i class="far fa-heart"></i>';
     });
   });
 
-  closeZoom?.addEventListener("click", () => zoomDialog.close());
+  closeImage?.addEventListener("click", () => dialog.close());
+
+  dialogLikeBtn?.addEventListener("click", () => {
+    if (!currentCard) return;
+    const likeBtn = currentCard.querySelector(".like-btn");
+    likeBtn.classList.add("active");
+    likeBtn.innerHTML = '<i class="fas fa-heart"></i>';
+  });
+
+  dialogShareBtn?.addEventListener("click", async () => {
+    if (navigator.share) {
+      await navigator.share({
+        title: "Gallery Image",
+        url: location.href
+      });
+    }
+  });
+
+  loadMoreBtn?.addEventListener("click", () => {
+    loadMoreBtn.textContent = "No More Images";
+    loadMoreBtn.disabled = true;
+  });
 });
