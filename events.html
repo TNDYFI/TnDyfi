@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
-      <script>
+  <script>
     if (localStorage.getItem("theme") === "dark") {
       document.documentElement.classList.add("dark");
     }
   </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Events</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Events</title>
   <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/events.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="css/events.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
+
 <header class="topbar">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <div class="top-title">
@@ -23,9 +24,29 @@
   </div>
 </header>
 
-<section class="feed" id="eventFeed"></section>
+<!-- தேடும் பகுதி மற்றும் ஈவென்ட் கட்டம் (Grid) -->
+<section style="padding: 14px; max-width: 1100px; margin: 0 auto;">
+  <input type="text" id="eventsSearch" placeholder="Search events..." style="width: 100%; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--card); color: var(--text); outline: none; margin-bottom: 14px;">
+</section>
+
+<section class="feed" id="eventsGrid"></section>
+
+<!-- பாப்-அப் டயலாக் (View Details கிளிக் செய்யும்போது திறக்க) -->
+<dialog id="eventDialog" style="padding: 20px; border-radius: 20px; border: none; background: var(--card); color: var(--text); width: min(90vw, 400px);">
+  <div id="eventBanner" style="padding: 15px; border-radius: 12px; color: #fff; margin-bottom: 15px;">
+    <h3 id="eventTitle" style="font-size: 20px;"></h3>
+  </div>
+  <p><strong>Type:</strong> <span id="eventType"></span></p>
+  <p style="margin-top: 8px;"><strong>Date:</strong> <span id="eventDate"></span></p>
+  <p style="margin-top: 8px;"><strong>Time:</strong> <span id="eventTime"></span></p>
+  <p style="margin-top: 8px;"><strong>Place:</strong> <span id="eventPlace"></span></p>
+  
+  <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+    <button id="closeEventDialog" style="padding: 8px 16px; background: var(--primary); color: #fff; border-radius: 8px; font-weight: 700;">Close</button>
+  </div>
+</dialog>
     
-<script type="module" src="js/app.js"></script>
-<script type="module" src="js/events.js"></script>
+<script src="js/app.js"></script>
+<script src="js/events.js"></script>
 </body>
 </html>
