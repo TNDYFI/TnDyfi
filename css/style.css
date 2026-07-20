@@ -9,7 +9,7 @@
   --glass:rgba(255,255,255,.82);
 }
 
-.dark{
+html.dark{
   --bg:#0c1017;
   --card:#151a22;
   --text:#f7f9fc;
@@ -58,7 +58,7 @@ button{ border:none; background:none; cursor:pointer; }
   background:#fff;
   transition:opacity .5s ease, visibility .5s ease;
 }
-.dark #loader{ background:#0e1117; }
+html.dark #loader{ background:#0e1117; }
 .loader-logo{text-align:center;}
 .star-logo{ width:92px; height:92px; fill:var(--primary); margin:0 auto 20px; animation:spin 2s linear infinite; }
 .dyfi-title{ font-size:26px; color:var(--primary); font-weight:900; }
@@ -188,7 +188,6 @@ button{ border:none; background:none; cursor:pointer; }
     grid-template-columns:repeat(3,1fr);
   }
 }
-
 
 .section{ padding:18px 14px 4px; }
 .section-title{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
