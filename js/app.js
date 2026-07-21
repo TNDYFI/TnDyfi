@@ -250,55 +250,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// chat bot //
 document.addEventListener("DOMContentLoaded", () => {
-  const bot = document.getElementById('bot-container');
-  const closeBtn = document.getElementById('closeBot');
-  const openChatMenu = document.getElementById('openChatMenu');
-  const menuDropdown = document.getElementById('menuDropdown');
+  const bot = document.getElementById("bot-container");
+  const closeBtn = document.getElementById("closeBot");
+  const openChatMenu = document.getElementById("openChatMenu");
 
-  closeBtn?.addEventListener('click', () => bot.classList.add('bot-hidden'));
-
-  openChatMenu?.addEventListener('click', () => {
-    bot.classList.remove('bot-hidden');
-    menuDropdown?.classList.remove('show');
+  openChatMenu?.addEventListener("click", () => {
+    bot.classList.remove("bot-hidden");
+    bot.style.display = "block";
   });
 
-  document.getElementById('menuBtn')?.addEventListener('click', () => {
-    menuDropdown?.classList.toggle('show');
-  });
-
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(btn.dataset.target)?.classList.add('active');
-    });
-  });
-
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  bot?.addEventListener('touchstart', (e) => {
-    dragging = true;
-    const touch = e.touches[0];
-    const rect = bot.getBoundingClientRect();
-    offsetX = touch.clientX - rect.left;
-    offsetY = touch.clientY - rect.top;
-  });
-
-  bot?.addEventListener('touchmove', (e) => {
-    if (!dragging) return;
-    const touch = e.touches[0];
-    bot.style.left = (touch.clientX - offsetX) + 'px';
-    bot.style.top = (touch.clientY - offsetY) + 'px';
-    bot.style.bottom = 'auto';
-    bot.style.right = 'auto';
-  });
-
-  bot?.addEventListener('touchend', () => {
-    dragging = false;
+  closeBtn?.addEventListener("click", () => {
+    bot.classList.add("bot-hidden");
   });
 });
