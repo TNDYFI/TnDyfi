@@ -15,8 +15,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoCards = document.querySelectorAll(".video-card");
   const videoModal = document.getElementById("videoModal");
   const youtubePlayer = document.getElementById("youtubePlayer");
+  const closeVideoBtn = document.getElementById("closeVideoBtn");
   const searchInput = document.getElementById("searchInput");
   const navLinks = document.querySelectorAll(".bottom-nav a, .side-list a");
+
+  const feedbackBtn = document.getElementById("feedbackBtn");
+  const reportBugBtn = document.getElementById("reportBugBtn");
+  const assistantBtn = document.getElementById("assistantBtn");
+
+  const feedbackDialog = document.getElementById("feedbackDialog");
+  const bugDialog = document.getElementById("bugDialog");
+
+  const closeFeedback = document.getElementById("closeFeedback");
+  const cancelFeedback = document.getElementById("cancelFeedback");
+  const closeBug = document.getElementById("closeBug");
+  const cancelBug = document.getElementById("cancelBug");
+
+  const feedbackForm = document.getElementById("feedbackForm");
+  const bugForm = document.getElementById("bugForm");
+  const feedbackPhone = document.getElementById("feedbackPhone");
+  const feedbackEmail = document.getElementById("feedbackEmail");
+
+  const bot = document.getElementById("bot-container");
+  const closeBot = document.getElementById("closeBot");
 
   const closeAll = () => {
     sidebar?.classList.remove("active");
@@ -30,6 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!videoModal || !youtubePlayer) return;
     videoModal.classList.remove("active");
     youtubePlayer.src = "";
+  };
+
+  const openDialog = (dialog) => {
+    if (dialog?.showModal) dialog.showModal();
+    else dialog?.setAttribute("open", "");
+  };
+
+  const closeDialog = (dialog) => {
+    dialog?.close?.();
+    dialog?.removeAttribute?.("open");
   };
 
   setTimeout(() => {
@@ -54,6 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
   overlay?.addEventListener("click", () => {
     closeAll();
     closeVideo();
+    closeDialog(feedbackDialog);
+    closeDialog(bugDialog);
+    bot?.classList.add("bot-hidden");
   });
 
   searchBtn?.addEventListener("click", () => {
@@ -83,17 +117,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape") {
       closeAll();
       closeVideo();
+      closeDialog(feedbackDialog);
+      closeDialog(bugDialog);
+      bot?.classList.add("bot-hidden");
     }
   });
 
-  // --- Theme Controller (அனைத்து பக்கங்களுக்கும் வேலை செய்யும்) ---
   const applyTheme = (theme) => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    
+    if (theme === "dark") document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+
     if (themeBtn) {
       themeBtn.innerHTML = theme === "dark"
         ? '<i class="fas fa-sun"></i>'
@@ -101,7 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // பக்கத்தின் தொடக்கத்தில் சேமிக்கப்பட்ட தீமை எடுப்பது
   applyTheme(localStorage.getItem("theme") || "light");
 
   themeBtn?.addEventListener("click", () => {
@@ -110,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", next);
     applyTheme(next);
   });
-  // -------------------------------------------------------------
 
   let currentSlide = 0;
   if (slides.length > 1) {
@@ -156,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.querySelector(".close-btn")?.addEventListener("click", closeVideo);
+  closeVideoBtn?.addEventListener("click", closeVideo);
 
   videoModal?.addEventListener("click", (e) => {
     if (e.target === videoModal) closeVideo();
@@ -169,45 +200,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 768) closeAll();
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const feedbackBtn = document.getElementById("feedbackBtn");
-  const reportBugBtn = document.getElementById("reportBugBtn");
-  const assistantBtn = document.getElementById("assistantBtn");
-
-  const feedbackDialog = document.getElementById("feedbackDialog");
-  const bugDialog = document.getElementById("bugDialog");
-
-  const closeFeedback = document.getElementById("closeFeedback");
-  const cancelFeedback = document.getElementById("cancelFeedback");
-  const closeBug = document.getElementById("closeBug");
-  const cancelBug = document.getElementById("cancelBug");
-
-  const feedbackForm = document.getElementById("feedbackForm");
-  const bugForm = document.getElementById("bugForm");
-
-  const feedbackPhone = document.getElementById("feedbackPhone");
-  const feedbackEmail = document.getElementById("feedbackEmail");
-
-  function openDialog(dialog) {
-    if (dialog?.showModal) dialog.showModal();
-    else dialog?.setAttribute("open", "");
-  }
-
-  function closeDialog(dialog) {
-    dialog?.close?.();
-    dialog?.removeAttribute?.("open");
-  }
-
   feedbackBtn?.addEventListener("click", () => openDialog(feedbackDialog));
   reportBugBtn?.addEventListener("click", () => openDialog(bugDialog));
 
   assistantBtn?.addEventListener("click", () => {
-    document.querySelector("df-messenger")?.setAttribute("expanded", "");
+    bot?.classList.remove("bot-hidden");
+  });
+
+  closeBot?.addEventListener("click", () => {
+    bot?.classList.add("bot-hidden");
   });
 
   closeFeedback?.addEventListener("click", () => closeDialog(feedbackDialog));
@@ -223,9 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === bugDialog) closeDialog(bugDialog);
   });
 
-  function atLeastOneContact() {
-    return feedbackPhone.value.trim() || feedbackEmail.value.trim();
-  }
+  const atLeastOneContact = () => feedbackPhone?.value.trim() || feedbackEmail?.value.trim();
 
   feedbackForm?.addEventListener("submit", (e) => {
     if (!atLeastOneContact()) {
@@ -248,20 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Bug report sent successfully");
     }, 300);
   });
-});
 
-// chat bot //
-document.addEventListener("DOMContentLoaded", () => {
-  const bot = document.getElementById("bot-container");
-  const closeBtn = document.getElementById("closeBot");
-  const openChatMenu = document.getElementById("openChatMenu");
-
-  openChatMenu?.addEventListener("click", () => {
-    bot.classList.remove("bot-hidden");
-    bot.style.display = "block";
-  });
-
-  closeBtn?.addEventListener("click", () => {
-    bot.classList.add("bot-hidden");
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) closeAll();
   });
 });
