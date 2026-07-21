@@ -173,3 +173,79 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.innerWidth > 768) closeAll();
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const feedbackBtn = document.getElementById("feedbackBtn");
+  const reportBugBtn = document.getElementById("reportBugBtn");
+  const assistantBtn = document.getElementById("assistantBtn");
+
+  const feedbackDialog = document.getElementById("feedbackDialog");
+  const bugDialog = document.getElementById("bugDialog");
+
+  const closeFeedback = document.getElementById("closeFeedback");
+  const cancelFeedback = document.getElementById("cancelFeedback");
+  const closeBug = document.getElementById("closeBug");
+  const cancelBug = document.getElementById("cancelBug");
+
+  const feedbackForm = document.getElementById("feedbackForm");
+  const bugForm = document.getElementById("bugForm");
+
+  const feedbackPhone = document.getElementById("feedbackPhone");
+  const feedbackEmail = document.getElementById("feedbackEmail");
+
+  function openDialog(dialog) {
+    if (dialog?.showModal) dialog.showModal();
+    else dialog?.setAttribute("open", "");
+  }
+
+  function closeDialog(dialog) {
+    dialog?.close?.();
+    dialog?.removeAttribute?.("open");
+  }
+
+  feedbackBtn?.addEventListener("click", () => openDialog(feedbackDialog));
+  reportBugBtn?.addEventListener("click", () => openDialog(bugDialog));
+
+  assistantBtn?.addEventListener("click", () => {
+    document.querySelector("df-messenger")?.setAttribute("expanded", "");
+  });
+
+  closeFeedback?.addEventListener("click", () => closeDialog(feedbackDialog));
+  cancelFeedback?.addEventListener("click", () => closeDialog(feedbackDialog));
+  closeBug?.addEventListener("click", () => closeDialog(bugDialog));
+  cancelBug?.addEventListener("click", () => closeDialog(bugDialog));
+
+  feedbackDialog?.addEventListener("click", (e) => {
+    if (e.target === feedbackDialog) closeDialog(feedbackDialog);
+  });
+
+  bugDialog?.addEventListener("click", (e) => {
+    if (e.target === bugDialog) closeDialog(bugDialog);
+  });
+
+  function atLeastOneContact() {
+    return feedbackPhone.value.trim() || feedbackEmail.value.trim();
+  }
+
+  feedbackForm?.addEventListener("submit", (e) => {
+    if (!atLeastOneContact()) {
+      e.preventDefault();
+      alert("Please enter either contact number or email");
+      return;
+    }
+
+    setTimeout(() => {
+      feedbackForm.reset();
+      closeDialog(feedbackDialog);
+      alert("Feedback sent successfully");
+    }, 300);
+  });
+
+  bugForm?.addEventListener("submit", (e) => {
+    setTimeout(() => {
+      bugForm.reset();
+      closeDialog(bugDialog);
+      alert("Bug report sent successfully");
+    }, 300);
+  });
+});
