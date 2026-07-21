@@ -404,5 +404,53 @@ if ("serviceWorker" in navigator) {
   </form>
 </dialog>
 
+  <!-- Chatbot Initialization -->
+<div id="bot-container" class="draggable-bot">
+  <div class="bot-header">
+    <button id="closeBot" class="close-bot-btn">&times;</button>
+  </div>
+
+  <!------bot----->
+  <div align="center" class="container">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      intent="welcome"
+      chat-title="Kavin Assistant"
+      agent-id="5b378a03-accb-407c-8e12-e15b8602d3cd"
+      language-code="en"
+      chat-icon="images/bot.png"
+      chat-icon-size="80px">
+      <style>
+        df-messenger {
+          --df-messenger-bot-message: #fff;
+          --df-messenger-button-titlebar-color: #0036C;
+          --df-messenger-chat-background-color: #A9A9A9;
+          --df-messenger-font-color: #000;
+          --df-messenger-send-icon: #00adff;
+          --df-messenger-user-message: #9FE2BF;
+          --df-messenger-chip-border-color: #008000;
+          --df-messenger-chat-icon-size: 140px;
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          z-index: 9999;
+        }
+
+        @media screen and (max-width: 600px) {
+          df-messenger {
+            --df-messenger-chat-window-width: 80%;
+            --df-messenger-chat-window-height: 100%;
+          }
+        }
+
+        df-messenger::part(chat-window) {
+          height: 500px !important;
+          max-height: 80vh !important;
+        }
+      </style>
+    </df-messenger>
+  </div>
+  <!---End Bot---->
+</div>
 </body>
 </html>
