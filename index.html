@@ -404,14 +404,13 @@ if ("serviceWorker" in navigator) {
   </form>
 </dialog>
 
-  <!-- Chatbot Initialization -->
-<div id="bot-container" class="draggable-bot">
+<!-- Chatbot -->
+<div id="bot-container" class="draggable-bot bot-hidden">
   <div class="bot-header">
-    <button id="closeBot" class="close-bot-btn">&times;</button>
+    <button id="closeBot" class="close-bot-btn" type="button">&times;</button>
   </div>
 
-  <!------bot----->
-  <div align="center" class="container">
+  <div class="container">
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <df-messenger
       intent="welcome"
@@ -423,7 +422,7 @@ if ("serviceWorker" in navigator) {
       <style>
         df-messenger {
           --df-messenger-bot-message: #fff;
-          --df-messenger-button-titlebar-color: #0036C;
+          --df-messenger-button-titlebar-color: #0036CC;
           --df-messenger-chat-background-color: #A9A9A9;
           --df-messenger-font-color: #000;
           --df-messenger-send-icon: #00adff;
@@ -436,13 +435,6 @@ if ("serviceWorker" in navigator) {
           z-index: 9999;
         }
 
-        @media screen and (max-width: 600px) {
-          df-messenger {
-            --df-messenger-chat-window-width: 80%;
-            --df-messenger-chat-window-height: 100%;
-          }
-        }
-
         df-messenger::part(chat-window) {
           height: 500px !important;
           max-height: 80vh !important;
@@ -450,6 +442,7 @@ if ("serviceWorker" in navigator) {
       </style>
     </df-messenger>
   </div>
+</div>
   <!---End Bot---->
 </div>
 </body>
