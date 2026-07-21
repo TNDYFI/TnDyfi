@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Videos</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/video.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <div class="top-title">
+      <h1>Videos</h1>
+      <p>Advanced player with controls</p>
+    </div>
+    <button class="mini-btn" id="zoomBtn" type="button" title="Zoom"><i class="fas fa-expand"></i></button>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="pill">Video Gallery</span>
+      <h2>Watch campaign and event videos</h2>
+      <p>Landscape player, speed, volume, mute, fullscreen, and zoom controls.</p>
+    </div>
+  </section>
+
+  <section class="player-wrap">
+    <div class="player-card" id="playerCard">
+      <video id="mainVideo" class="main-video" controls playsinline preload="metadata"></video>
+
+      <div class="video-info">
+        <h3 id="videoTitle">Video Title</h3>
+        <p id="videoDesc">Description</p>
+      </div>
+
+      <div class="control-panel">
+        <input id="seekBar" type="range" min="0" max="100" value="0">
+        <div class="control-row">
+          <button id="prevBtn" class="ctrl-btn" type="button"><i class="fas fa-backward"></i></button>
+          <button id="playBtn" class="ctrl-btn" type="button"><i class="fas fa-play"></i></button>
+          <button id="nextBtn" class="ctrl-btn" type="button"><i class="fas fa-forward"></i></button>
+
+          <button id="muteBtn" class="ctrl-btn" type="button"><i class="fas fa-volume-high"></i></button>
+          <input id="volumeBar" type="range" min="0" max="1" step="0.01" value="0.8" class="vol-bar">
+
+          <select id="speedSelect" class="speed-select">
+            <option value="0.5">0.5x</option>
+            <option value="0.75">0.75x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+          </select>
+
+          <button id="fsBtn" class="ctrl-btn" type="button"><i class="fas fa-expand"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-section">
+    <div class="section-head">
+      <h3>Video List</h3>
+      <span>Tap any video</span>
+    </div>
+    <div id="videoGrid" class="video-grid"></div>
+  </section>
+
+  <dialog id="videoDialog" class="video-dialog">
+    <div class="dialog-head">
+      <div>
+        <span class="dialog-tag" id="dlgType">Video</span>
+        <h3 id="dlgTitle">Title</h3>
+        <p id="dlgMeta">Meta</p>
+      </div>
+      <button class="close-btn" id="closeDialog" type="button"><i class="fas fa-times"></i></button>
+    </div>
+    <video id="dialogVideo" class="dialog-video" controls playsinline></video>
+    <p id="dlgDescription" class="dlg-desc"></p>
+  </dialog>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/video.js"></script>
+</body>
+</html>
