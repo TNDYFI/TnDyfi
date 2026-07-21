@@ -58,6 +58,24 @@
     <li><a href="district.html" class="nav-link"><i class="fas fa-map-location-dot"></i><span>Districts</span></a></li>
     <li><a href="contact.html" class="nav-link"><i class="fas fa-phone"></i><span>Contact</span></a></li>
     <li><a href="about.html" class="nav-link"><i class="fas fa-circle-info"></i><span>About</span></a></li>
+    <!-------sidebar----footer------>
+    <div class="sidebar-footer">
+   <button type="button" class="side-link feedback-btn" id="feedbackBtn">
+    <i class="fas fa-comment-dots"></i>
+    <span>Feedback</span>
+   </button>
+
+   <button type="button" class="side-link report-btn" id="reportBugBtn">
+    <i class="fas fa-bug"></i>
+    <span>Report</span>
+   </button>
+
+   <button type="button" class="side-link assistant-btn" id="assistantBtn">
+    <i class="fas fa-robot"></i>
+    <span>AI Assistant</span>
+   </button>
+   </div>
+    
   </ul>
 </aside>
 
@@ -288,7 +306,103 @@ if ("serviceWorker" in navigator) {
     });
 }
     </script>
-    
+<dialog id="feedbackDialog" class="modal-box">
+  <div class="modal-head">
+    <div>
+      <h3>Feedback</h3>
+      <p>Send your feedback to our team</p>
+    </div>
+    <button type="button" class="close-btn" id="closeFeedback"><i class="fas fa-times"></i></button>
+  </div>
+
+  <form id="feedbackForm" action="https://api.web3forms.com/submit" method="POST" class="modal-form">
+    <input type="hidden" name="access_key" value="5e51a205-46d1-4db6-916f-0703efb327">
+    <input type="hidden" name="subject" value="DYFI Feedback">
+    <input type="hidden" name="from_name" value="DYFI Website">
+
+    <div class="field-grid">
+      <div class="field">
+        <label>Name *</label>
+        <input type="text" name="name" id="feedbackName" placeholder="Enter your name" required>
+      </div>
+
+      <div class="field">
+        <label>State *</label>
+        <select name="state" id="feedbackState" required>
+          <option value="">Choose state</option>
+          <option>Tamil Nadu</option>
+          <option>Pondicherry</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>District *</label>
+        <input type="text" name="district" id="feedbackDistrict" placeholder="Enter your district" required>
+      </div>
+
+      <div class="field">
+        <label>Contact Number</label>
+        <input type="tel" name="phone" id="feedbackPhone" placeholder="Enter contact number">
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" id="feedbackEmail" placeholder="Enter email address">
+      </div>
+
+      <div class="field">
+        <label>Subject *</label>
+        <input type="text" name="subject" id="feedbackSubject" placeholder="Write subject" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Message *</label>
+      <textarea name="message" id="feedbackMessage" rows="5" placeholder="Write your feedback..." required></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="cancel-btn" id="cancelFeedback">Cancel</button>
+      <button type="submit" class="send-btn">Send Feedback</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="bugDialog" class="modal-box">
+  <div class="modal-head">
+    <div>
+      <h3>Report Bug</h3>
+      <p>Tell us what went wrong</p>
+    </div>
+    <button type="button" class="close-btn" id="closeBug"><i class="fas fa-times"></i></button>
+  </div>
+
+  <form id="bugForm" action="https://api.web3forms.com/submit" method="POST" class="modal-form">
+    <input type="hidden" name="access_key" value="5e51a205-46d1-4db6-916f-0703efb327">
+    <input type="hidden" name="subject" value="DYFI Bug Report">
+    <input type="hidden" name="from_name" value="DYFI Website">
+
+    <div class="field">
+      <label>Name *</label>
+      <input type="text" name="name" id="bugName" placeholder="Enter your name" required>
+    </div>
+
+    <div class="field">
+      <label>Details *</label>
+      <input type="text" name="details" id="bugDetails" placeholder="Example: Menu not opening" required>
+    </div>
+
+    <div class="field">
+      <label>Message *</label>
+      <textarea name="message" id="bugMessage" rows="5" placeholder="Describe the bug in detail..." required></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="cancel-btn" id="cancelBug">Cancel</button>
+      <button type="submit" class="send-btn">Send Bug Report</button>
+    </div>
+  </form>
+</dialog>
 
 </body>
 </html>
