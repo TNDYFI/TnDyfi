@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Youth Connect Tamil Nadu</title>
+  <title>Youth Connect Tamil Nadu | DYFI</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -19,6 +19,10 @@
     <h1 class="dyfi-title">DYFI <span>தமிழ்நாடு மாநிலக் குழு</span></h1>
     <p class="dyfi-subtitle">அனைவருக்கும் | கல்வி | அனைவருக்கும் | வேலை</p>
   </div>
+</div>
+
+<div id="swipeIndicator" class="swipe-indicator">
+  <div class="spinner"></div>
 </div>
 
 <div class="moving-bg"></div>
@@ -41,8 +45,16 @@
 </header>
 
 <aside id="sidebar">
+  <div class="sidebar-header">
+    <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
   <div class="profile">
-    <img src="assets/red.png" alt="Profile">
+    <div class="profile-img-wrapper">
+      <img src="assets/red.png" alt="Profile">
+    </div>
     <h2>DYFI</h2>
     <p>Tamil Nadu</p>
   </div>
@@ -58,12 +70,6 @@
   <li><a href="district.html" class="nav-link"><i class="fas fa-map-location-dot"></i><span>Districts</span></a></li>
   <li><a href="contact.html" class="nav-link"><i class="fas fa-phone"></i><span>Contact</span></a></li>
   <li><a href="about.html" class="nav-link"><i class="fas fa-circle-info"></i><span>About</span></a></li>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
   <li class="sticky-tools">
     <button type="button" class="nav-link tool-btn feedback-btn" id="feedbackBtn">
       <i class="fas fa-comment-dots"></i><span>Feedback</span>
@@ -100,18 +106,23 @@
 </section>
 
 <section class="breaking">
-  <span>LIVE</span>
-  <marquee>Welcome to Youth Connect Tamil Nadu Web Application</marquee>
+  <span class="live-badge">LIVE</span>
+  <div class="marquee-wrapper">
+    <marquee>Welcome to Youth Connect Tamil Nadu Web Application</marquee>
+  </div>
 </section>
 
 <section class="search-area">
-  <input type="text" id="searchInput" placeholder="Search news, events, campaigns...">
+  <div class="search-wrapper">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search news, events, campaigns...">
+  </div>
 </section>
 
 <section class="section">
   <div class="section-title">
     <h2>Latest News</h2>
-    <a href="news.html">View All</a>
+    <a href="news.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
   </div>
   <div id="newsContainer" class="card-grid">
     <div class="news-card">
@@ -140,7 +151,7 @@
 <section class="section">
   <div class="section-title">
     <h2>Upcoming Events</h2>
-    <a href="events.html">View All</a>
+    <a href="events.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
   </div>
   <div id="eventsContainer" class="card-grid">
     <div class="event-card">
@@ -157,7 +168,7 @@
 <section class="section">
   <div class="section-title">
     <h2>Campaigns</h2>
-    <a href="campaigns.html">View All</a>
+    <a href="campaigns.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
   </div>
   <div class="campaign-slider">
     <div class="campaign-card"><i class="fa-solid fa-tree"></i><h3>Green Tamil Nadu</h3><p>Join tree plantation campaign.</p></div>
@@ -169,7 +180,7 @@
 <section class="section">
   <div class="section-title">
     <h2>Gallery</h2>
-    <a href="gallery.html">View All</a>
+    <a href="gallery.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
   </div>
   <div class="gallery-grid">
     <img src="assets/gallery1.jpg" alt="G1"><img src="assets/gallery2.jpg" alt="G2"><img src="assets/gallery3.jpg" alt="G3">
@@ -180,7 +191,7 @@
 <section class="section">
   <div class="section-title">
     <h2>Videos</h2>
-    <a href="videos.html">View All</a>
+    <a href="videos.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
   </div>
   <div class="video-list">
     <div class="video-card" data-video-id="CiaoaOPV16w"><img src="assets/video1.jpg" alt="V1"><div class="play-btn"><i class="fas fa-play"></i></div><p>Youth Awareness Program</p></div>
@@ -198,7 +209,7 @@
 <section class="join-banner">
   <h2>Become a Volunteer</h2>
   <p>Join our youth movement and participate in social activities.</p>
-  <a href="Members/index.html" class="join-btn">Register Now</a>
+  <a href="Members/index.html" class="join-btn">Register Now <i class="fas fa-arrow-right"></i></a>
 </section>
 
 <nav class="bottom-nav">
@@ -213,7 +224,10 @@
 
 <div id="searchPopup" class="popup">
   <div class="popup-content">
-    <input type="text" placeholder="Search anything..." id="globalSearch">
+    <div class="search-popup-wrapper">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search anything..." id="globalSearch">
+    </div>
     <button id="closeSearch" class="popup-close"><i class="fas fa-times"></i></button>
   </div>
 </div>
