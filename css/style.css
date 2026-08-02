@@ -154,6 +154,7 @@ html.dark #loader{ background:#0e1117; }
 .menu-btn.active span:nth-child(3){ transform:rotate(-45deg) translate(5px,-5px); background:var(--primary); }
 
 /* ========== PREMIUM REDESIGNED SIDEBAR ========== */
+/* ========== PREMIUM REDESIGNED SIDEBAR ========== */
 #sidebar{
   position:fixed;
   top:0;
@@ -169,7 +170,7 @@ html.dark #loader{ background:#0e1117; }
   display:flex;
   flex-direction:column;
   border-right:1px solid var(--border);
-  border-radius:0 24px 24px 0;
+  border-radius:0; /* ✅ Removed rounded corners */
 }
 #sidebar.active{ left:0; }
 
@@ -205,6 +206,19 @@ html.dark #loader{ background:#0e1117; }
   font-size:16px;
   color:#fff;
   text-shadow:0 1px 3px rgba(0,0,0,.4);
+}
+
+/* ========== PROFILE SECTION - COMPACT ========== */
+.profile{
+  padding:48px 20px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,#ff1744,#d50000);
+  color:#fff;
+  flex:0 0 auto;
+  position:relative;
+  overflow:hidden;
+  border-radius:0 0 24px 24px; /* ✅ Only bottom rounded */
+  margin-bottom:8px;
 }
 
 /* ========== PROFILE SECTION - COMPACT ========== */
