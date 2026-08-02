@@ -154,12 +154,11 @@ html.dark #loader{ background:#0e1117; }
 .menu-btn.active span:nth-child(3){ transform:rotate(-45deg) translate(5px,-5px); background:var(--primary); }
 
 /* ========== PREMIUM REDESIGNED SIDEBAR ========== */
-/* ========== PREMIUM REDESIGNED SIDEBAR ========== */
 #sidebar{
   position:fixed;
   top:0;
-  left:-280px;
-  width:280px;
+  left:-300px;
+  width:300px;
   height:100dvh;
   background:var(--card);
   box-shadow:20px 0 50px rgba(0,0,0,.18);
@@ -170,7 +169,7 @@ html.dark #loader{ background:#0e1117; }
   display:flex;
   flex-direction:column;
   border-right:1px solid var(--border);
-  border-radius:0; /* ✅ Removed rounded corners */
+  border-radius:3; /* ✅ Removed rounded corners */
 }
 #sidebar.active{ left:0; }
 
