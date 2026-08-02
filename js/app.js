@@ -41,6 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
 
+  // ✅ Debug check
+  if (!loader) {
+    console.error("❌ Loader element not found!");
+  }
+
   const closeAll = () => {
     sidebar?.classList.remove("active");
     searchPopup?.classList.remove("active");
@@ -65,13 +70,27 @@ document.addEventListener("DOMContentLoaded", () => {
     dialog?.removeAttribute?.("open");
   };
 
+  // ✅ FIXED: Hide loader when page is fully loaded
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      if (loader) {
+        loader.style.opacity = "0";
+        loader.style.visibility = "hidden";
+        loader.style.pointerEvents = "none";
+        console.log("✅ Loader hidden successfully");
+      }
+    }, 500);
+  });
+
+  // Fallback: Force hide after 3 seconds
   setTimeout(() => {
-    if (loader) {
+    if (loader && loader.style.visibility !== "hidden") {
       loader.style.opacity = "0";
       loader.style.visibility = "hidden";
       loader.style.pointerEvents = "none";
+      console.log("⚠️ Loader hidden by fallback");
     }
-  }, 1200);
+  }, 3000);
 
   menuBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -322,77 +341,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("touchstart", handleTouchStart, { passive: true });
   document.addEventListener("touchmove", handleTouchMove, { passive: false });
   document.addEventListener("touchend", handleTouchEnd, { passive: true });
-});
-  // ========== Sidebar Close Button ==========
-  sidebarCloseBtn?.addEventListener("click", () => {
-    closeAll();
-  });
 
-  // ========== Swipe to Refresh Logic ==========
-  const swipeIndicator = document.getElementById("swipeIndicator");
-  let touchStartY = 0;
-  let touchCurrentY = 0;
-  let isSwiping = false;
-  let swipeRefreshEnabled = true;
-
-  const enableSwipeRefresh = () => { swipeRefreshEnabled = true; };
-  const disableSwipeRefresh = () => { swipeRefreshEnabled = false; };
-
-  const handleTouchStart = (e) => {
-    if (!swipeRefreshEnabled) return;
-    if (sidebar?.classList.contains("active")) {
-      disableSwipeRefresh();
-      return;
-    }
-    if (window.scrollY === 0) {
-      touchStartY = e.touches[0].clientY;
-      isSwiping = false;
-    }
-  };
-
-  const handleTouchMove = (e) => {
-    if (!swipeRefreshEnabled || !sidebar || !overlay) return;
-    if (sidebar.classList.contains("active")) {
-      disableSwipeRefresh();
-      return;
-    }
-    if (window.scrollY > 0) return;
-
-    touchCurrentY = e.touches[0].clientY;
-    const diff = touchCurrentY - touchStartY;
-
-    if (diff > 10 && !isSwiping) {
-      isSwiping = true;
-      swipeIndicator?.classList.add("active");
-    }
-
-    if (isSwiping) {
-      e.preventDefault();
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (!swipeRefreshEnabled) return;
-    if (isSwiping) {
-      performRefresh();
-    }
-    isSwiping = false;
-    swipeIndicator?.classList.remove("active");
-  };
-
-  const performRefresh = async () => {
-    if (swipeIndicator) {
-      swipeIndicator.classList.add("active");
-    }
-    await new Promise(r => setTimeout(r, 600));
-    window.location.reload();
-  };
-
-  document.addEventListener("touchstart", handleTouchStart, { passive: true });
-  document.addEventListener("touchmove", handleTouchMove, { passive: false });
-  document.addEventListener("touchend", handleTouchEnd, { passive: true });
-
-  // ✅✅✅ NEW: Android WebView Scroll Signal (ADD THIS AT END) ✅✅✅
+  // ✅✅✅ Android WebView Scroll Signal ✅✅✅
   if (window.AndroidHandler) {
     let scrollTimeout;
     
