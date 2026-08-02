@@ -323,3 +323,89 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("touchmove", handleTouchMove, { passive: false });
   document.addEventListener("touchend", handleTouchEnd, { passive: true });
 });
+  // ========== Sidebar Close Button ==========
+  sidebarCloseBtn?.addEventListener("click", () => {
+    closeAll();
+  });
+
+  // ========== Swipe to Refresh Logic ==========
+  const swipeIndicator = document.getElementById("swipeIndicator");
+  let touchStartY = 0;
+  let touchCurrentY = 0;
+  let isSwiping = false;
+  let swipeRefreshEnabled = true;
+
+  const enableSwipeRefresh = () => { swipeRefreshEnabled = true; };
+  const disableSwipeRefresh = () => { swipeRefreshEnabled = false; };
+
+  const handleTouchStart = (e) => {
+    if (!swipeRefreshEnabled) return;
+    if (sidebar?.classList.contains("active")) {
+      disableSwipeRefresh();
+      return;
+    }
+    if (window.scrollY === 0) {
+      touchStartY = e.touches[0].clientY;
+      isSwiping = false;
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!swipeRefreshEnabled || !sidebar || !overlay) return;
+    if (sidebar.classList.contains("active")) {
+      disableSwipeRefresh();
+      return;
+    }
+    if (window.scrollY > 0) return;
+
+    touchCurrentY = e.touches[0].clientY;
+    const diff = touchCurrentY - touchStartY;
+
+    if (diff > 10 && !isSwiping) {
+      isSwiping = true;
+      swipeIndicator?.classList.add("active");
+    }
+
+    if (isSwiping) {
+      e.preventDefault();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!swipeRefreshEnabled) return;
+    if (isSwiping) {
+      performRefresh();
+    }
+    isSwiping = false;
+    swipeIndicator?.classList.remove("active");
+  };
+
+  const performRefresh = async () => {
+    if (swipeIndicator) {
+      swipeIndicator.classList.add("active");
+    }
+    await new Promise(r => setTimeout(r, 600));
+    window.location.reload();
+  };
+
+  document.addEventListener("touchstart", handleTouchStart, { passive: true });
+  document.addEventListener("touchmove", handleTouchMove, { passive: false });
+  document.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+  // ✅✅✅ NEW: Android WebView Scroll Signal (ADD THIS AT END) ✅✅✅
+  if (window.AndroidHandler) {
+    let scrollTimeout;
+    
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      
+      // Scrolling started - disable swipe refresh
+      window.AndroidHandler.onScrollStart();
+      
+      // Scrolling stopped - re-enable after 200ms
+      scrollTimeout = setTimeout(() => {
+        window.AndroidHandler.onScrollEnd();
+      }, 200);
+    });
+  }
+});
