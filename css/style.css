@@ -157,8 +157,8 @@ html.dark #loader{ background:#0e1117; }
 #sidebar{
   position:fixed;
   top:0;
-  left:-300px;
-  width:300px;
+  left:-350px;
+  width:350px;
   height:100dvh;
   background:var(--card);
   box-shadow:20px 0 50px rgba(0,0,0,.18);
