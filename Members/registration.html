@@ -7,14 +7,13 @@
   
   <!-- Preload Theme Script (No Flash) -->
   <script>
-    (function() {
-      const saved = localStorage.getItem('theme');
-      const system = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.setAttribute('data-theme', saved || (system ? 'dark' : 'light'));
-    })();
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
   </script>
-  
-  <link rel="stylesheet" href="./registration.css">
+    
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="registration.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <meta name="theme-color" content="#0a0a0a">
@@ -32,13 +31,6 @@
       <h1>Registration</h1>
       <span class="subtitle">Join DYFI Tamil Nadu</span>
     </div>
-  </div>
-  <div class="header-right">
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode" title="Toggle Theme">
-      <span class="toggle-icon sun"><i class="fas fa-sun"></i></span>
-      <span class="toggle-icon moon"><i class="fas fa-moon"></i></span>
-      <span class="toggle-track"></span>
-    </button>
   </div>
 </header>
 
@@ -211,7 +203,8 @@
 </div>
 
 <!-- Scripts -->
+<script src="js/app.js"></script>
 <script src="firebase-config.js"></script>
-<script type="module"  src="./registration.js"></script>
+<script type="module"  src="registration.js"></script>
 </body>
 </html>
