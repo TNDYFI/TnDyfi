@@ -1,14 +1,17 @@
-// Import Firebase SDK
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+// ============================================
+// FIREBASE CONFIGURATION
+// ============================================
 
-// Firebase configuration
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
+
+// Replace with your Firebase config
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
   projectId: "YOUR_PROJECT_ID",
   storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
   appId: "YOUR_APP_ID"
 };
 
@@ -17,4 +20,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Export for use in other files
-export { db, collection, addDoc, getDocs, query, where };
+window.db = {
+  db,
+  collection,
+  addDoc,
+  serverTimestamp
+};
+
+console.log('Firebase initialized successfully');
