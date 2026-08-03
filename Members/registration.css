@@ -21,7 +21,7 @@
   box-sizing: border-box;
 }
 
-body.dark-theme {
+body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Poppins', sans-serif;
@@ -41,21 +41,13 @@ body.dark-theme {
   z-index: 100;
 }
 
-.logo {
+.header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: var(--text-primary);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 24px;
+  gap: 16px;
 }
 
-.logo img {
-  height: 40px;
-}
-
-.icon-btn {
+.back-btn {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
@@ -67,11 +59,23 @@ body.dark-theme {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 18px;
 }
 
-.icon-btn:hover {
+.back-btn:hover {
   background: var(--accent-red);
   border-color: var(--accent-red);
+}
+
+.header-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header-title .subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
 /* Main Container */
