@@ -7,9 +7,10 @@
   
   <!-- Preload Theme Script (No Flash) -->
   <script>
-    if (localStorage.getItem("theme") === "dark") {
-      document.documentElement.classList.add("dark");
-    }
+    (function() {
+      const theme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
   </script>
     
   <link rel="stylesheet" href="css/style.css">
@@ -203,8 +204,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="js/app.js"></script>
 <script src="firebase-config.js"></script>
-<script type="module"  src="registration.js"></script>
+<script src="js/registration.js" type="module"></script>
 </body>
 </html>
