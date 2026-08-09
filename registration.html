@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ta" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Registration | DYFI Tamil Nadu</title>
+
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/registration.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <meta name="theme-color" content="#0a0a0a">
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="header-left">
+
+    <button class="back-btn"
+            id="backBtn"
+            type="button"
+            aria-label="Go Back">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <div class="header-title">
+      <h1>Registration</h1>
+      <span class="subtitle">DYFI Tamil Nadu</span>
+    </div>
+
+  </div>
+</header>
+
+
+<main class="register-container">
+
+  <section class="page-header">
+
+    <div class="header-icon-wrapper">
+      <div class="header-icon">
+        <i class="fas fa-id-card"></i>
+      </div>
+      <div class="icon-glow"></div>
+    </div>
+
+    <span class="eyebrow">
+      <i class="fas fa-shield-halved"></i>
+      Digital Registration
+    </span>
+
+    <h1>Choose Registration Type</h1>
+
+    <p>
+      உங்கள் தேவைக்கேற்ற registration type-ஐ தேர்வு செய்து
+      முழுமையான விவரங்களை பதிவு செய்யுங்கள்.
+    </p>
+
+  </section>
+
+
+  <section class="registration-grid">
+
+    <!-- MEMBER -->
+
+    <article class="register-card member-card">
+
+      <div class="card-image">
+
+        <div class="floating-orb orb-one"></div>
+        <div class="floating-orb orb-two"></div>
+
+        <div class="card-icon">
+          <i class="fas fa-user-plus"></i>
+        </div>
+
+      </div>
+
+      <div class="card-content">
+
+        <span class="card-tag">
+          <i class="fas fa-star"></i>
+          Member
+        </span>
+
+        <h3>Member Registration</h3>
+
+        <p>
+          உறுப்பினரின் தனிப்பட்ட மற்றும் அமைப்பு சார்ந்த
+          முழு விவரங்களையும் பதிவு செய்யலாம்.
+        </p>
+
+        <button
+          class="register-btn"
+          type="button"
+          data-open="member">
+
+          <span>Start Registration</span>
+          <i class="fas fa-arrow-right"></i>
+
+        </button>
+
+      </div>
+
+    </article>
+
+
+    <!-- BRANCH -->
+
+    <article class="register-card branch-card">
+
+      <div class="card-image">
+
+        <div class="floating-orb orb-one"></div>
+        <div class="floating-orb orb-two"></div>
+
+        <div class="card-icon">
+          <i class="fas fa-users-gear"></i>
+        </div>
+
+      </div>
+
+      <div class="card-content">
+
+        <span class="card-tag">
+          <i class="fas fa-building"></i>
+          Organization
+        </span>
+
+        <h3>Branch Registration</h3>
+
+        <p>
+          கிளையின் முழு விவரங்கள், உறுப்பினர் எண்ணிக்கை,
+          தலைவர் மற்றும் செயலாளர் விவரங்களை பதிவு செய்யலாம்.
+        </p>
+
+        <button
+          class="register-btn"
+          type="button"
+          data-open="branch">
+
+          <span>Register Branch</span>
+          <i class="fas fa-arrow-right"></i>
+
+        </button>
+
+      </div>
+
+    </article>
+
+  </section>
+
+</main>
+
+
+<!-- =====================================================
+     REGISTRATION MODAL
+===================================================== -->
+
+<div id="registrationModal"
+     class="modal-fullscreen"
+     aria-hidden="true">
+
+  <div class="modal-content-full">
+
+    <div class="modal-top">
+
+      <div class="modal-heading">
+
+        <div class="modal-icon">
+          <i id="modalIcon" class="fas fa-id-card"></i>
+        </div>
+
+        <div>
+          <span id="modalTypeBadge" class="modal-badge">
+            REGISTRATION
+          </span>
+
+          <h2 id="modalTitle">
+            Registration
+          </h2>
+
+          <p id="modalSubtitle">
+            Complete the details below
+          </p>
+        </div>
+
+      </div>
+
+      <button
+        class="modal-close"
+        id="closeModalBtn"
+        type="button">
+
+        <i class="fas fa-times"></i>
+
+      </button>
+
+    </div>
+
+
+    <!-- Progress -->
+
+    <div class="progress-area">
+
+      <div class="progress-top">
+
+        <span id="progressLabel">
+          Step 1 of 4
+        </span>
+
+        <span id="progressPercent">
+          25%
+        </span>
+
+      </div>
+
+      <div class="progress-track">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+    </div>
+
+
+    <form id="registrationForm" novalidate>
+
+      <div id="formPages"></div>
+
+
+      <!-- ACTIONS -->
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          id="prevBtn"
+          class="btn-secondary">
+
+          <i class="fas fa-arrow-left"></i>
+          <span>Previous</span>
+
+        </button>
+
+        <button
+          type="button"
+          id="nextBtn"
+          class="btn-submit">
+
+          <span>Next</span>
+          <i class="fas fa-arrow-right"></i>
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUCCESS MODAL
+===================================================== -->
+
+<div id="successModal"
+     class="modal-success"
+     aria-hidden="true">
+
+  <div class="success-content">
+
+    <div class="success-animation">
+      <i class="fas fa-check"></i>
+    </div>
+
+    <span class="success-label">
+      SUBMITTED SUCCESSFULLY
+    </span>
+
+    <h2>Registration Completed</h2>
+
+    <p>
+      உங்கள் registration விவரங்கள் இந்த browser-ல்
+      பாதுகாப்பாக சேமிக்கப்பட்டுள்ளது.
+    </p>
+
+    <div class="registration-id-box">
+
+      <span>Registration ID</span>
+
+      <strong id="successRegistrationId">
+        DYFI-000000
+      </strong>
+
+      <button
+        type="button"
+        id="copyIdBtn">
+
+        <i class="fas fa-copy"></i>
+        Copy
+
+      </button>
+
+    </div>
+
+    <div class="success-actions">
+
+      <button
+        type="button"
+        id="viewRegistrationBtn"
+        class="success-outline">
+
+        <i class="fas fa-eye"></i>
+        View Details
+
+      </button>
+
+      <button
+        type="button"
+        id="successOkBtn"
+        class="success-primary">
+
+        <i class="fas fa-check"></i>
+        Done
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     DETAILS MODAL
+===================================================== -->
+
+<div id="detailsModal"
+     class="modal-success"
+     aria-hidden="true">
+
+  <div class="details-content">
+
+    <div class="details-header">
+
+      <div>
+        <span>REGISTRATION DETAILS</span>
+        <h2 id="detailsTitle">Registration</h2>
+      </div>
+
+      <button
+        type="button"
+        id="closeDetailsBtn">
+
+        <i class="fas fa-times"></i>
+
+      </button>
+
+    </div>
+
+    <div id="detailsBody" class="details-body"></div>
+
+    <button
+      type="button"
+      id="detailsDoneBtn"
+      class="success-primary full-btn">
+
+      <i class="fas fa-check"></i>
+      Close
+
+    </button>
+
+  </div>
+
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/registration.js"></script>
+
+</body>
+</html>
