@@ -1,39 +1,27 @@
 /* =========================================================
    REGISTRATION SYSTEM
-   Firebase இல்லாமல் LocalStorage version
-   Later Firebase connect செய்ய easy
+   LocalStorage Version
+   MEMBER SUBMIT FIXED
+   Branch logic preserved
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
   "use strict";
 
-
   /* =======================================================
      ELEMENTS
      ======================================================= */
 
-  const memberModal =
-    document.getElementById("memberModal");
+  const memberModal = document.getElementById("memberModal");
+  const branchModal = document.getElementById("branchModal");
+  const successModal = document.getElementById("successModal");
 
-  const branchModal =
-    document.getElementById("branchModal");
+  const memberForm = document.getElementById("memberForm");
+  const branchForm = document.getElementById("branchForm");
 
-  const successModal =
-    document.getElementById("successModal");
-
-  const memberForm =
-    document.getElementById("memberForm");
-
-  const branchForm =
-    document.getElementById("branchForm");
-
-  const toastContainer =
-    document.getElementById("toastContainer");
-
-  const themeToggle =
-    document.getElementById("themeToggle");
-
+  const toastContainer = document.getElementById("toastContainer");
+  const themeToggle = document.getElementById("themeToggle");
 
   /* =======================================================
      THEME
@@ -46,39 +34,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (themeToggle) {
 
-      const icon =
-        themeToggle.querySelector("i");
+      const icon = themeToggle.querySelector("i");
 
       if (icon) {
-
         icon.className =
           dark
             ? "fas fa-sun"
             : "fas fa-moon";
       }
-
     }
-
   }
 
-
   applyTheme();
-
 
   themeToggle?.addEventListener("click", () => {
 
     const dark =
       document.documentElement.classList.toggle("dark");
 
-    localStorage.setItem(
-      "theme",
-      dark ? "dark" : "light"
-    );
+    try {
+      localStorage.setItem(
+        "theme",
+        dark ? "dark" : "light"
+      );
+    } catch (error) {
+      console.warn("Theme storage unavailable:", error);
+    }
 
     applyTheme();
 
   });
-
 
   /* =======================================================
      MODAL OPEN
@@ -99,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
   /* =======================================================
      MODAL CLOSE
      ======================================================= */
@@ -115,18 +99,20 @@ document.addEventListener("DOMContentLoaded", () => {
       "true"
     );
 
-    if (
-      !memberModal.classList.contains("active") &&
-      !branchModal.classList.contains("active") &&
-      !successModal.classList.contains("active")
-    ) {
+    const memberOpen =
+      memberModal?.classList.contains("active");
 
+    const branchOpen =
+      branchModal?.classList.contains("active");
+
+    const successOpen =
+      successModal?.classList.contains("active");
+
+    if (!memberOpen && !branchOpen && !successOpen) {
       document.body.style.overflow = "";
-
     }
 
   }
-
 
   /* =======================================================
      OPTION BUTTONS
@@ -138,14 +124,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       button.addEventListener("click", () => {
 
-        const type =
-          button.dataset.open;
+        const type = button.dataset.open;
 
         if (type === "member") {
 
           resetMemberForm();
 
           openModal(memberModal);
+
+          /*
+             Canvas must be sized AFTER modal becomes visible.
+          */
+          setTimeout(() => {
+            setupSignatureCanvas();
+          }, 100);
 
         }
 
@@ -161,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
   /* =======================================================
      CLOSE BUTTONS
      ======================================================= */
@@ -172,8 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       button.addEventListener("click", () => {
 
-        const type =
-          button.dataset.close;
+        const type = button.dataset.close;
 
         if (type === "member") {
           closeModal(memberModal);
@@ -187,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
   /* =======================================================
      OUTSIDE CLICK
      ======================================================= */
@@ -197,15 +186,12 @@ document.addEventListener("DOMContentLoaded", () => {
     modal?.addEventListener("click", event => {
 
       if (event.target === modal) {
-
         closeModal(modal);
-
       }
 
     });
 
   });
-
 
   /* =======================================================
      ESCAPE
@@ -215,20 +201,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (event.key !== "Escape") return;
 
-    if (memberModal.classList.contains("active")) {
-
+    if (memberModal?.classList.contains("active")) {
       closeModal(memberModal);
-
     }
 
-    if (branchModal.classList.contains("active")) {
-
+    if (branchModal?.classList.contains("active")) {
       closeModal(branchModal);
-
     }
 
   });
-
 
   /* =======================================================
      STEP SYSTEM
@@ -237,10 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let memberStep = 1;
   let branchStep = 1;
 
-
   const MEMBER_TOTAL_STEPS = 4;
   const BRANCH_TOTAL_STEPS = 2;
-
 
   function showMemberStep(step) {
 
@@ -264,18 +243,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
       });
 
-
     updateProgress(
       "member",
       memberStep,
       MEMBER_TOTAL_STEPS
     );
 
-
     scrollModalTop(memberModal);
 
-  }
+    /*
+      Important:
+      When signature step becomes visible,
+      resize canvas correctly.
+    */
+    if (memberStep === 4) {
 
+      setTimeout(() => {
+        setupSignatureCanvas();
+      }, 120);
+
+    }
+
+  }
 
   function showBranchStep(step) {
 
@@ -299,24 +288,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       });
 
-
     updateProgress(
       "branch",
       branchStep,
       BRANCH_TOTAL_STEPS
     );
 
-
     scrollModalTop(branchModal);
 
   }
 
-
-  function updateProgress(
-    type,
-    step,
-    total
-  ) {
+  function updateProgress(type, step, total) {
 
     const percent =
       Math.round(
@@ -338,28 +320,22 @@ document.addEventListener("DOMContentLoaded", () => {
         `${type}ProgressPercent`
       );
 
-
     if (bar) {
       bar.style.width =
         `${percent}%`;
     }
 
     if (text) {
-
       text.textContent =
         `Step ${step} of ${total}`;
-
     }
 
     if (percentText) {
-
       percentText.textContent =
         `${percent}%`;
-
     }
 
   }
-
 
   function scrollModalTop(modal) {
 
@@ -370,19 +346,22 @@ document.addEventListener("DOMContentLoaded", () => {
         ".registration-modal-box"
       );
 
-    box?.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    if (box) {
+      box.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
 
   }
-
 
   /* =======================================================
      VALIDATE CURRENT STEP
      ======================================================= */
 
   function validateStep(form, step) {
+
+    if (!form) return false;
 
     const current =
       form.querySelector(
@@ -396,14 +375,15 @@ document.addEventListener("DOMContentLoaded", () => {
         "input[required], select[required], textarea[required]"
       );
 
-
     for (const field of requiredFields) {
 
       if (!field.checkValidity()) {
 
         field.reportValidity();
 
-        field.focus();
+        try {
+          field.focus();
+        } catch (error) {}
 
         return false;
 
@@ -411,11 +391,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
     return true;
 
   }
-
 
   /* =======================================================
      MEMBER NEXT
@@ -427,12 +405,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       button.addEventListener("click", () => {
 
+        if (!memberForm) return;
+
         if (
           !validateStep(
             memberForm,
             memberStep
           )
-        ) return;
+        ) {
+          return;
+        }
 
         showMemberStep(
           memberStep + 1
@@ -441,7 +423,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
     });
-
 
   /* =======================================================
      MEMBER BACK
@@ -461,7 +442,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
   /* =======================================================
      BRANCH NEXT
      ======================================================= */
@@ -472,12 +452,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       button.addEventListener("click", () => {
 
+        if (!branchForm) return;
+
         if (
           !validateStep(
             branchForm,
             branchStep
           )
-        ) return;
+        ) {
+          return;
+        }
 
         showBranchStep(
           branchStep + 1
@@ -486,7 +470,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
     });
-
 
   /* =======================================================
      BRANCH BACK
@@ -506,15 +489,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
   /* =======================================================
      MOBILE NUMBER ONLY
      ======================================================= */
 
   document
-    .querySelectorAll(
-      'input[type="tel"]'
-    )
+    .querySelectorAll('input[type="tel"]')
     .forEach(input => {
 
       input.addEventListener(
@@ -530,7 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
     });
-
 
   /* =======================================================
      SIGNATURE PAD
@@ -551,11 +530,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "clearMemberSignature"
     );
 
-
   let ctx = null;
   let drawing = false;
   let hasSignature = false;
-
 
   function setupSignatureCanvas() {
 
@@ -564,29 +541,78 @@ document.addEventListener("DOMContentLoaded", () => {
     const rect =
       canvas.getBoundingClientRect();
 
+    /*
+      If canvas is not visible yet, do not resize.
+    */
+    if (
+      rect.width <= 0 ||
+      rect.height <= 0
+    ) {
+      return;
+    }
+
     const ratio =
       Math.max(
         window.devicePixelRatio || 1,
         1
       );
 
+    /*
+      Preserve existing signature when resizing.
+    */
+    let oldCanvas = null;
+
+    if (
+      canvas.width > 0 &&
+      canvas.height > 0 &&
+      hasSignature
+    ) {
+
+      oldCanvas =
+        document.createElement("canvas");
+
+      oldCanvas.width =
+        canvas.width;
+
+      oldCanvas.height =
+        canvas.height;
+
+      const oldCtx =
+        oldCanvas.getContext("2d");
+
+      oldCtx.drawImage(
+        canvas,
+        0,
+        0
+      );
+
+    }
 
     canvas.width =
-      rect.width * ratio;
+      Math.round(rect.width * ratio);
 
     canvas.height =
-      rect.height * ratio;
+      Math.round(rect.height * ratio);
 
+    canvas.style.width =
+      `${rect.width}px`;
+
+    canvas.style.height =
+      `${rect.height}px`;
 
     ctx =
       canvas.getContext("2d");
 
+    if (!ctx) return;
 
-    ctx.scale(
+    ctx.setTransform(
       ratio,
-      ratio
+      0,
+      0,
+      ratio,
+      0,
+      0
     );
-
 
     ctx.lineWidth = 2.2;
 
@@ -596,19 +622,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.strokeStyle = "#111827";
 
+    /*
+      Restore previous signature.
+    */
+    if (oldCanvas && hasSignature) {
+
+      ctx.drawImage(
+        oldCanvas,
+        0,
+        0,
+        oldCanvas.width / ratio,
+        oldCanvas.height / ratio,
+        0,
+        0,
+        rect.width,
+        rect.height
+      );
+
+    }
+
   }
 
-
   function getPoint(event) {
+
+    if (!canvas) {
+      return {
+        x: 0,
+        y: 0
+      };
+    }
 
     const rect =
       canvas.getBoundingClientRect();
 
-    let clientX;
-    let clientY;
+    let clientX = 0;
+    let clientY = 0;
 
-
-    if (event.touches?.length) {
+    if (
+      event.touches &&
+      event.touches.length
+    ) {
 
       clientX =
         event.touches[0].clientX;
@@ -626,7 +679,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
     return {
       x:
         clientX - rect.left,
@@ -637,12 +689,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
   function startDrawing(event) {
 
-    event.preventDefault();
+    if (!ctx) {
+      setupSignatureCanvas();
+    }
 
     if (!ctx) return;
+
+    event.preventDefault();
 
     drawing = true;
 
@@ -650,7 +705,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     signatureWrapper
       ?.classList.add("signed");
-
 
     const point =
       getPoint(event);
@@ -663,7 +717,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
   }
-
 
   function draw(event) {
 
@@ -683,58 +736,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
   function stopDrawing(event) {
 
     if (!drawing) return;
 
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
 
     drawing = false;
 
-    ctx?.closePath();
+    if (ctx) {
+      ctx.closePath();
+    }
 
   }
 
-
   canvas?.addEventListener(
     "pointerdown",
-    startDrawing
+    startDrawing,
+    { passive: false }
   );
 
   canvas?.addEventListener(
     "pointermove",
-    draw
+    draw,
+    { passive: false }
   );
 
   canvas?.addEventListener(
     "pointerup",
-    stopDrawing
+    stopDrawing,
+    { passive: false }
   );
 
   canvas?.addEventListener(
     "pointercancel",
-    stopDrawing
+    stopDrawing,
+    { passive: false }
   );
 
   canvas?.addEventListener(
     "pointerleave",
-    stopDrawing
+    stopDrawing,
+    { passive: false }
   );
-
 
   clearSignature?.addEventListener(
     "click",
     () => {
 
-      if (!canvas || !ctx) return;
+      if (!canvas) return;
 
-      ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
+      if (!ctx) {
+        setupSignatureCanvas();
+      }
+
+      if (ctx) {
+
+        ctx.clearRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+      }
 
       hasSignature = false;
 
@@ -744,25 +811,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   );
 
-
   window.addEventListener(
     "resize",
     () => {
 
       if (
-        memberModal.classList.contains(
-          "active"
-        ) &&
+        memberModal?.classList.contains("active") &&
         memberStep === 4
       ) {
 
-        setupSignatureCanvas();
+        setTimeout(
+          setupSignatureCanvas,
+          100
+        );
 
       }
 
     }
   );
-
 
   /* =======================================================
      MEMBER FORM SUBMIT
@@ -772,78 +838,174 @@ document.addEventListener("DOMContentLoaded", () => {
     "submit",
     event => {
 
+      /*
+        Prevent normal browser form navigation.
+      */
       event.preventDefault();
+      event.stopPropagation();
 
+      try {
 
-      if (!validateStep(
-        memberForm,
-        4
-      )) return;
+        /* -----------------------------------------------
+           STEP 4 VALIDATION
+           ----------------------------------------------- */
 
+        if (
+          !validateStep(
+            memberForm,
+            4
+          )
+        ) {
+          return;
+        }
 
-      if (!hasSignature) {
+        /* -----------------------------------------------
+           SIGNATURE CHECK
+           ----------------------------------------------- */
+
+        if (!canvas) {
+
+          showToast(
+            "Signature pad not found.",
+            "error"
+          );
+
+          console.error(
+            "Member signature canvas #memberSignature not found."
+          );
+
+          return;
+        }
+
+        if (!hasSignature) {
+
+          showToast(
+            "Please add your signature.",
+            "error"
+          );
+
+          return;
+
+        }
+
+        /* -----------------------------------------------
+           CANVAS CHECK
+           ----------------------------------------------- */
+
+        if (
+          canvas.width <= 0 ||
+          canvas.height <= 0
+        ) {
+
+          setupSignatureCanvas();
+
+        }
+
+        if (
+          canvas.width <= 0 ||
+          canvas.height <= 0
+        ) {
+
+          showToast(
+            "Signature area is not ready. Please try again.",
+            "error"
+          );
+
+          return;
+
+        }
+
+        /* -----------------------------------------------
+           FORM DATA
+           ----------------------------------------------- */
+
+        const data =
+          formToObject(
+            memberForm
+          );
+
+        data.registrationType =
+          "Member Registration";
+
+        data.signature =
+          canvas.toDataURL(
+            "image/png"
+          );
+
+        data.submittedAt =
+          new Date().toISOString();
+
+        /* -----------------------------------------------
+           REGISTRATION ID
+           ----------------------------------------------- */
+
+        const id =
+          createRegistrationId(
+            "MEM"
+          );
+
+        data.registrationId =
+          id;
+
+        /* -----------------------------------------------
+           SAVE
+           ----------------------------------------------- */
+
+        const saved =
+          saveRegistration(
+            "memberRegistrations",
+            data
+          );
+
+        if (!saved) {
+
+          showToast(
+            "Registration save செய்ய முடியவில்லை. Browser storage check செய்யவும்.",
+            "error"
+          );
+
+          return;
+
+        }
+
+        /* -----------------------------------------------
+           CLOSE MEMBER MODAL
+           ----------------------------------------------- */
+
+        closeModal(
+          memberModal
+        );
+
+        /* -----------------------------------------------
+           SHOW SUCCESS
+           ----------------------------------------------- */
+
+        showSuccess(
+          id,
+          "Member Registration",
+          "உங்கள் Member Registration வெற்றிகரமாக பதிவு செய்யப்பட்டுள்ளது."
+        );
+
+      } catch (error) {
+
+        console.error(
+          "MEMBER SUBMIT ERROR:",
+          error
+        );
 
         showToast(
-          "Please add your signature.",
+          "Member Registration submit செய்யும்போது error ஏற்பட்டது.",
           "error"
         );
 
-        return;
-
       }
-
-
-      const data =
-        formToObject(
-          memberForm
-        );
-
-
-      data.registrationType =
-        "Member Registration";
-
-      data.signature =
-        canvas.toDataURL(
-          "image/png"
-        );
-
-      data.submittedAt =
-        new Date().toISOString();
-
-
-      const id =
-        createRegistrationId(
-          "MEM"
-        );
-
-
-      data.registrationId =
-        id;
-
-
-      saveRegistration(
-        "memberRegistrations",
-        data
-      );
-
-
-      closeModal(
-        memberModal
-      );
-
-
-      showSuccess(
-        id,
-        "Member Registration",
-        "உங்கள் Member Registration வெற்றிகரமாக பதிவு செய்யப்பட்டுள்ளது."
-      );
 
     }
   );
 
-
   /* =======================================================
      BRANCH FORM SUBMIT
+     Existing working logic preserved
      ======================================================= */
 
   branchForm?.addEventListener(
@@ -852,18 +1014,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       event.preventDefault();
 
-
-      if (!validateStep(
-        branchForm,
-        2
-      )) return;
-
+      if (
+        !validateStep(
+          branchForm,
+          2
+        )
+      ) {
+        return;
+      }
 
       const data =
         formToObject(
           branchForm
         );
-
 
       data.state =
         "Tamil Nadu";
@@ -874,27 +1037,34 @@ document.addEventListener("DOMContentLoaded", () => {
       data.submittedAt =
         new Date().toISOString();
 
-
       const id =
         createRegistrationId(
           "BR"
         );
 
-
       data.registrationId =
         id;
 
+      const saved =
+        saveRegistration(
+          "branchRegistrations",
+          data
+        );
 
-      saveRegistration(
-        "branchRegistrations",
-        data
-      );
+      if (!saved) {
 
+        showToast(
+          "Branch Registration save செய்ய முடியவில்லை.",
+          "error"
+        );
+
+        return;
+
+      }
 
       closeModal(
         branchModal
       );
-
 
       showSuccess(
         id,
@@ -904,7 +1074,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
   );
-
 
   /* =======================================================
      FORM → OBJECT
@@ -917,14 +1086,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const object = {};
 
-
     formData.forEach(
       (value, key) => {
 
         if (
           key === "agreement" ||
           key === "branchAgreement"
-        ) return;
+        ) {
+          return;
+        }
 
         object[key] =
           String(value).trim();
@@ -932,11 +1102,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
 
-
     return object;
 
   }
-
 
   /* =======================================================
      SAVE LOCAL
@@ -949,41 +1117,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
 
-      const oldData =
-        JSON.parse(
-          localStorage.getItem(
-            storageKey
-          ) || "[]"
+      const stored =
+        localStorage.getItem(
+          storageKey
         );
 
+      let oldData = [];
+
+      if (stored) {
+
+        const parsed =
+          JSON.parse(stored);
+
+        if (Array.isArray(parsed)) {
+          oldData = parsed;
+        }
+
+      }
 
       oldData.push(data);
 
-
       localStorage.setItem(
         storageKey,
-        JSON.stringify(
-          oldData
-        )
+        JSON.stringify(oldData)
       );
-
 
       console.log(
-        "Registration saved:",
+        "Registration saved successfully:",
+        storageKey,
         data
       );
+
+      return true;
 
     } catch (error) {
 
       console.error(
-        "LocalStorage error:",
+        "LocalStorage save error:",
         error
       );
+
+      return false;
 
     }
 
   }
-
 
   /* =======================================================
      REGISTRATION ID
@@ -1005,11 +1183,9 @@ document.addEventListener("DOMContentLoaded", () => {
         Math.random() * 900000
       );
 
-
     return `${prefix}-${year}-${random}`;
 
   }
-
 
   /* =======================================================
      SUCCESS
@@ -1021,6 +1197,17 @@ document.addEventListener("DOMContentLoaded", () => {
     message
   ) {
 
+    if (!successModal) {
+
+      showToast(
+        `${type} submitted successfully — ${id}`,
+        "success"
+      );
+
+      return;
+
+    }
+
     const idElement =
       document.getElementById(
         "registrationId"
@@ -1031,37 +1218,25 @@ document.addEventListener("DOMContentLoaded", () => {
         "successMessage"
       );
 
-
     if (idElement) {
-
-      idElement.textContent =
-        id;
-
+      idElement.textContent = id;
     }
-
 
     if (messageElement) {
-
-      messageElement.textContent =
-        message;
-
+      messageElement.textContent = message;
     }
-
 
     successModal.classList.add(
       "active"
     );
-
 
     successModal.setAttribute(
       "aria-hidden",
       "false"
     );
 
-
     document.body.style.overflow =
       "hidden";
-
 
     showToast(
       `${type} submitted successfully`,
@@ -1070,24 +1245,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
   /* =======================================================
      SUCCESS CLOSE
      ======================================================= */
 
   document
-    .getElementById(
-      "successClose"
-    )
+    .getElementById("successClose")
     ?.addEventListener(
       "click",
       () => {
 
-        successModal.classList.remove(
+        successModal?.classList.remove(
           "active"
         );
 
-        successModal.setAttribute(
+        successModal?.setAttribute(
           "aria-hidden",
           "true"
         );
@@ -1098,15 +1270,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
 
-
   /* =======================================================
      COPY REGISTRATION ID
      ======================================================= */
 
   document
-    .getElementById(
-      "copyRegistrationId"
-    )
+    .getElementById("copyRegistrationId")
     ?.addEventListener(
       "click",
       async () => {
@@ -1114,24 +1283,54 @@ document.addEventListener("DOMContentLoaded", () => {
         const id =
           document.getElementById(
             "registrationId"
-          )?.textContent;
-
+          )?.textContent?.trim();
 
         if (!id) return;
 
-
         try {
 
-          await navigator.clipboard.writeText(
-            id
-          );
+          if (
+            navigator.clipboard &&
+            window.isSecureContext
+          ) {
+
+            await navigator.clipboard.writeText(
+              id
+            );
+
+          } else {
+
+            const temp =
+              document.createElement("textarea");
+
+            temp.value = id;
+
+            temp.style.position =
+              "fixed";
+
+            temp.style.opacity = "0";
+
+            document.body.appendChild(temp);
+
+            temp.select();
+
+            document.execCommand("copy");
+
+            temp.remove();
+
+          }
 
           showToast(
             "Registration ID copied",
             "success"
           );
 
-        } catch {
+        } catch (error) {
+
+          console.error(
+            "Copy error:",
+            error
+          );
 
           showToast(
             "Copy failed",
@@ -1143,7 +1342,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
 
-
   /* =======================================================
      RESET MEMBER
      ======================================================= */
@@ -1154,24 +1352,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     memberStep = 1;
 
-    showMemberStep(1);
-
-
     hasSignature = false;
+
+    drawing = false;
 
     signatureWrapper
       ?.classList.remove(
         "signed"
       );
 
+    showMemberStep(1);
 
-    setTimeout(
-      setupSignatureCanvas,
-      250
-    );
+    /*
+      Clear old canvas safely.
+    */
+    if (canvas) {
+
+      if (!ctx) {
+        setupSignatureCanvas();
+      }
+
+      if (ctx) {
+
+        ctx.clearRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+      }
+
+    }
 
   }
-
 
   /* =======================================================
      RESET BRANCH
@@ -1187,7 +1401,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
   /* =======================================================
      TOAST
      ======================================================= */
@@ -1197,27 +1410,30 @@ document.addEventListener("DOMContentLoaded", () => {
     type = "success"
   ) {
 
-    if (!toastContainer) return;
+    if (!toastContainer) {
 
+      console.log(
+        `[${type}] ${message}`
+      );
+
+      return;
+
+    }
 
     const toast =
       document.createElement(
         "div"
       );
 
-
     toast.className =
       `toast ${type}`;
-
 
     toast.textContent =
       message;
 
-
     toastContainer.appendChild(
       toast
     );
-
 
     setTimeout(
       () => {
@@ -1239,7 +1455,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
   /* =======================================================
      INITIAL
      ======================================================= */
@@ -1247,7 +1462,6 @@ document.addEventListener("DOMContentLoaded", () => {
   showMemberStep(1);
 
   showBranchStep(1);
-
 
   console.log(
     "Registration system initialized successfully."
