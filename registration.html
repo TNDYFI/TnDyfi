@@ -1,210 +1,207 @@
 <!DOCTYPE html>
-<html lang="ta" data-theme="dark">
+<html lang="ta">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-  <title>Registration | DYFI Tamil Nadu</title>
-
+  <!-- Main website theme sync -->
   <script>
-    if (localStorage.getItem("theme") === "dark") {
-      document.documentElement.classList.add("dark");
-    }
+    (function () {
+      try {
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+      } catch (e) {}
+    })();
   </script>
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/registration.css">
+  <title>Registration | Youth Connect Tamil Nadu</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="registration.css">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-  <meta name="theme-color" content="#0a0a0a">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+  >
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="header-left">
+<!-- ================= TOPBAR ================= -->
 
-    <button class="back-btn"
-            id="backBtn"
-            type="button"
-            aria-label="Go Back">
-      <i class="fas fa-arrow-left"></i>
-    </button>
+<header class="registration-topbar">
 
-    <div class="header-title">
-      <h1>Registration</h1>
-      <span class="subtitle">DYFI Tamil Nadu</span>
-    </div>
+  <a href="index.html" class="back-button">
+    <i class="fas fa-arrow-left"></i>
+  </a>
 
+  <div class="topbar-title">
+    <span>DYFI • Youth Connect</span>
+    <h1>Registration</h1>
   </div>
+
+  <button
+    type="button"
+    id="themeToggle"
+    class="theme-button"
+    aria-label="Toggle theme"
+  >
+    <i class="fas fa-moon"></i>
+  </button>
+
 </header>
 
 
-<main class="register-container">
+<!-- ================= HERO ================= -->
 
-  <section class="page-header">
+<section class="registration-hero">
 
-    <div class="header-icon-wrapper">
-      <div class="header-icon">
-        <i class="fas fa-id-card"></i>
-      </div>
-      <div class="icon-glow"></div>
-    </div>
+  <div class="hero-icon">
+    <i class="fas fa-user-plus"></i>
+  </div>
 
-    <span class="eyebrow">
+  <div>
+    <span class="hero-badge">
       <i class="fas fa-shield-halved"></i>
-      Digital Registration
+      Secure Registration
     </span>
 
-    <h1>Choose Registration Type</h1>
+    <h2>Registration Centre</h2>
 
     <p>
-      உங்கள் தேவைக்கேற்ற registration type-ஐ தேர்வு செய்து
-      முழுமையான விவரங்களை பதிவு செய்யுங்கள்.
+      Member மற்றும் Branch விவரங்களை எளிமையாகவும்
+      பாதுகாப்பாகவும் பதிவு செய்யுங்கள்.
     </p>
+  </div>
 
-  </section>
+</section>
 
 
-  <section class="registration-grid">
+<!-- ================= OPTION CARDS ================= -->
+
+<main class="registration-main">
+
+  <div class="registration-heading">
+    <span>Choose Registration</span>
+    <h2>எந்த பதிவு செய்ய விரும்புகிறீர்கள்?</h2>
+    <p>கீழே உள்ள இரண்டு options-ல் ஒன்றை தேர்வு செய்யவும்.</p>
+  </div>
+
+
+  <div class="registration-options">
 
     <!-- MEMBER -->
 
-    <article class="register-card member-card">
+    <button
+      type="button"
+      class="registration-option member-option"
+      data-open="member"
+    >
 
-      <div class="card-image">
-
-        <div class="floating-orb orb-one"></div>
-        <div class="floating-orb orb-two"></div>
-
-        <div class="card-icon">
-          <i class="fas fa-user-plus"></i>
-        </div>
-
+      <div class="option-icon">
+        <i class="fas fa-user"></i>
       </div>
 
-      <div class="card-content">
-
-        <span class="card-tag">
-          <i class="fas fa-star"></i>
-          Member
-        </span>
-
+      <div class="option-content">
+        <span class="option-number">01</span>
         <h3>Member Registration</h3>
-
         <p>
-          உறுப்பினரின் தனிப்பட்ட மற்றும் அமைப்பு சார்ந்த
-          முழு விவரங்களையும் பதிவு செய்யலாம்.
+          புதிய உறுப்பினரின் முழுமையான தனிப்பட்ட மற்றும்
+          அமைப்பு விவரங்களை பதிவு செய்ய.
         </p>
 
-        <button
-          class="register-btn"
-          type="button"
-          data-open="member">
-
-          <span>Start Registration</span>
-          <i class="fas fa-arrow-right"></i>
-
-        </button>
-
+        <div class="option-features">
+          <span><i class="fas fa-check"></i> Personal Details</span>
+          <span><i class="fas fa-check"></i> Qualification</span>
+          <span><i class="fas fa-check"></i> Blood Group</span>
+          <span><i class="fas fa-check"></i> Signature</span>
+        </div>
       </div>
 
-    </article>
+      <div class="option-arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+
+    </button>
 
 
     <!-- BRANCH -->
 
-    <article class="register-card branch-card">
+    <button
+      type="button"
+      class="registration-option branch-option"
+      data-open="branch"
+    >
 
-      <div class="card-image">
-
-        <div class="floating-orb orb-one"></div>
-        <div class="floating-orb orb-two"></div>
-
-        <div class="card-icon">
-          <i class="fas fa-users-gear"></i>
-        </div>
-
+      <div class="option-icon">
+        <i class="fas fa-users-gear"></i>
       </div>
 
-      <div class="card-content">
-
-        <span class="card-tag">
-          <i class="fas fa-building"></i>
-          Organization
-        </span>
-
+      <div class="option-content">
+        <span class="option-number">02</span>
         <h3>Branch Registration</h3>
 
         <p>
-          கிளையின் முழு விவரங்கள், உறுப்பினர் எண்ணிக்கை,
-          தலைவர் மற்றும் செயலாளர் விவரங்களை பதிவு செய்யலாம்.
+          Branch / கிளை பற்றிய முழுமையான அமைப்பு
+          விவரங்களை பதிவு செய்ய.
         </p>
 
-        <button
-          class="register-btn"
-          type="button"
-          data-open="branch">
-
-          <span>Register Branch</span>
-          <i class="fas fa-arrow-right"></i>
-
-        </button>
-
+        <div class="option-features">
+          <span><i class="fas fa-check"></i> Branch Details</span>
+          <span><i class="fas fa-check"></i> Member Count</span>
+          <span><i class="fas fa-check"></i> President</span>
+          <span><i class="fas fa-check"></i> Secretary</span>
+        </div>
       </div>
 
-    </article>
+      <div class="option-arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
 
-  </section>
+    </button>
+
+  </div>
 
 </main>
 
 
-<!-- =====================================================
-     REGISTRATION MODAL
-===================================================== -->
+<!-- ================================================= -->
+<!-- MEMBER REGISTRATION MODAL -->
+<!-- ================================================= -->
 
-<div id="registrationModal"
-     class="modal-fullscreen"
-     aria-hidden="true">
+<div
+  id="memberModal"
+  class="registration-modal"
+  aria-hidden="true"
+>
 
-  <div class="modal-content-full">
+  <div class="registration-modal-box">
 
     <div class="modal-top">
 
       <div class="modal-heading">
 
-        <div class="modal-icon">
-          <i id="modalIcon" class="fas fa-id-card"></i>
+        <div class="modal-main-icon member-icon">
+          <i class="fas fa-user-plus"></i>
         </div>
 
         <div>
-          <span id="modalTypeBadge" class="modal-badge">
-            REGISTRATION
-          </span>
-
-          <h2 id="modalTitle">
-            Registration
-          </h2>
-
-          <p id="modalSubtitle">
-            Complete the details below
-          </p>
+          <span>01 • MEMBER</span>
+          <h2>Member Registration</h2>
+          <p>உறுப்பினர் முழு விவரங்களை பதிவு செய்யவும்</p>
         </div>
 
       </div>
 
       <button
+        type="button"
         class="modal-close"
-        id="closeModalBtn"
-        type="button">
-
+        data-close="member"
+      >
         <i class="fas fa-times"></i>
-
       </button>
 
     </div>
@@ -212,55 +209,573 @@
 
     <!-- Progress -->
 
-    <div class="progress-area">
+    <div class="form-progress">
 
-      <div class="progress-top">
-
-        <span id="progressLabel">
-          Step 1 of 4
-        </span>
-
-        <span id="progressPercent">
-          25%
-        </span>
-
+      <div class="progress-line">
+        <span id="memberProgressBar"></span>
       </div>
 
-      <div class="progress-track">
-        <div id="progressBar" class="progress-bar"></div>
+      <div class="progress-info">
+        <span id="memberStepText">Step 1 of 4</span>
+        <span id="memberProgressPercent">25%</span>
       </div>
 
     </div>
 
 
-    <form id="registrationForm" novalidate>
+    <form id="memberForm" autocomplete="on">
 
-      <div id="formPages"></div>
+      <!-- STEP 1 -->
+
+      <div class="form-step active" data-step="1">
+
+        <div class="step-title">
+          <div>
+            <span>STEP 01</span>
+            <h3>Organization Details</h3>
+          </div>
+          <i class="fas fa-sitemap"></i>
+        </div>
 
 
-      <!-- ACTIONS -->
+        <div class="field-grid">
 
-      <div class="form-actions">
+          <div class="field full">
+            <label>State</label>
 
-        <button
-          type="button"
-          id="prevBtn"
-          class="btn-secondary">
+            <div class="input-icon">
+              <i class="fas fa-landmark"></i>
+              <select name="state" required>
+                <option value="">Select State</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Puducherry">Puducherry</option>
+              </select>
+            </div>
+          </div>
 
-          <i class="fas fa-arrow-left"></i>
-          <span>Previous</span>
 
-        </button>
+          <div class="field">
+            <label>District</label>
 
-        <button
-          type="button"
-          id="nextBtn"
-          class="btn-submit">
+            <div class="input-icon">
+              <i class="fas fa-map"></i>
+              <select name="district" required>
+                <option value="">Select District</option>
+                <option>Chennai</option>
+                <option>Coimbatore</option>
+                <option>Cuddalore</option>
+                <option>Dharmapuri</option>
+                <option>Dindigul</option>
+                <option>Erode</option>
+                <option>Kallakurichi</option>
+                <option>Kanchipuram</option>
+                <option>Karur</option>
+                <option>Krishnagiri</option>
+                <option>Madurai</option>
+                <option>Mayiladuthurai</option>
+                <option>Nagapattinam</option>
+                <option>Namakkal</option>
+                <option>Perambalur</option>
+                <option>Pudukkottai</option>
+                <option>Ramanathapuram</option>
+                <option>Ranipet</option>
+                <option>Salem</option>
+                <option>Sivaganga</option>
+                <option>Tenkasi</option>
+                <option>Thanjavur</option>
+                <option>Theni</option>
+                <option>Thoothukudi</option>
+                <option>Tiruchirappalli</option>
+                <option>Tirunelveli</option>
+                <option>Tirupathur</option>
+                <option>Tiruppur</option>
+                <option>Tiruvallur</option>
+                <option>Tiruvannamalai</option>
+                <option>Tiruvarur</option>
+                <option>Vellore</option>
+                <option>Viluppuram</option>
+                <option>Virudhunagar</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
 
-          <span>Next</span>
-          <i class="fas fa-arrow-right"></i>
 
-        </button>
+          <div class="field">
+            <label>Union / ஒன்றியம்</label>
+
+            <div class="input-icon">
+              <i class="fas fa-building"></i>
+              <input
+                type="text"
+                name="union"
+                placeholder="Enter union"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Nagaratchi / நகராட்சி</label>
+
+            <div class="input-icon">
+              <i class="fas fa-city"></i>
+              <input
+                type="text"
+                name="municipality"
+                placeholder="Enter nagaratchi"
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Vatta Kuzhu / வட்டக் குழு</label>
+
+            <div class="input-icon">
+              <i class="fas fa-layer-group"></i>
+              <input
+                type="text"
+                name="ward"
+                placeholder="Enter vatta kuzhu"
+              >
+            </div>
+          </div>
+
+
+          <div class="field full">
+            <label>Branch Name / கிளை பெயர்</label>
+
+            <div class="input-icon">
+              <i class="fas fa-code-branch"></i>
+              <input
+                type="text"
+                name="branchName"
+                placeholder="Enter branch name manually"
+                required
+              >
+            </div>
+          </div>
+
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="next-btn member-next">
+            Continue
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+
+
+      <!-- STEP 2 -->
+
+      <div class="form-step" data-step="2">
+
+        <div class="step-title">
+          <div>
+            <span>STEP 02</span>
+            <h3>Personal Details</h3>
+          </div>
+          <i class="fas fa-id-card"></i>
+        </div>
+
+
+        <div class="field-grid">
+
+          <div class="field full">
+            <label>Full Name / முழுப் பெயர்</label>
+
+            <div class="input-icon">
+              <i class="fas fa-user"></i>
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Enter full name"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Date of Birth</label>
+
+            <div class="input-icon">
+              <i class="fas fa-calendar"></i>
+              <input
+                type="date"
+                name="dob"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Gender</label>
+
+            <div class="input-icon">
+              <i class="fas fa-venus-mars"></i>
+              <select name="gender" required>
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Blood Group</label>
+
+            <div class="input-icon">
+              <i class="fas fa-droplet"></i>
+              <select name="bloodGroup" required>
+                <option value="">Select Blood Group</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Qualification</label>
+
+            <div class="input-icon">
+              <i class="fas fa-graduation-cap"></i>
+              <input
+                type="text"
+                name="qualification"
+                placeholder="Example: B.A / B.E / 12th"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Occupation</label>
+
+            <div class="input-icon">
+              <i class="fas fa-briefcase"></i>
+              <input
+                type="text"
+                name="occupation"
+                placeholder="Enter occupation"
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Mobile Number</label>
+
+            <div class="input-icon">
+              <i class="fas fa-phone"></i>
+              <input
+                type="tel"
+                name="mobile"
+                inputmode="numeric"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                placeholder="10 digit number"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Alternate Number</label>
+
+            <div class="input-icon">
+              <i class="fas fa-phone-volume"></i>
+              <input
+                type="tel"
+                name="alternateMobile"
+                inputmode="numeric"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                placeholder="Optional"
+              >
+            </div>
+          </div>
+
+
+          <div class="field full">
+            <label>Email</label>
+
+            <div class="input-icon">
+              <i class="fas fa-envelope"></i>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter email address"
+              >
+            </div>
+          </div>
+
+
+          <div class="field full">
+            <label>Residential Address</label>
+
+            <textarea
+              name="address"
+              rows="4"
+              placeholder="Enter complete address"
+              required
+            ></textarea>
+          </div>
+
+        </div>
+
+
+        <div class="step-actions dual">
+
+          <button
+            type="button"
+            class="back-step-btn member-back"
+          >
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
+
+          <button
+            type="button"
+            class="next-btn member-next"
+          >
+            Continue
+            <i class="fas fa-arrow-right"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- STEP 3 -->
+
+      <div class="form-step" data-step="3">
+
+        <div class="step-title">
+          <div>
+            <span>STEP 03</span>
+            <h3>Additional Details</h3>
+          </div>
+          <i class="fas fa-circle-info"></i>
+        </div>
+
+
+        <div class="field-grid">
+
+          <div class="field">
+            <label>Joining Date</label>
+
+            <div class="input-icon">
+              <i class="fas fa-calendar-plus"></i>
+              <input
+                type="date"
+                name="joiningDate"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Membership ID</label>
+
+            <div class="input-icon">
+              <i class="fas fa-id-badge"></i>
+              <input
+                type="text"
+                name="membershipId"
+                placeholder="Optional / Manual"
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Emergency Contact Name</label>
+
+            <div class="input-icon">
+              <i class="fas fa-user-shield"></i>
+              <input
+                type="text"
+                name="emergencyName"
+                placeholder="Emergency contact"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Emergency Contact Number</label>
+
+            <div class="input-icon">
+              <i class="fas fa-phone"></i>
+              <input
+                type="tel"
+                name="emergencyPhone"
+                inputmode="numeric"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                placeholder="10 digit number"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field full">
+            <label>Skills / Special Talent</label>
+
+            <textarea
+              name="skills"
+              rows="4"
+              placeholder="Example: Social media, Photography, Video editing..."
+            ></textarea>
+          </div>
+
+
+          <div class="field full">
+            <label>Additional Information</label>
+
+            <textarea
+              name="additionalInfo"
+              rows="4"
+              placeholder="Any additional information..."
+            ></textarea>
+          </div>
+
+        </div>
+
+
+        <div class="step-actions dual">
+
+          <button
+            type="button"
+            class="back-step-btn member-back"
+          >
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
+
+          <button
+            type="button"
+            class="next-btn member-next"
+          >
+            Signature
+            <i class="fas fa-pen-nib"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- STEP 4 -->
+
+      <div class="form-step" data-step="4">
+
+        <div class="step-title">
+          <div>
+            <span>STEP 04</span>
+            <h3>Digital Signature</h3>
+          </div>
+          <i class="fas fa-signature"></i>
+        </div>
+
+
+        <div class="signature-container">
+
+          <div class="signature-info">
+            <i class="fas fa-pen"></i>
+            <div>
+              <strong>Signature</strong>
+              <p>கீழே உங்கள் கையொப்பத்தை இடவும்</p>
+            </div>
+          </div>
+
+
+          <div class="signature-pad-wrapper">
+            <canvas id="memberSignature"></canvas>
+
+            <div class="signature-placeholder">
+              Sign here
+            </div>
+          </div>
+
+
+          <div class="signature-actions">
+
+            <button
+              type="button"
+              id="clearMemberSignature"
+              class="clear-signature"
+            >
+              <i class="fas fa-eraser"></i>
+              Clear
+            </button>
+
+            <span>
+              <i class="fas fa-mobile-screen"></i>
+              Touch / Mouse supported
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <label class="agreement">
+
+          <input
+            type="checkbox"
+            name="agreement"
+            required
+          >
+
+          <span>
+            மேலே வழங்கப்பட்ட தகவல்கள் சரியானவை என்பதை
+            உறுதிப்படுத்துகிறேன்.
+          </span>
+
+        </label>
+
+
+        <div class="step-actions dual">
+
+          <button
+            type="button"
+            class="back-step-btn member-back"
+          >
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
+
+          <button
+            type="submit"
+            class="submit-btn"
+          >
+            <i class="fas fa-paper-plane"></i>
+            Submit Registration
+          </button>
+
+        </div>
 
       </div>
 
@@ -271,124 +786,524 @@
 </div>
 
 
-<!-- =====================================================
-     SUCCESS MODAL
-===================================================== -->
+<!-- ================================================= -->
+<!-- BRANCH REGISTRATION MODAL -->
+<!-- ================================================= -->
 
-<div id="successModal"
-     class="modal-success"
-     aria-hidden="true">
+<div
+  id="branchModal"
+  class="registration-modal"
+  aria-hidden="true"
+>
 
-  <div class="success-content">
+  <div class="registration-modal-box branch-box">
 
-    <div class="success-animation">
-      <i class="fas fa-check"></i>
-    </div>
+    <div class="modal-top">
 
-    <span class="success-label">
-      SUBMITTED SUCCESSFULLY
-    </span>
+      <div class="modal-heading">
 
-    <h2>Registration Completed</h2>
+        <div class="modal-main-icon branch-icon">
+          <i class="fas fa-code-branch"></i>
+        </div>
 
-    <p>
-      உங்கள் registration விவரங்கள் இந்த browser-ல்
-      பாதுகாப்பாக சேமிக்கப்பட்டுள்ளது.
-    </p>
+        <div>
+          <span>02 • BRANCH</span>
+          <h2>Branch Registration</h2>
+          <p>கிளையின் முழுமையான விவரங்களை பதிவு செய்யவும்</p>
+        </div>
 
-    <div class="registration-id-box">
-
-      <span>Registration ID</span>
-
-      <strong id="successRegistrationId">
-        DYFI-000000
-      </strong>
+      </div>
 
       <button
         type="button"
-        id="copyIdBtn">
-
-        <i class="fas fa-copy"></i>
-        Copy
-
+        class="modal-close"
+        data-close="branch"
+      >
+        <i class="fas fa-times"></i>
       </button>
 
     </div>
 
-    <div class="success-actions">
 
-      <button
-        type="button"
-        id="viewRegistrationBtn"
-        class="success-outline">
+    <div class="form-progress">
 
-        <i class="fas fa-eye"></i>
-        View Details
+      <div class="progress-line">
+        <span id="branchProgressBar"></span>
+      </div>
 
-      </button>
-
-      <button
-        type="button"
-        id="successOkBtn"
-        class="success-primary">
-
-        <i class="fas fa-check"></i>
-        Done
-
-      </button>
+      <div class="progress-info">
+        <span id="branchStepText">Step 1 of 2</span>
+        <span id="branchProgressPercent">50%</span>
+      </div>
 
     </div>
+
+
+    <form id="branchForm">
+
+
+      <!-- BRANCH STEP 1 -->
+
+      <div class="form-step active" data-step="1">
+
+        <div class="step-title">
+
+          <div>
+            <span>STEP 01</span>
+            <h3>Branch Details</h3>
+          </div>
+
+          <i class="fas fa-location-dot"></i>
+
+        </div>
+
+
+        <div class="auto-state">
+
+          <div class="auto-icon">
+            <i class="fas fa-landmark"></i>
+          </div>
+
+          <div>
+            <small>State</small>
+            <strong>Tamil Nadu</strong>
+          </div>
+
+          <span>
+            <i class="fas fa-lock"></i>
+            Auto
+          </span>
+
+        </div>
+
+
+        <div class="field-grid">
+
+          <div class="field">
+            <label>District</label>
+
+            <div class="input-icon">
+              <i class="fas fa-map"></i>
+
+              <select name="branchDistrict" required>
+
+                <option value="">Select District</option>
+
+                <option>Chennai</option>
+                <option>Coimbatore</option>
+                <option>Cuddalore</option>
+                <option>Dharmapuri</option>
+                <option>Dindigul</option>
+                <option>Erode</option>
+                <option>Kallakurichi</option>
+                <option>Kanchipuram</option>
+                <option>Karur</option>
+                <option>Krishnagiri</option>
+                <option>Madurai</option>
+                <option>Mayiladuthurai</option>
+                <option>Nagapattinam</option>
+                <option>Namakkal</option>
+                <option>Perambalur</option>
+                <option>Pudukkottai</option>
+                <option>Ramanathapuram</option>
+                <option>Ranipet</option>
+                <option>Salem</option>
+                <option>Sivaganga</option>
+                <option>Tenkasi</option>
+                <option>Thanjavur</option>
+                <option>Theni</option>
+                <option>Thoothukudi</option>
+                <option>Tiruchirappalli</option>
+                <option>Tirunelveli</option>
+                <option>Tirupathur</option>
+                <option>Tiruppur</option>
+                <option>Tiruvallur</option>
+                <option>Tiruvannamalai</option>
+                <option>Tiruvarur</option>
+                <option>Vellore</option>
+                <option>Viluppuram</option>
+                <option>Virudhunagar</option>
+
+              </select>
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Union / ஒன்றியம்</label>
+
+            <div class="input-icon">
+              <i class="fas fa-building"></i>
+
+              <input
+                type="text"
+                name="branchUnion"
+                placeholder="Enter union"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Nagaratchi / நகராட்சி</label>
+
+            <div class="input-icon">
+              <i class="fas fa-city"></i>
+
+              <input
+                type="text"
+                name="branchMunicipality"
+                placeholder="Enter nagaratchi"
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Vatta Kuzhu / வட்டக் குழு</label>
+
+            <div class="input-icon">
+              <i class="fas fa-layer-group"></i>
+
+              <input
+                type="text"
+                name="branchWard"
+                placeholder="Enter vatta kuzhu"
+              >
+            </div>
+          </div>
+
+
+          <div class="field full">
+            <label>Branch Name / கிளை பெயர்</label>
+
+            <div class="input-icon">
+              <i class="fas fa-code-branch"></i>
+
+              <input
+                type="text"
+                name="branchName"
+                placeholder="Type branch name manually"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Established Date</label>
+
+            <div class="input-icon">
+              <i class="fas fa-calendar-days"></i>
+
+              <input
+                type="date"
+                name="branchDate"
+                required
+              >
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label>Members Count</label>
+
+            <div class="input-icon">
+              <i class="fas fa-users"></i>
+
+              <input
+                type="number"
+                name="memberCount"
+                min="1"
+                placeholder="Total members"
+                required
+              >
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="step-actions">
+
+          <button
+            type="button"
+            class="next-btn branch-next"
+          >
+            Continue
+            <i class="fas fa-arrow-right"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- BRANCH STEP 2 -->
+
+      <div class="form-step" data-step="2">
+
+        <div class="step-title">
+
+          <div>
+            <span>STEP 02</span>
+            <h3>Leadership Details</h3>
+          </div>
+
+          <i class="fas fa-user-tie"></i>
+
+        </div>
+
+
+        <div class="leader-card">
+
+          <div class="leader-card-head">
+            <div class="leader-symbol president">
+              <i class="fas fa-user-tie"></i>
+            </div>
+
+            <div>
+              <span>BRANCH PRESIDENT</span>
+              <h3>President Details</h3>
+            </div>
+          </div>
+
+
+          <div class="field-grid">
+
+            <div class="field full">
+
+              <label>President Name</label>
+
+              <div class="input-icon">
+
+                <i class="fas fa-user"></i>
+
+                <input
+                  type="text"
+                  name="presidentName"
+                  placeholder="Enter president name"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="field full">
+
+              <label>President Contact Number</label>
+
+              <div class="input-icon">
+
+                <i class="fas fa-phone"></i>
+
+                <input
+                  type="tel"
+                  name="presidentPhone"
+                  inputmode="numeric"
+                  maxlength="10"
+                  pattern="[0-9]{10}"
+                  placeholder="10 digit number"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="leader-card">
+
+          <div class="leader-card-head">
+
+            <div class="leader-symbol secretary">
+              <i class="fas fa-user-gear"></i>
+            </div>
+
+            <div>
+              <span>BRANCH SECRETARY</span>
+              <h3>Secretary Details</h3>
+            </div>
+
+          </div>
+
+
+          <div class="field-grid">
+
+            <div class="field full">
+
+              <label>Secretary Name</label>
+
+              <div class="input-icon">
+
+                <i class="fas fa-user"></i>
+
+                <input
+                  type="text"
+                  name="secretaryName"
+                  placeholder="Enter secretary name"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="field full">
+
+              <label>Secretary Contact Number</label>
+
+              <div class="input-icon">
+
+                <i class="fas fa-phone"></i>
+
+                <input
+                  type="tel"
+                  name="secretaryPhone"
+                  inputmode="numeric"
+                  maxlength="10"
+                  pattern="[0-9]{10}"
+                  placeholder="10 digit number"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>Branch Address</label>
+
+          <textarea
+            name="branchAddress"
+            rows="4"
+            placeholder="Enter complete branch address"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <label class="agreement">
+
+          <input
+            type="checkbox"
+            name="branchAgreement"
+            required
+          >
+
+          <span>
+            வழங்கப்பட்ட branch தகவல்கள் சரியானவை என்பதை
+            உறுதிப்படுத்துகிறேன்.
+          </span>
+
+        </label>
+
+
+        <div class="step-actions dual">
+
+          <button
+            type="button"
+            class="back-step-btn branch-back"
+          >
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
+
+          <button
+            type="submit"
+            class="submit-btn"
+          >
+            <i class="fas fa-paper-plane"></i>
+            Submit Branch
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
-     DETAILS MODAL
-===================================================== -->
+<!-- ================= SUCCESS ================= -->
 
-<div id="detailsModal"
-     class="modal-success"
-     aria-hidden="true">
+<div id="successModal" class="success-overlay">
 
-  <div class="details-content">
+  <div class="success-card">
 
-    <div class="details-header">
+    <div class="success-animation">
 
-      <div>
-        <span>REGISTRATION DETAILS</span>
-        <h2 id="detailsTitle">Registration</h2>
+      <div class="success-circle">
+        <i class="fas fa-check"></i>
       </div>
+
+    </div>
+
+    <span class="success-label">REGISTRATION COMPLETE</span>
+
+    <h2>Successfully Submitted!</h2>
+
+    <p id="successMessage">
+      உங்கள் பதிவு வெற்றிகரமாக சேமிக்கப்பட்டுள்ளது.
+    </p>
+
+    <div class="success-id">
+
+      <span>Registration ID</span>
+
+      <strong id="registrationId">
+        YC-000000
+      </strong>
 
       <button
         type="button"
-        id="closeDetailsBtn">
-
-        <i class="fas fa-times"></i>
-
+        id="copyRegistrationId"
+        title="Copy ID"
+      >
+        <i class="fas fa-copy"></i>
       </button>
 
     </div>
 
-    <div id="detailsBody" class="details-body"></div>
 
     <button
       type="button"
-      id="detailsDoneBtn"
-      class="success-primary full-btn">
-
+      class="success-close"
+      id="successClose"
+    >
+      Done
       <i class="fas fa-check"></i>
-      Close
-
     </button>
 
   </div>
 
 </div>
 
-<script src="js/app.js"></script>
-<script src="js/registration.js"></script>
+
+<!-- ================= TOAST ================= -->
+
+<div id="toastContainer" class="toast-container"></div>
+
+
+<script src="registration.js"></script>
 
 </body>
 </html>
