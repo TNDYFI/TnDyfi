@@ -1,1470 +1,370 @@
-/* =========================================================
-   REGISTRATION SYSTEM
-   LocalStorage Version
-   MEMBER SUBMIT FIXED
-   Branch logic preserved
-   ========================================================= */
+document.addEventListener("DOMContentLoaded",()=>{
 
-document.addEventListener("DOMContentLoaded", () => {
+const form=document.getElementById("memberForm");
+const steps=[...document.querySelectorAll(".step")];
+const progress=document.getElementById("progress");
+const stepText=document.getElementById("stepText");
+const percent=document.getElementById("percent");
 
-  "use strict";
+let current=1;
+const total=4;
 
-  /* =======================================================
-     ELEMENTS
-     ======================================================= */
+function update(){
 
-  const memberModal = document.getElementById("memberModal");
-  const branchModal = document.getElementById("branchModal");
-  const successModal = document.getElementById("successModal");
+steps.forEach(s=>{
+s.classList.toggle(
+"active",
+Number(s.dataset.step)===current
+);
+});
 
-  const memberForm = document.getElementById("memberForm");
-  const branchForm = document.getElementById("branchForm");
+const p=(current/total)*100;
 
-  const toastContainer = document.getElementById("toastContainer");
-  const themeToggle = document.getElementById("themeToggle");
+progress.style.width=p+"%";
+stepText.textContent=`Step ${current} of ${total}`;
+percent.textContent=p+"%";
 
-  /* =======================================================
-     THEME
-     ======================================================= */
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
-  function applyTheme() {
+if(current===4)
+setTimeout(resizeCanvas,100);
+}
 
-    const dark =
-      document.documentElement.classList.contains("dark");
+function validate(){
 
-    if (themeToggle) {
+const section=document.querySelector(
+`.step[data-step="${current}"]`
+);
 
-      const icon = themeToggle.querySelector("i");
+const fields=section.querySelectorAll(
+"input[required],select[required],textarea[required]"
+);
 
-      if (icon) {
-        icon.className =
-          dark
-            ? "fas fa-sun"
-            : "fas fa-moon";
-      }
-    }
-  }
+for(const field of fields){
 
-  applyTheme();
+if(!field.checkValidity()){
 
-  themeToggle?.addEventListener("click", () => {
+field.reportValidity();
+field.focus();
+return false;
 
-    const dark =
-      document.documentElement.classList.toggle("dark");
+}
 
-    try {
-      localStorage.setItem(
-        "theme",
-        dark ? "dark" : "light"
-      );
-    } catch (error) {
-      console.warn("Theme storage unavailable:", error);
-    }
+}
 
-    applyTheme();
+return true;
+}
 
-  });
+document.querySelectorAll(".next").forEach(btn=>{
+btn.addEventListener("click",()=>{
 
-  /* =======================================================
-     MODAL OPEN
-     ======================================================= */
+if(validate() && current<total){
+current++;
+update();
+}
 
-  function openModal(modal) {
+});
+});
 
-    if (!modal) return;
+document.querySelectorAll(".back").forEach(btn=>{
+btn.addEventListener("click",()=>{
 
-    modal.classList.add("active");
+if(current>1){
+current--;
+update();
+}
 
-    modal.setAttribute(
-      "aria-hidden",
-      "false"
-    );
+});
+});
 
-    document.body.style.overflow = "hidden";
+document.querySelectorAll('input[type="tel"]').forEach(input=>{
+input.addEventListener("input",()=>{
+input.value=input.value
+.replace(/\D/g,"")
+.slice(0,10);
+});
+});
 
-  }
+/* THEME */
 
-  /* =======================================================
-     MODAL CLOSE
-     ======================================================= */
+const themeBtn=document.getElementById("themeBtn");
 
-  function closeModal(modal) {
+function themeIcon(){
 
-    if (!modal) return;
+const dark=document.documentElement.classList.contains("dark");
 
-    modal.classList.remove("active");
+themeBtn.innerHTML=
+dark
+?'<i class="fa-solid fa-sun"></i>'
+:'<i class="fa-solid fa-moon"></i>';
 
-    modal.setAttribute(
-      "aria-hidden",
-      "true"
-    );
+}
 
-    const memberOpen =
-      memberModal?.classList.contains("active");
+themeIcon();
 
-    const branchOpen =
-      branchModal?.classList.contains("active");
+themeBtn.addEventListener("click",()=>{
 
-    const successOpen =
-      successModal?.classList.contains("active");
+document.documentElement.classList.toggle("dark");
 
-    if (!memberOpen && !branchOpen && !successOpen) {
-      document.body.style.overflow = "";
-    }
+const dark=document.documentElement.classList.contains("dark");
 
-  }
+localStorage.setItem(
+"theme",
+dark?"dark":"light"
+);
 
-  /* =======================================================
-     OPTION BUTTONS
-     ======================================================= */
+themeIcon();
 
-  document
-    .querySelectorAll("[data-open]")
-    .forEach(button => {
+});
 
-      button.addEventListener("click", () => {
+/* SIGNATURE */
 
-        const type = button.dataset.open;
+const canvas=document.getElementById("signatureCanvas");
+const wrapper=document.getElementById("signatureWrap");
+const clear=document.getElementById("clearSign");
 
-        if (type === "member") {
+let ctx;
+let drawing=false;
+let signed=false;
 
-          resetMemberForm();
+function resizeCanvas(){
 
-          openModal(memberModal);
+const rect=canvas.getBoundingClientRect();
 
-          /*
-             Canvas must be sized AFTER modal becomes visible.
-          */
-          setTimeout(() => {
-            setupSignatureCanvas();
-          }, 100);
+if(!rect.width || !rect.height)return;
 
-        }
+const ratio=window.devicePixelRatio||1;
 
-        if (type === "branch") {
+canvas.width=rect.width*ratio;
+canvas.height=rect.height*ratio;
 
-          resetBranchForm();
+ctx=canvas.getContext("2d");
 
-          openModal(branchModal);
+ctx.setTransform(
+ratio,0,0,ratio,0,0
+);
 
-        }
+ctx.lineWidth=2.2;
+ctx.lineCap="round";
+ctx.lineJoin="round";
+ctx.strokeStyle="#111827";
 
-      });
+}
 
-    });
+function position(e){
 
-  /* =======================================================
-     CLOSE BUTTONS
-     ======================================================= */
+const rect=canvas.getBoundingClientRect();
 
-  document
-    .querySelectorAll("[data-close]")
-    .forEach(button => {
+return{
+x:e.clientX-rect.left,
+y:e.clientY-rect.top
+};
 
-      button.addEventListener("click", () => {
+}
 
-        const type = button.dataset.close;
+canvas.addEventListener("pointerdown",e=>{
 
-        if (type === "member") {
-          closeModal(memberModal);
-        }
+if(!ctx)resizeCanvas();
 
-        if (type === "branch") {
-          closeModal(branchModal);
-        }
+e.preventDefault();
 
-      });
+drawing=true;
+signed=true;
 
-    });
+wrapper.classList.add("signed");
 
-  /* =======================================================
-     OUTSIDE CLICK
-     ======================================================= */
+canvas.setPointerCapture?.(e.pointerId);
 
-  [memberModal, branchModal].forEach(modal => {
+const p=position(e);
 
-    modal?.addEventListener("click", event => {
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
 
-      if (event.target === modal) {
-        closeModal(modal);
-      }
+},{passive:false});
 
-    });
+canvas.addEventListener("pointermove",e=>{
 
-  });
+if(!drawing)return;
 
-  /* =======================================================
-     ESCAPE
-     ======================================================= */
+e.preventDefault();
 
-  document.addEventListener("keydown", event => {
+const p=position(e);
 
-    if (event.key !== "Escape") return;
+ctx.lineTo(p.x,p.y);
+ctx.stroke();
 
-    if (memberModal?.classList.contains("active")) {
-      closeModal(memberModal);
-    }
+},{passive:false});
 
-    if (branchModal?.classList.contains("active")) {
-      closeModal(branchModal);
-    }
+["pointerup","pointercancel","pointerleave"]
+.forEach(type=>{
 
-  });
+canvas.addEventListener(type,e=>{
 
-  /* =======================================================
-     STEP SYSTEM
-     ======================================================= */
+drawing=false;
+ctx?.closePath();
 
-  let memberStep = 1;
-  let branchStep = 1;
+},{passive:false});
 
-  const MEMBER_TOTAL_STEPS = 4;
-  const BRANCH_TOTAL_STEPS = 2;
+});
 
-  function showMemberStep(step) {
+clear.addEventListener("click",()=>{
 
-    memberStep =
-      Math.max(
-        1,
-        Math.min(
-          MEMBER_TOTAL_STEPS,
-          step
-        )
-      );
+if(!ctx)resizeCanvas();
 
-    document
-      .querySelectorAll("#memberForm .form-step")
-      .forEach(el => {
+ctx.clearRect(
+0,0,
+canvas.width,
+canvas.height
+);
 
-        el.classList.toggle(
-          "active",
-          Number(el.dataset.step) === memberStep
-        );
+signed=false;
+wrapper.classList.remove("signed");
 
-      });
+});
 
-    updateProgress(
-      "member",
-      memberStep,
-      MEMBER_TOTAL_STEPS
-    );
+/* SUBMIT */
 
-    scrollModalTop(memberModal);
+function registrationId(){
 
-    /*
-      Important:
-      When signature step becomes visible,
-      resize canvas correctly.
-    */
-    if (memberStep === 4) {
+const year=new Date().getFullYear();
 
-      setTimeout(() => {
-        setupSignatureCanvas();
-      }, 120);
+const number=Math.floor(
+100000+Math.random()*900000
+);
 
-    }
+return `MEM-${year}-${number}`;
 
-  }
+}
 
-  function showBranchStep(step) {
+function getData(){
 
-    branchStep =
-      Math.max(
-        1,
-        Math.min(
-          BRANCH_TOTAL_STEPS,
-          step
-        )
-      );
+const data={};
 
-    document
-      .querySelectorAll("#branchForm .form-step")
-      .forEach(el => {
+new FormData(form).forEach((value,key)=>{
 
-        el.classList.toggle(
-          "active",
-          Number(el.dataset.step) === branchStep
-        );
+if(key!=="agreement")
+data[key]=String(value).trim();
 
-      });
+});
 
-    updateProgress(
-      "branch",
-      branchStep,
-      BRANCH_TOTAL_STEPS
-    );
+return data;
 
-    scrollModalTop(branchModal);
+}
 
-  }
+function toast(message){
 
-  function updateProgress(type, step, total) {
+const t=document.getElementById("toast");
 
-    const percent =
-      Math.round(
-        (step / total) * 100
-      );
+t.textContent=message;
+t.classList.add("show");
 
-    const bar =
-      document.getElementById(
-        `${type}ProgressBar`
-      );
+setTimeout(()=>{
+t.classList.remove("show");
+},2500);
 
-    const text =
-      document.getElementById(
-        `${type}StepText`
-      );
+}
 
-    const percentText =
-      document.getElementById(
-        `${type}ProgressPercent`
-      );
+form.addEventListener("submit",e=>{
 
-    if (bar) {
-      bar.style.width =
-        `${percent}%`;
-    }
+e.preventDefault();
 
-    if (text) {
-      text.textContent =
-        `Step ${step} of ${total}`;
-    }
+if(!validate())return;
 
-    if (percentText) {
-      percentText.textContent =
-        `${percent}%`;
-    }
+if(!signed){
 
-  }
+toast("Please add your signature.");
+return;
 
-  function scrollModalTop(modal) {
+}
 
-    if (!modal) return;
+const data=getData();
 
-    const box =
-      modal.querySelector(
-        ".registration-modal-box"
-      );
+data.registrationType="Member Registration";
+data.registrationId=registrationId();
+data.signature=canvas.toDataURL("image/png");
+data.submittedAt=new Date().toISOString();
 
-    if (box) {
-      box.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+let list=[];
 
-  }
+try{
+list=JSON.parse(
+localStorage.getItem("memberRegistrations")||"[]"
+);
 
-  /* =======================================================
-     VALIDATE CURRENT STEP
-     ======================================================= */
+if(!Array.isArray(list))list=[];
 
-  function validateStep(form, step) {
+}catch(e){}
 
-    if (!form) return false;
+list.push(data);
 
-    const current =
-      form.querySelector(
-        `.form-step[data-step="${step}"]`
-      );
+try{
 
-    if (!current) return true;
+localStorage.setItem(
+"memberRegistrations",
+JSON.stringify(list)
+);
 
-    const requiredFields =
-      current.querySelectorAll(
-        "input[required], select[required], textarea[required]"
-      );
+}catch(e){
 
-    for (const field of requiredFields) {
+toast("Storage error");
+return;
 
-      if (!field.checkValidity()) {
+}
 
-        field.reportValidity();
+document.getElementById("regId").textContent=
+data.registrationId;
 
-        try {
-          field.focus();
-        } catch (error) {}
+document.getElementById("success")
+.classList.add("show");
 
-        return false;
+document.body.style.overflow="hidden";
 
-      }
+});
 
-    }
+document.getElementById("copyId")
+.addEventListener("click",async()=>{
 
-    return true;
+const id=document.getElementById("regId").textContent;
 
-  }
+try{
 
-  /* =======================================================
-     MEMBER NEXT
-     ======================================================= */
+await navigator.clipboard.writeText(id);
+toast("Registration ID copied");
 
-  document
-    .querySelectorAll(".member-next")
-    .forEach(button => {
+}catch(e){
 
-      button.addEventListener("click", () => {
+toast(id);
 
-        if (!memberForm) return;
+}
 
-        if (
-          !validateStep(
-            memberForm,
-            memberStep
-          )
-        ) {
-          return;
-        }
+});
 
-        showMemberStep(
-          memberStep + 1
-        );
+document.getElementById("done")
+.addEventListener("click",()=>{
 
-      });
+document.getElementById("success")
+.classList.remove("show");
 
-    });
+document.body.style.overflow="";
 
-  /* =======================================================
-     MEMBER BACK
-     ======================================================= */
+form.reset();
 
-  document
-    .querySelectorAll(".member-back")
-    .forEach(button => {
+signed=false;
+wrapper.classList.remove("signed");
 
-      button.addEventListener("click", () => {
+current=1;
+update();
 
-        showMemberStep(
-          memberStep - 1
-        );
+});
 
-      });
+window.addEventListener("resize",()=>{
+if(current===4)
+setTimeout(resizeCanvas,100);
+});
 
-    });
-
-  /* =======================================================
-     BRANCH NEXT
-     ======================================================= */
-
-  document
-    .querySelectorAll(".branch-next")
-    .forEach(button => {
-
-      button.addEventListener("click", () => {
-
-        if (!branchForm) return;
-
-        if (
-          !validateStep(
-            branchForm,
-            branchStep
-          )
-        ) {
-          return;
-        }
-
-        showBranchStep(
-          branchStep + 1
-        );
-
-      });
-
-    });
-
-  /* =======================================================
-     BRANCH BACK
-     ======================================================= */
-
-  document
-    .querySelectorAll(".branch-back")
-    .forEach(button => {
-
-      button.addEventListener("click", () => {
-
-        showBranchStep(
-          branchStep - 1
-        );
-
-      });
-
-    });
-
-  /* =======================================================
-     MOBILE NUMBER ONLY
-     ======================================================= */
-
-  document
-    .querySelectorAll('input[type="tel"]')
-    .forEach(input => {
-
-      input.addEventListener(
-        "input",
-        () => {
-
-          input.value =
-            input.value
-              .replace(/\D/g, "")
-              .slice(0, 10);
-
-        }
-      );
-
-    });
-
-  /* =======================================================
-     SIGNATURE PAD
-     ======================================================= */
-
-  const canvas =
-    document.getElementById(
-      "memberSignature"
-    );
-
-  const signatureWrapper =
-    document.querySelector(
-      ".signature-pad-wrapper"
-    );
-
-  const clearSignature =
-    document.getElementById(
-      "clearMemberSignature"
-    );
-
-  let ctx = null;
-  let drawing = false;
-  let hasSignature = false;
-
-  function setupSignatureCanvas() {
-
-    if (!canvas) return;
-
-    const rect =
-      canvas.getBoundingClientRect();
-
-    /*
-      If canvas is not visible yet, do not resize.
-    */
-    if (
-      rect.width <= 0 ||
-      rect.height <= 0
-    ) {
-      return;
-    }
-
-    const ratio =
-      Math.max(
-        window.devicePixelRatio || 1,
-        1
-      );
-
-    /*
-      Preserve existing signature when resizing.
-    */
-    let oldCanvas = null;
-
-    if (
-      canvas.width > 0 &&
-      canvas.height > 0 &&
-      hasSignature
-    ) {
-
-      oldCanvas =
-        document.createElement("canvas");
-
-      oldCanvas.width =
-        canvas.width;
-
-      oldCanvas.height =
-        canvas.height;
-
-      const oldCtx =
-        oldCanvas.getContext("2d");
-
-      oldCtx.drawImage(
-        canvas,
-        0,
-        0
-      );
-
-    }
-
-    canvas.width =
-      Math.round(rect.width * ratio);
-
-    canvas.height =
-      Math.round(rect.height * ratio);
-
-    canvas.style.width =
-      `${rect.width}px`;
-
-    canvas.style.height =
-      `${rect.height}px`;
-
-    ctx =
-      canvas.getContext("2d");
-
-    if (!ctx) return;
-
-    ctx.setTransform(
-      ratio,
-      0,
-      0,
-      ratio,
-      0,
-      0
-    );
-
-    ctx.lineWidth = 2.2;
-
-    ctx.lineCap = "round";
-
-    ctx.lineJoin = "round";
-
-    ctx.strokeStyle = "#111827";
-
-    /*
-      Restore previous signature.
-    */
-    if (oldCanvas && hasSignature) {
-
-      ctx.drawImage(
-        oldCanvas,
-        0,
-        0,
-        oldCanvas.width / ratio,
-        oldCanvas.height / ratio,
-        0,
-        0,
-        rect.width,
-        rect.height
-      );
-
-    }
-
-  }
-
-  function getPoint(event) {
-
-    if (!canvas) {
-      return {
-        x: 0,
-        y: 0
-      };
-    }
-
-    const rect =
-      canvas.getBoundingClientRect();
-
-    let clientX = 0;
-    let clientY = 0;
-
-    if (
-      event.touches &&
-      event.touches.length
-    ) {
-
-      clientX =
-        event.touches[0].clientX;
-
-      clientY =
-        event.touches[0].clientY;
-
-    } else {
-
-      clientX =
-        event.clientX;
-
-      clientY =
-        event.clientY;
-
-    }
-
-    return {
-      x:
-        clientX - rect.left,
-
-      y:
-        clientY - rect.top
-    };
-
-  }
-
-  function startDrawing(event) {
-
-    if (!ctx) {
-      setupSignatureCanvas();
-    }
-
-    if (!ctx) return;
-
-    event.preventDefault();
-
-    drawing = true;
-
-    hasSignature = true;
-
-    signatureWrapper
-      ?.classList.add("signed");
-
-    const point =
-      getPoint(event);
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      point.x,
-      point.y
-    );
-
-  }
-
-  function draw(event) {
-
-    if (!drawing || !ctx) return;
-
-    event.preventDefault();
-
-    const point =
-      getPoint(event);
-
-    ctx.lineTo(
-      point.x,
-      point.y
-    );
-
-    ctx.stroke();
-
-  }
-
-  function stopDrawing(event) {
-
-    if (!drawing) return;
-
-    if (event) {
-      event.preventDefault();
-    }
-
-    drawing = false;
-
-    if (ctx) {
-      ctx.closePath();
-    }
-
-  }
-
-  canvas?.addEventListener(
-    "pointerdown",
-    startDrawing,
-    { passive: false }
-  );
-
-  canvas?.addEventListener(
-    "pointermove",
-    draw,
-    { passive: false }
-  );
-
-  canvas?.addEventListener(
-    "pointerup",
-    stopDrawing,
-    { passive: false }
-  );
-
-  canvas?.addEventListener(
-    "pointercancel",
-    stopDrawing,
-    { passive: false }
-  );
-
-  canvas?.addEventListener(
-    "pointerleave",
-    stopDrawing,
-    { passive: false }
-  );
-
-  clearSignature?.addEventListener(
-    "click",
-    () => {
-
-      if (!canvas) return;
-
-      if (!ctx) {
-        setupSignatureCanvas();
-      }
-
-      if (ctx) {
-
-        ctx.clearRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-      }
-
-      hasSignature = false;
-
-      signatureWrapper
-        ?.classList.remove("signed");
-
-    }
-  );
-
-  window.addEventListener(
-    "resize",
-    () => {
-
-      if (
-        memberModal?.classList.contains("active") &&
-        memberStep === 4
-      ) {
-
-        setTimeout(
-          setupSignatureCanvas,
-          100
-        );
-
-      }
-
-    }
-  );
-
-  /* =======================================================
-     MEMBER FORM SUBMIT
-     ======================================================= */
-
-  memberForm?.addEventListener(
-    "submit",
-    event => {
-
-      /*
-        Prevent normal browser form navigation.
-      */
-      event.preventDefault();
-      event.stopPropagation();
-
-      try {
-
-        /* -----------------------------------------------
-           STEP 4 VALIDATION
-           ----------------------------------------------- */
-
-        if (
-          !validateStep(
-            memberForm,
-            4
-          )
-        ) {
-          return;
-        }
-
-        /* -----------------------------------------------
-           SIGNATURE CHECK
-           ----------------------------------------------- */
-
-        if (!canvas) {
-
-          showToast(
-            "Signature pad not found.",
-            "error"
-          );
-
-          console.error(
-            "Member signature canvas #memberSignature not found."
-          );
-
-          return;
-        }
-
-        if (!hasSignature) {
-
-          showToast(
-            "Please add your signature.",
-            "error"
-          );
-
-          return;
-
-        }
-
-        /* -----------------------------------------------
-           CANVAS CHECK
-           ----------------------------------------------- */
-
-        if (
-          canvas.width <= 0 ||
-          canvas.height <= 0
-        ) {
-
-          setupSignatureCanvas();
-
-        }
-
-        if (
-          canvas.width <= 0 ||
-          canvas.height <= 0
-        ) {
-
-          showToast(
-            "Signature area is not ready. Please try again.",
-            "error"
-          );
-
-          return;
-
-        }
-
-        /* -----------------------------------------------
-           FORM DATA
-           ----------------------------------------------- */
-
-        const data =
-          formToObject(
-            memberForm
-          );
-
-        data.registrationType =
-          "Member Registration";
-
-        data.signature =
-          canvas.toDataURL(
-            "image/png"
-          );
-
-        data.submittedAt =
-          new Date().toISOString();
-
-        /* -----------------------------------------------
-           REGISTRATION ID
-           ----------------------------------------------- */
-
-        const id =
-          createRegistrationId(
-            "MEM"
-          );
-
-        data.registrationId =
-          id;
-
-        /* -----------------------------------------------
-           SAVE
-           ----------------------------------------------- */
-
-        const saved =
-          saveRegistration(
-            "memberRegistrations",
-            data
-          );
-
-        if (!saved) {
-
-          showToast(
-            "Registration save செய்ய முடியவில்லை. Browser storage check செய்யவும்.",
-            "error"
-          );
-
-          return;
-
-        }
-
-        /* -----------------------------------------------
-           CLOSE MEMBER MODAL
-           ----------------------------------------------- */
-
-        closeModal(
-          memberModal
-        );
-
-        /* -----------------------------------------------
-           SHOW SUCCESS
-           ----------------------------------------------- */
-
-        showSuccess(
-          id,
-          "Member Registration",
-          "உங்கள் Member Registration வெற்றிகரமாக பதிவு செய்யப்பட்டுள்ளது."
-        );
-
-      } catch (error) {
-
-        console.error(
-          "MEMBER SUBMIT ERROR:",
-          error
-        );
-
-        showToast(
-          "Member Registration submit செய்யும்போது error ஏற்பட்டது.",
-          "error"
-        );
-
-      }
-
-    }
-  );
-
-  /* =======================================================
-     BRANCH FORM SUBMIT
-     Existing working logic preserved
-     ======================================================= */
-
-  branchForm?.addEventListener(
-    "submit",
-    event => {
-
-      event.preventDefault();
-
-      if (
-        !validateStep(
-          branchForm,
-          2
-        )
-      ) {
-        return;
-      }
-
-      const data =
-        formToObject(
-          branchForm
-        );
-
-      data.state =
-        "Tamil Nadu";
-
-      data.registrationType =
-        "Branch Registration";
-
-      data.submittedAt =
-        new Date().toISOString();
-
-      const id =
-        createRegistrationId(
-          "BR"
-        );
-
-      data.registrationId =
-        id;
-
-      const saved =
-        saveRegistration(
-          "branchRegistrations",
-          data
-        );
-
-      if (!saved) {
-
-        showToast(
-          "Branch Registration save செய்ய முடியவில்லை.",
-          "error"
-        );
-
-        return;
-
-      }
-
-      closeModal(
-        branchModal
-      );
-
-      showSuccess(
-        id,
-        "Branch Registration",
-        "உங்கள் Branch Registration வெற்றிகரமாக பதிவு செய்யப்பட்டுள்ளது."
-      );
-
-    }
-  );
-
-  /* =======================================================
-     FORM → OBJECT
-     ======================================================= */
-
-  function formToObject(form) {
-
-    const formData =
-      new FormData(form);
-
-    const object = {};
-
-    formData.forEach(
-      (value, key) => {
-
-        if (
-          key === "agreement" ||
-          key === "branchAgreement"
-        ) {
-          return;
-        }
-
-        object[key] =
-          String(value).trim();
-
-      }
-    );
-
-    return object;
-
-  }
-
-  /* =======================================================
-     SAVE LOCAL
-     ======================================================= */
-
-  function saveRegistration(
-    storageKey,
-    data
-  ) {
-
-    try {
-
-      const stored =
-        localStorage.getItem(
-          storageKey
-        );
-
-      let oldData = [];
-
-      if (stored) {
-
-        const parsed =
-          JSON.parse(stored);
-
-        if (Array.isArray(parsed)) {
-          oldData = parsed;
-        }
-
-      }
-
-      oldData.push(data);
-
-      localStorage.setItem(
-        storageKey,
-        JSON.stringify(oldData)
-      );
-
-      console.log(
-        "Registration saved successfully:",
-        storageKey,
-        data
-      );
-
-      return true;
-
-    } catch (error) {
-
-      console.error(
-        "LocalStorage save error:",
-        error
-      );
-
-      return false;
-
-    }
-
-  }
-
-  /* =======================================================
-     REGISTRATION ID
-     ======================================================= */
-
-  function createRegistrationId(
-    prefix
-  ) {
-
-    const date =
-      new Date();
-
-    const year =
-      date.getFullYear();
-
-    const random =
-      Math.floor(
-        100000 +
-        Math.random() * 900000
-      );
-
-    return `${prefix}-${year}-${random}`;
-
-  }
-
-  /* =======================================================
-     SUCCESS
-     ======================================================= */
-
-  function showSuccess(
-    id,
-    type,
-    message
-  ) {
-
-    if (!successModal) {
-
-      showToast(
-        `${type} submitted successfully — ${id}`,
-        "success"
-      );
-
-      return;
-
-    }
-
-    const idElement =
-      document.getElementById(
-        "registrationId"
-      );
-
-    const messageElement =
-      document.getElementById(
-        "successMessage"
-      );
-
-    if (idElement) {
-      idElement.textContent = id;
-    }
-
-    if (messageElement) {
-      messageElement.textContent = message;
-    }
-
-    successModal.classList.add(
-      "active"
-    );
-
-    successModal.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-    document.body.style.overflow =
-      "hidden";
-
-    showToast(
-      `${type} submitted successfully`,
-      "success"
-    );
-
-  }
-
-  /* =======================================================
-     SUCCESS CLOSE
-     ======================================================= */
-
-  document
-    .getElementById("successClose")
-    ?.addEventListener(
-      "click",
-      () => {
-
-        successModal?.classList.remove(
-          "active"
-        );
-
-        successModal?.setAttribute(
-          "aria-hidden",
-          "true"
-        );
-
-        document.body.style.overflow =
-          "";
-
-      }
-    );
-
-  /* =======================================================
-     COPY REGISTRATION ID
-     ======================================================= */
-
-  document
-    .getElementById("copyRegistrationId")
-    ?.addEventListener(
-      "click",
-      async () => {
-
-        const id =
-          document.getElementById(
-            "registrationId"
-          )?.textContent?.trim();
-
-        if (!id) return;
-
-        try {
-
-          if (
-            navigator.clipboard &&
-            window.isSecureContext
-          ) {
-
-            await navigator.clipboard.writeText(
-              id
-            );
-
-          } else {
-
-            const temp =
-              document.createElement("textarea");
-
-            temp.value = id;
-
-            temp.style.position =
-              "fixed";
-
-            temp.style.opacity = "0";
-
-            document.body.appendChild(temp);
-
-            temp.select();
-
-            document.execCommand("copy");
-
-            temp.remove();
-
-          }
-
-          showToast(
-            "Registration ID copied",
-            "success"
-          );
-
-        } catch (error) {
-
-          console.error(
-            "Copy error:",
-            error
-          );
-
-          showToast(
-            "Copy failed",
-            "error"
-          );
-
-        }
-
-      }
-    );
-
-  /* =======================================================
-     RESET MEMBER
-     ======================================================= */
-
-  function resetMemberForm() {
-
-    memberForm?.reset();
-
-    memberStep = 1;
-
-    hasSignature = false;
-
-    drawing = false;
-
-    signatureWrapper
-      ?.classList.remove(
-        "signed"
-      );
-
-    showMemberStep(1);
-
-    /*
-      Clear old canvas safely.
-    */
-    if (canvas) {
-
-      if (!ctx) {
-        setupSignatureCanvas();
-      }
-
-      if (ctx) {
-
-        ctx.clearRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-      }
-
-    }
-
-  }
-
-  /* =======================================================
-     RESET BRANCH
-     ======================================================= */
-
-  function resetBranchForm() {
-
-    branchForm?.reset();
-
-    branchStep = 1;
-
-    showBranchStep(1);
-
-  }
-
-  /* =======================================================
-     TOAST
-     ======================================================= */
-
-  function showToast(
-    message,
-    type = "success"
-  ) {
-
-    if (!toastContainer) {
-
-      console.log(
-        `[${type}] ${message}`
-      );
-
-      return;
-
-    }
-
-    const toast =
-      document.createElement(
-        "div"
-      );
-
-    toast.className =
-      `toast ${type}`;
-
-    toast.textContent =
-      message;
-
-    toastContainer.appendChild(
-      toast
-    );
-
-    setTimeout(
-      () => {
-
-        toast.style.opacity =
-          "0";
-
-        toast.style.transform =
-          "translateY(10px)";
-
-        setTimeout(
-          () => toast.remove(),
-          250
-        );
-
-      },
-      3000
-    );
-
-  }
-
-  /* =======================================================
-     INITIAL
-     ======================================================= */
-
-  showMemberStep(1);
-
-  showBranchStep(1);
-
-  console.log(
-    "Registration system initialized successfully."
-  );
+update();
 
 });
