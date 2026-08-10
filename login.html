@@ -3,47 +3,64 @@
 <head>
     <meta charset="UTF-8">
 
-    <!-- VERY IMPORTANT FOR ANDROID WEBVIEW -->
     <meta
         name="viewport"
         content="width=device-width,
-                 initial-scale=1.0,
-                 maximum-scale=1.0,
-                 minimum-scale=1.0,
-                 user-scalable=no,
-                 viewport-fit=cover"
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        minimum-scale=1.0,
+        user-scalable=no,
+        viewport-fit=cover"
     >
 
     <meta name="theme-color" content="#d50000">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
 
-    <title>Login</title>
+    <title>Login | TN DYFI</title>
 
-    <!-- DO NOT LOAD YOUR MAIN style.css HERE -->
-    <!-- This prevents index.html CSS conflicts -->
+    <!-- Poppins -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+        href="css/loginstyle.css"
     >
 
-    <link rel="stylesheet" href="css/loginstyle.css">
-
-    <!-- Theme detection before page renders -->
     <script>
-        (function () {
+        (() => {
             try {
                 const theme = localStorage.getItem("theme");
 
-                if (theme === "dark") {
-                    document.documentElement.classList.add("dark");
-                } else {
-                    document.documentElement.classList.add("light");
-                }
-            } catch (e) {
-                document.documentElement.classList.add("light");
+                document.documentElement.className =
+                    theme === "dark" ? "dark" : "light";
+
+            } catch {
+                document.documentElement.className = "light";
             }
         })();
     </script>
@@ -51,222 +68,250 @@
 
 <body class="login-page">
 
+    <!-- Background decoration -->
+    <div class="login-background" aria-hidden="true">
+        <span class="bg-orb orb-one"></span>
+        <span class="bg-orb orb-two"></span>
+        <span class="bg-grid"></span>
+    </div>
+
+
     <main class="login-shell">
 
-        <form id="loginForm" class="login-card" novalidate>
+        <section class="login-container">
 
-            <!-- =====================================================
-                 YOUR EXISTING YETI SVG
-                 Paste your complete SVG here
-                 ===================================================== -->
+            <!-- BRAND -->
+            <header class="login-brand">
 
-            <div class="svgContainer">
-                <div>
+                <div class="brand-mark">
+                    <span class="brand-line"></span>
 
-                    <!-- YOUR EXISTING .mySVG SVG -->
-                    <!-- Keep your full SVG code here -->
+                    <div class="brand-symbol">
+                        <span>DYFI</span>
+                    </div>
 
-                    <svg
-                        class="mySVG"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 200 200"
-                        aria-hidden="true"
-                    >
-
-                        <circle
-                            cx="100"
-                            cy="100"
-                            r="100"
-                            fill="#a9ddf3"
-                        />
-
-                        <circle
-                            cx="100"
-                            cy="100"
-                            r="96"
-                            fill="#ffffff"
-                            stroke="#3A5E77"
-                            stroke-width="2.5"
-                        />
-
-                        <circle
-                            class="eyeL"
-                            cx="82"
-                            cy="82"
-                            r="5"
-                            fill="#3A5E77"
-                        />
-
-                        <circle
-                            class="eyeR"
-                            cx="118"
-                            cy="82"
-                            r="5"
-                            fill="#3A5E77"
-                        />
-
-                        <path
-                            class="nose"
-                            d="M96 91 L104 91 L100 98 Z"
-                            fill="#3A5E77"
-                        />
-
-                        <path
-                            class="mouth"
-                            d="M88 105 Q100 114 112 105"
-                            fill="none"
-                            stroke="#3A5E77"
-                            stroke-width="3"
-                            stroke-linecap="round"
-                        />
-
-                        <path
-                            class="hair"
-                            d="M65 61
-                               Q72 32 100 25
-                               Q128 32 135 61
-                               Q123 49 114 52
-                               Q108 39 101 51
-                               Q92 38 86 52
-                               Q75 48 65 61Z"
-                            fill="#ffffff"
-                            stroke="#3A5E77"
-                            stroke-width="2.5"
-                        />
-
-                        <path
-                            class="body"
-                            d="M42 190
-                               Q46 145 72 137
-                               Q100 127 128 137
-                               Q154 145 158 190Z"
-                            fill="#ffffff"
-                            stroke="#3A5E77"
-                            stroke-width="2.5"
-                        />
-
-                    </svg>
-
+                    <span class="brand-line"></span>
                 </div>
-            </div>
 
-            <!-- EMAIL -->
+                <h1>TN DYFI</h1>
 
-            <div class="inputGroup inputGroup1">
-
-                <label
-                    for="loginEmail"
-                    id="loginEmailLabel"
-                >
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="loginEmail"
-                    name="email"
-                    inputmode="email"
-                    autocomplete="username"
-                    autocapitalize="none"
-                    spellcheck="false"
-                    maxlength="254"
-                    required
-                >
-
-                <p class="helper helper1">
-                    email@domain.com
+                <p>
+                    Democratic Youth Federation of India
                 </p>
 
-                <small
-                    id="emailError"
-                    class="field-error"
-                ></small>
-
-            </div>
+            </header>
 
 
-            <!-- PASSWORD -->
+            <!-- LOGIN CARD -->
+            <form
+                id="loginForm"
+                class="login-card"
+                novalidate
+            >
 
-            <div class="inputGroup inputGroup2">
+                <div class="login-heading">
 
-                <label
-                    for="loginPassword"
-                    id="loginPasswordLabel"
-                >
-                    Password
-                </label>
+                    <span class="heading-icon">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </span>
 
-                <input
-                    type="password"
-                    id="loginPassword"
-                    name="password"
-                    autocomplete="current-password"
-                    minlength="1"
-                    required
-                >
+                    <div>
+                        <h2>Welcome Back</h2>
 
-                <label
-                    id="showPasswordToggle"
-                    for="showPasswordCheck"
-                >
-                    Show
+                        <p>
+                            Sign in to continue to your account
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label for="loginEmail">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-regular fa-envelope input-icon"></i>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            name="email"
+                            placeholder="Enter your email"
+                            inputmode="email"
+                            autocomplete="username"
+                            autocapitalize="none"
+                            spellcheck="false"
+                            maxlength="254"
+                            required
+                        >
+
+                    </div>
+
+                    <small
+                        id="emailError"
+                        class="field-error"
+                    ></small>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="form-group">
+
+                    <div class="label-row">
+
+                        <label for="loginPassword">
+                            Password
+                        </label>
+
+                        <button
+                            type="button"
+                            id="forgotPassword"
+                            class="forgot-button"
+                        >
+                            Forgot password?
+                        </button>
+
+                    </div>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-lock input-icon"></i>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="passwordToggle"
+                            class="password-toggle"
+                            aria-label="Show password"
+                            aria-pressed="false"
+                        >
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+
+                    </div>
+
+                    <small
+                        id="passwordError"
+                        class="field-error"
+                    ></small>
+
+                </div>
+
+
+                <!-- REMEMBER -->
+                <label class="remember-row">
 
                     <input
-                        id="showPasswordCheck"
                         type="checkbox"
+                        id="rememberMe"
                     >
 
-                    <span class="indicator"></span>
+                    <span class="custom-check">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+
+                    <span class="remember-text">
+                        Remember me
+                    </span>
+
                 </label>
 
-                <small
-                    id="passwordError"
-                    class="field-error"
-                ></small>
 
-            </div>
-
-
-            <!-- LOGIN BUTTON -->
-
-            <div class="inputGroup inputGroup3">
-
+                <!-- LOGIN BUTTON -->
                 <button
-                    id="login"
                     type="submit"
+                    id="login"
+                    class="login-button"
                 >
-                    <span class="button-text">
-                        Log in
+
+                    <span class="button-content">
+
+                        <span>
+                            Login
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
                     </span>
 
                     <span
                         class="button-loader"
                         aria-hidden="true"
                     ></span>
+
                 </button>
 
-            </div>
+
+                <!-- STATUS -->
+                <div
+                    id="loginStatus"
+                    class="login-status"
+                    role="status"
+                    aria-live="polite"
+                ></div>
 
 
-            <!-- STATUS -->
+                <!-- DIVIDER -->
+                <div class="login-divider">
 
-            <div
-                id="loginStatus"
-                class="login-status"
-                role="status"
-                aria-live="polite"
-            ></div>
+                    <span></span>
 
-        </form>
+                    <small>SECURE ACCESS</small>
+
+                    <span></span>
+
+                </div>
+
+
+                <!-- FOOTER -->
+                <div class="login-footer">
+
+                    <span>
+                        Don't have an account?
+                    </span>
+
+                    <a href="registration.html">
+                        Register now
+                    </a>
+
+                </div>
+
+            </form>
+
+
+            <!-- BACK -->
+            <a
+                href="index.html"
+                class="back-home"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Home
+            </a>
+
+
+            <footer class="login-copyright">
+                © 2026 TN DYFI. All rights reserved.
+            </footer>
+
+        </section>
 
     </main>
 
-
-    <!-- GSAP -->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-    <script src="https://assets.codepen.io/16327/MorphSVGPlugin3.min.js"></script>
 
     <script src="js/loginscript.js"></script>
 
