@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#d50000">
+
+<title>DYFI Youth Connect - Branch Registration</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet" href="branch.css">
+
+<script>
+try{
+if(localStorage.getItem("theme")==="dark")
+document.documentElement.classList.add("dark");
+}catch(e){}
+</script>
+</head>
+
+<body>
+
+<header class="topbar">
+
+<a href="index.html" class="icon-btn">
+<i class="fa-solid fa-arrow-left"></i>
+</a>
+
+<div class="brand">
+<small>DYFI • YOUTH CONNECT</small>
+<strong>Branch Registration</strong>
+</div>
+
+<button id="themeBtn" class="icon-btn">
+<i class="fa-solid fa-moon"></i>
+</button>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-icon">
+<i class="fa-solid fa-code-branch"></i>
+</div>
+
+<div>
+<span>ORGANIZATION REGISTRATION</span>
+<h1>Branch Registration</h1>
+<p>கிளை மற்றும் நிர்வாகிகளின் விவரங்களை பதிவு செய்யுங்கள்.</p>
+</div>
+
+</section>
+
+<main>
+
+<div class="heading">
+<small>BRANCH REGISTRATION</small>
+<h2>கிளை விவரங்கள்</h2>
+<p>கீழே உள்ள 2 படிகளையும் முடிக்கவும்.</p>
+</div>
+
+<section class="card">
+
+<div class="card-head">
+
+<div class="card-icon">
+<i class="fa-solid fa-code-branch"></i>
+</div>
+
+<div>
+<small>02 • BRANCH</small>
+<h3>Branch Registration</h3>
+<p>கிளை அமைப்பு விவரங்கள்</p>
+</div>
+
+</div>
+
+<div class="progress-area">
+
+<div class="progress">
+<span id="progress"></span>
+</div>
+
+<div>
+<b id="stepText">Step 1 of 2</b>
+<b id="percent">50%</b>
+</div>
+
+</div>
+
+<form id="branchForm">
+
+<!-- STEP 1 -->
+
+<section class="step active" data-step="1">
+
+<div class="step-title">
+
+<div>
+<small>STEP 01</small>
+<h3>Branch Details</h3>
+</div>
+
+<i class="fa-solid fa-building"></i>
+
+</div>
+
+<div class="grid">
+
+<div class="field">
+<label>State</label>
+
+<select name="state" required>
+<option value="">Select State</option>
+<option>Tamil Nadu</option>
+<option>Puducherry</option>
+</select>
+
+</div>
+
+<div class="field">
+
+<label>District</label>
+
+<select name="district" required>
+<option value="">Select District</option>
+<option>Chennai</option>
+<option>Coimbatore</option>
+<option>Cuddalore</option>
+<option>Dharmapuri</option>
+<option>Dindigul</option>
+<option>Erode</option>
+<option>Kallakurichi</option>
+<option>Kanchipuram</option>
+<option>Karur</option>
+<option>Krishnagiri</option>
+<option>Madurai</option>
+<option>Mayiladuthurai</option>
+<option>Nagapattinam</option>
+<option>Namakkal</option>
+<option>Perambalur</option>
+<option>Pudukkottai</option>
+<option>Ramanathapuram</option>
+<option>Ranipet</option>
+<option>Salem</option>
+<option>Sivaganga</option>
+<option>Tenkasi</option>
+<option>Thanjavur</option>
+<option>Theni</option>
+<option>Thoothukudi</option>
+<option>Tiruchirappalli</option>
+<option>Tirunelveli</option>
+<option>Tirupathur</option>
+<option>Tiruppur</option>
+<option>Tiruvallur</option>
+<option>Tiruvannamalai</option>
+<option>Tiruvarur</option>
+<option>Vellore</option>
+<option>Viluppuram</option>
+<option>Virudhunagar</option>
+</select>
+
+</div>
+
+<div class="field full">
+<label>Branch Name / கிளை பெயர்</label>
+<input name="branchName" required
+placeholder="Enter branch name">
+</div>
+
+<div class="field">
+<label>Union / ஒன்றியம்</label>
+<input name="union" required
+placeholder="Enter union">
+</div>
+
+<div class="field">
+<label>Municipality / நகராட்சி</label>
+<input name="municipality"
+placeholder="Enter municipality">
+</div>
+
+<div class="field">
+<label>Vatta Kuzhu / வட்டக் குழு</label>
+<input name="ward"
+placeholder="Enter vatta kuzhu">
+</div>
+
+<div class="field">
+<label>Formation Date</label>
+<input type="date"
+name="formationDate"
+required>
+</div>
+
+<div class="field">
+<label>Total Members</label>
+<input type="number"
+name="totalMembers"
+min="1"
+placeholder="Number of members"
+required>
+</div>
+
+</div>
+
+<div class="actions right">
+
+<button type="button" class="primary next">
+Continue
+<i class="fa-solid fa-arrow-right"></i>
+</button>
+
+</div>
+
+</section>
+
+<!-- STEP 2 -->
+
+<section class="step" data-step="2">
+
+<div class="step-title">
+
+<div>
+<small>STEP 02</small>
+<h3>Branch Leadership</h3>
+</div>
+
+<i class="fa-solid fa-users"></i>
+
+</div>
+
+<div class="leader">
+
+<h4>
+<i class="fa-solid fa-user-tie"></i>
+President / தலைவர்
+</h4>
+
+<div class="grid">
+
+<div class="field full">
+<label>Full Name</label>
+<input name="presidentName"
+required placeholder="President name">
+</div>
+
+<div class="field">
+<label>Mobile</label>
+<input name="presidentMobile"
+required maxlength="10"
+inputmode="numeric"
+pattern="[0-9]{10}"
+placeholder="10 digit mobile">
+</div>
+
+<div class="field">
+<label>Age</label>
+<input type="number"
+name="presidentAge"
+min="15"
+max="100"
+placeholder="Age">
+</div>
+
+</div>
+
+</div>
+
+<div class="leader">
+
+<h4>
+<i class="fa-solid fa-user"></i>
+Secretary / செயலாளர்
+</h4>
+
+<div class="grid">
+
+<div class="field full">
+<label>Full Name</label>
+<input name="secretaryName"
+required placeholder="Secretary name">
+</div>
+
+<div class="field">
+<label>Mobile</label>
+<input name="secretaryMobile"
+required maxlength="10"
+inputmode="numeric"
+pattern="[0-9]{10}"
+placeholder="10 digit mobile">
+</div>
+
+<div class="field">
+<label>Age</label>
+<input type="number"
+name="secretaryAge"
+min="15"
+max="100"
+placeholder="Age">
+</div>
+
+</div>
+
+</div>
+
+<div class="field full">
+
+<label>Branch Address</label>
+
+<textarea name="address"
+required
+placeholder="Enter complete branch address"></textarea>
+
+</div>
+
+<label class="agreement">
+
+<input type="checkbox"
+name="agreement"
+required>
+
+<span>
+மேலே வழங்கப்பட்ட கிளை விவரங்கள் சரியானவை என்பதை உறுதிப்படுத்துகிறேன்.
+</span>
+
+</label>
+
+<div class="actions between">
+
+<button type="button" class="secondary back">
+<i class="fa-solid fa-arrow-left"></i>
+Back
+</button>
+
+<button type="submit" class="primary">
+<i class="fa-solid fa-paper-plane"></i>
+Submit Registration
+</button>
+
+</div>
+
+</section>
+
+</form>
+
+</section>
+</main>
+
+<div id="success" class="modal">
+
+<div class="success-card">
+
+<div class="success-icon">
+<i class="fa-solid fa-check"></i>
+</div>
+
+<small>BRANCH REGISTRATION COMPLETE</small>
+
+<h2>Successfully Submitted!</h2>
+
+<p>
+உங்கள் கிளை பதிவு வெற்றிகரமாக சேமிக்கப்பட்டுள்ளது.
+</p>
+
+<div class="reg-id">
+
+<span>Registration ID</span>
+
+<strong id="regId"></strong>
+
+<button id="copyId">
+<i class="fa-solid fa-copy"></i>
+</button>
+
+</div>
+
+<button id="done" class="primary">
+Done
+<i class="fa-solid fa-check"></i>
+</button>
+
+</div>
+</div>
+
+<div id="toast"></div>
+
+<script src="branch.js"></script>
+
+</body>
+</html>
