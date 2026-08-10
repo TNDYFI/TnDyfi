@@ -1,14 +1,14 @@
 "use strict";
 
 /* =========================================================
-   LOGIN SCRIPT
+   TN DYFI LOGIN SYSTEM
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* -----------------------------------------------------
+    /* =====================================================
        ELEMENTS
-    ----------------------------------------------------- */
+       ===================================================== */
 
     const form =
         document.getElementById("loginForm");
@@ -19,14 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const password =
         document.getElementById("loginPassword");
 
-    const emailGroup =
-        document.querySelector(".inputGroup1");
+    const passwordToggle =
+        document.getElementById("passwordToggle");
 
-    const passwordGroup =
-        document.querySelector(".inputGroup2");
-
-    const showPasswordCheck =
-        document.getElementById("showPasswordCheck");
+    const rememberMe =
+        document.getElementById("rememberMe");
 
     const loginButton =
         document.getElementById("login");
@@ -43,17 +40,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginStatus =
         document.getElementById("loginStatus");
 
-
-    /* -----------------------------------------------------
-       GSAP CHECK
-    ----------------------------------------------------- */
-
-    const hasGSAP =
-        typeof window.gsap !== "undefined";
+    const forgotPassword =
+        document.getElementById("forgotPassword");
 
 
-    if (!form || !email || !password) {
-        console.error("Login form elements not found.");
+    /* =====================================================
+       SAFETY CHECK
+       ===================================================== */
+
+    if (
+        !form ||
+        !email ||
+        !password ||
+        !loginButton
+    ) {
+
+        console.error(
+            "TN DYFI Login: Required elements missing."
+        );
+
         return;
     }
 
@@ -66,30 +71,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 
-            const theme =
+            const savedTheme =
                 localStorage.getItem("theme");
 
             document.documentElement.classList.remove(
-                "dark",
-                "light"
+                "light",
+                "dark"
             );
 
-            if (theme === "dark") {
+            document.documentElement.classList.add(
+                savedTheme === "dark"
+                    ? "dark"
+                    : "light"
+            );
 
-                document.documentElement
-                    .classList.add("dark");
+        } catch {
 
-            } else {
-
-                document.documentElement
-                    .classList.add("light");
-
-            }
-
-        } catch (error) {
-
-            document.documentElement
-                .classList.add("light");
+            document.documentElement.classList.add(
+                "light"
+            );
         }
     }
 
@@ -98,71 +98,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       EMAIL UI
+       REMEMBER EMAIL
        ===================================================== */
 
-    function updateEmailState() {
+    try {
 
-        const hasValue =
-            email.value.trim().length > 0;
+        const savedEmail =
+            localStorage.getItem("loginEmail");
 
-        emailGroup.classList.toggle(
-            "has-value",
-            hasValue
-        );
+        if (savedEmail) {
 
-        emailGroup.classList.toggle(
-            "focusWithText",
-            hasValue || document.activeElement === email
-        );
+            email.value = savedEmail;
 
-    }
-
-
-    email.addEventListener(
-        "input",
-        updateEmailState
-    );
-
-    email.addEventListener(
-        "focus",
-        updateEmailState
-    );
-
-    email.addEventListener(
-        "blur",
-        updateEmailState
-    );
-
-
-    /* =====================================================
-       PASSWORD SHOW / HIDE
-    ===================================================== */
-
-    function updatePasswordVisibility() {
-
-        if (showPasswordCheck.checked) {
-
-            password.type = "text";
-
-        } else {
-
-            password.type = "password";
-
+            rememberMe.checked = true;
         }
 
+    } catch {
+        /* Ignore storage errors */
     }
 
 
-    showPasswordCheck.addEventListener(
-        "change",
-        updatePasswordVisibility
+    /* =====================================================
+       PASSWORD VISIBILITY
+       ===================================================== */
+
+    passwordToggle.addEventListener(
+        "click",
+        () => {
+
+            const isPassword =
+                password.type === "password";
+
+            password.type =
+                isPassword
+                    ? "text"
+                    : "password";
+
+            passwordToggle.setAttribute(
+                "aria-pressed",
+                String(isPassword)
+            );
+
+            passwordToggle.setAttribute(
+                "aria-label",
+                isPassword
+                    ? "Hide password"
+                    : "Show password"
+            );
+
+            passwordToggle.innerHTML =
+                isPassword
+                    ? '<i class="fa-regular fa-eye-slash"></i>'
+                    : '<i class="fa-regular fa-eye"></i>';
+        }
     );
 
 
     /* =====================================================
-       VALIDATION
-    ===================================================== */
+       ERROR HELPERS
+       ===================================================== */
 
     function clearErrors() {
 
@@ -173,15 +167,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
         loginStatus.className =
             "login-status";
+
+        const emailWrapper =
+            email.closest(".input-wrapper");
+
+        const passwordWrapper =
+            password.closest(".input-wrapper");
+
+        emailWrapper?.classList.remove(
+            "has-error"
+        );
+
+        passwordWrapper?.classList.remove(
+            "has-error"
+        );
     }
 
 
-    function validateEmail(value) {
+    function showEmailError(message) {
+
+        emailError.textContent =
+            message;
+
+        email
+            .closest(".input-wrapper")
+            ?.classList.add("has-error");
+    }
+
+
+    function showPasswordError(message) {
+
+        passwordError.textContent =
+            message;
+
+        password
+            .closest(".input-wrapper")
+            ?.classList.add("has-error");
+    }
+
+
+    /* =====================================================
+       EMAIL VALIDATION
+       ===================================================== */
+
+    function isValidEmail(value) {
 
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
             .test(value);
     }
 
+
+    /* =====================================================
+       FORM VALIDATION
+       ===================================================== */
 
     function validateForm() {
 
@@ -198,15 +236,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!emailValue) {
 
-            emailError.textContent =
-                "Please enter your email.";
+            showEmailError(
+                "Please enter your email address."
+            );
 
             valid = false;
 
-        } else if (!validateEmail(emailValue)) {
+        } else if (!isValidEmail(emailValue)) {
 
-            emailError.textContent =
-                "Please enter a valid email.";
+            showEmailError(
+                "Please enter a valid email address."
+            );
 
             valid = false;
         }
@@ -214,24 +254,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!passwordValue) {
 
-            passwordError.textContent =
-                "Please enter your password.";
+            showPasswordError(
+                "Please enter your password."
+            );
 
             valid = false;
-
         }
 
 
         if (!valid) {
 
-            if (!emailValue) {
+            if (
+                !emailValue ||
+                !isValidEmail(emailValue)
+            ) {
 
                 email.focus();
 
             } else {
 
                 password.focus();
-
             }
 
         }
@@ -242,8 +284,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       LOADING
-    ===================================================== */
+       LOADING STATE
+       ===================================================== */
 
     function setLoading(state) {
 
@@ -254,6 +296,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         loginButton.disabled =
             state;
+
+        email.disabled =
+            state;
+
+        password.disabled =
+            state;
+
+        passwordToggle.disabled =
+            state;
     }
 
 
@@ -263,9 +314,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener(
         "submit",
-        async function (event) {
+        async event => {
 
             event.preventDefault();
+
 
             if (loginButton.disabled) {
                 return;
@@ -284,6 +336,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 password.value;
 
 
+            /* Save email if requested */
+
+            try {
+
+                if (rememberMe.checked) {
+
+                    localStorage.setItem(
+                        "loginEmail",
+                        emailValue
+                    );
+
+                } else {
+
+                    localStorage.removeItem(
+                        "loginEmail"
+                    );
+                }
+
+            } catch {
+                /* Storage unavailable */
+            }
+
+
             setLoading(true);
 
 
@@ -291,16 +366,18 @@ document.addEventListener("DOMContentLoaded", () => {
              ==================================================
              IMPORTANT
 
-             Replace this section with your Firebase login
-             if your project uses Firebase Authentication.
+             இந்த இடத்தில்தான் Firebase Authentication
+             connect செய்ய வேண்டும்.
 
              Example:
 
-             signInWithEmailAndPassword(
-                 auth,
-                 emailValue,
-                 passwordValue
-             )
+             const result =
+                 await signInWithEmailAndPassword(
+                     auth,
+                     emailValue,
+                     passwordValue
+                 );
+
              ==================================================
             */
 
@@ -308,39 +385,43 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
 
                 /*
-                   Small delay only for UI.
-                   Remove this when Firebase is connected.
+                 ----------------------------------------------
+                 TEMPORARY DEMO FLOW
+
+                 Firebase connect செய்த பிறகு இதை remove
+                 செய்ய வேண்டும்.
+                 ----------------------------------------------
                 */
 
                 await new Promise(resolve => {
+
                     setTimeout(resolve, 700);
+
                 });
 
 
-                loginStatus.textContent =
-                    "Login successful.";
-
-                loginStatus.classList.add(
-                    "success"
-                );
-
-
                 /*
-                 ===============================================
-                 AFTER SUCCESS
+                 ----------------------------------------------
+                 IMPORTANT
 
-                 Change this to your actual main page.
+                 Current code design testing மட்டும்.
 
-                 Example:
+                 Actual Firebase authentication இல்லாமல்
+                 direct redirect செய்ய வேண்டாம்.
 
-                 window.location.href = "index.html";
-
-                 ===============================================
+                 ----------------------------------------------
                 */
 
-                window.location.href =
-                    "index.html";
+                loginStatus.textContent =
+                    "Please connect Firebase Authentication.";
 
+                loginStatus.classList.add(
+                    "error"
+                );
+
+                console.warn(
+                    "Firebase Authentication is not connected."
+                );
 
             } catch (error) {
 
@@ -350,7 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
                 loginStatus.textContent =
-                    "Login failed. Please try again.";
+                    "Unable to login. Please try again.";
 
                 loginStatus.classList.add(
                     "error"
@@ -359,9 +440,48 @@ document.addEventListener("DOMContentLoaded", () => {
             } finally {
 
                 setLoading(false);
-
             }
 
+        }
+    );
+
+
+    /* =====================================================
+       REAL-TIME ERROR CLEAR
+       ===================================================== */
+
+    email.addEventListener(
+        "input",
+        () => {
+
+            if (emailError.textContent) {
+
+                emailError.textContent = "";
+
+                email
+                    .closest(".input-wrapper")
+                    ?.classList.remove(
+                        "has-error"
+                    );
+            }
+        }
+    );
+
+
+    password.addEventListener(
+        "input",
+        () => {
+
+            if (passwordError.textContent) {
+
+                passwordError.textContent = "";
+
+                password
+                    .closest(".input-wrapper")
+                    ?.classList.remove(
+                        "has-error"
+                    );
+            }
         }
     );
 
@@ -379,9 +499,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.preventDefault();
 
                 password.focus();
-
             }
-
         }
     );
 
@@ -395,74 +513,55 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.preventDefault();
 
                 form.requestSubmit();
-
             }
-
         }
     );
 
 
     /* =====================================================
-       ANDROID KEYBOARD / RESIZE
-    ===================================================== */
+       FORGOT PASSWORD
+       ===================================================== */
 
-    let lastHeight =
+    forgotPassword?.addEventListener(
+        "click",
+        () => {
+
+            loginStatus.textContent =
+                "Password recovery will be available after authentication is connected.";
+
+            loginStatus.className =
+                "login-status error";
+        }
+    );
+
+
+    /* =====================================================
+       ANDROID KEYBOARD DETECTION
+       ===================================================== */
+
+    let initialHeight =
         window.innerHeight;
 
 
-    function handleViewportResize() {
+    function checkKeyboard() {
 
         const currentHeight =
             window.innerHeight;
 
-
-        /*
-          Android keyboard opened.
-          Keep card inside visible area.
-        */
-
-        if (
+        const keyboardOpened =
             currentHeight <
-            lastHeight - 120
-        ) {
+            initialHeight * 0.72;
 
-            document.body.classList.add(
-                "keyboard-open"
-            );
-
-        } else {
-
-            document.body.classList.remove(
-                "keyboard-open"
-            );
-
-        }
-
-
-        lastHeight =
-            currentHeight;
-
-
-        /*
-          Recalculate animation positions
-          if your full SVG animation is active.
-        */
-
-        if (
-            typeof window.recalculateLoginFace ===
-            "function"
-        ) {
-
-            window.recalculateLoginFace();
-
-        }
-
+        document.body.classList.toggle(
+            "keyboard-open",
+            keyboardOpened
+        );
     }
 
 
     window.addEventListener(
         "resize",
-        handleViewportResize,
+        checkKeyboard,
         {
             passive: true
         }
@@ -470,8 +569,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       VISUAL FEEDBACK
-    ===================================================== */
+       VISUAL INPUT STATE
+       ===================================================== */
 
     [email, password].forEach(input => {
 
@@ -479,9 +578,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "focus",
             () => {
 
-                input.parentElement
-                    .classList.add("active");
-
+                input
+                    .closest(".form-group")
+                    ?.classList.add("active");
             }
         );
 
@@ -490,9 +589,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "blur",
             () => {
 
-                input.parentElement
-                    .classList.remove("active");
-
+                input
+                    .closest(".form-group")
+                    ?.classList.remove("active");
             }
         );
 
@@ -500,46 +599,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       PREVENT DOUBLE TAP ZOOM
-    ===================================================== */
+       INITIAL
+       ===================================================== */
 
-    let lastTouchEnd = 0;
-
-    document.addEventListener(
-        "touchend",
-        event => {
-
-            const now =
-                Date.now();
-
-            if (
-                now - lastTouchEnd <= 300
-            ) {
-
-                event.preventDefault();
-
-            }
-
-            lastTouchEnd = now;
-
-        },
-        {
-            passive: false
-        }
-    );
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    updateEmailState();
-
-    updatePasswordVisibility();
-
+    checkKeyboard();
 
     console.log(
-        "✓ Advanced Login System Ready"
+        "✓ TN DYFI Premium Login Ready"
     );
 
 });
