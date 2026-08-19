@@ -344,18 +344,18 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>
             ${escapeHTML(item.desc)}
           </p>
+          <button class="playlist-share" type="button" aria-label="Share video"><i class="fas fa-share-nodes"></i> Share</button>
 
         </div>
       `;
 
 
-      card.addEventListener("click", () => {
-
+      card.addEventListener("click", (event) => {
+        if(event.target.closest('.playlist-share')) return;
         loadVideo(originalIndex, true);
-
         openDialog(item);
-
       });
+      card.querySelector('.playlist-share')?.addEventListener('click', (event)=>{event.stopPropagation();shareVideo(item);});
 
 
       grid.appendChild(card);

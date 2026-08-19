@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const socialBase = [
-    { label: "Facebook", icon: "fa-facebook-f", url: "https://facebook.com" },
-    { label: "Instagram", icon: "fa-instagram", url: "https://instagram.com" },
-    { label: "YouTube", icon: "fa-youtube", url: "https://youtube.com" },
-    { label: "X", icon: "fa-x-twitter", url: "https://x.com" }
+    { label: "Facebook", icon: "fa-facebook-f", url: "https://www.facebook.com/share/191ns6fitb/" },
+    { label: "Instagram", icon: "fa-instagram", url: "https://www.instagram.com/dyfitn" },
+    { label: "YouTube", icon: "fa-youtube", url: "https://youtube.com/@dyfitamilnadu2231" },
+    { label: "X", icon: "fa-x-twitter", url: "https://x.com/dyfitn" }
   ];
 
   const leaders = Array.from({ length: 12 }, (_, i) => createMember({
@@ -62,13 +62,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const committeeGrid = document.getElementById("committeeGrid");
   const dialog = document.getElementById("memberDialog");
   const closeBtn = document.getElementById("closeDialog");
+  const memberPdfBtn = document.getElementById("memberPdfBtn");
+  let currentMember = null;
 
   if (!leadGrid || !committeeGrid) return;
 
   function createMember(data) {
     return {
       ...data,
-      social: socialBase.map(s => ({ ...s, url: `${s.url}/${data.id.toLowerCase()}` }))
+      social: socialBase.map(s => ({ ...s }))
     };
   }
 
@@ -84,9 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="member-actions">
           <button class="see-more" type="button">See More</button>
-          <a class="whatsapp" target="_blank" rel="noopener noreferrer" href="https://wa.me/91${member.whatsapp}?text=${encodeURIComponent("Hello " + member.name)}">
-            WhatsApp
-          </a>
         </div>
       </div>
     `;
@@ -104,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openDialog(member) {
+    currentMember=member;
     document.getElementById("dlgPhoto").src = member.image;
     document.getElementById("dlgPhoto").alt = member.name;
     document.getElementById("dlgRoleTag").textContent = member.role;
@@ -127,6 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderGrid(leadGrid, leaders);
   renderGrid(committeeGrid, committee);
+
+  memberPdfBtn?.addEventListener("click",()=>{if(!currentMember)return;window.__dyfiPDF?.({title:currentMember.name,meta:`${currentMember.role} • ${currentMember.district} • ${currentMember.state}`,image:currentMember.image,body:currentMember.bio,extra:`Qualification: ${currentMember.qualification}\nPhone: ${currentMember.phone}\nWhatsApp: ${currentMember.whatsapp}`});});
 
   closeBtn?.addEventListener("click", () => dialog?.close());
   dialog?.addEventListener("click", (e) => {

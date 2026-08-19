@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeImage = document.getElementById("closeImage");
   const dialogLikeBtn = document.getElementById("dialogLikeBtn");
   const dialogShareBtn = document.getElementById("dialogShareBtn");
+  const dialogDownloadBtn = document.getElementById("dialogDownloadBtn");
   let currentCard = null;
 
   chips.forEach(chip => {
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentCard = card;
       zoomImage.src = img.src;
       zoomImage.alt = img.alt;
+      if(dialogDownloadBtn){ dialogDownloadBtn.href=img.currentSrc||img.src; dialogDownloadBtn.download=(img.alt||'gallery-image').replace(/\s+/g,'-').toLowerCase()+'.jpg'; }
       if (dialog?.showModal) dialog.showModal();
     });
 
@@ -58,12 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   dialogShareBtn?.addEventListener("click", async () => {
-    if (navigator.share) {
-      await navigator.share({
-        title: "Gallery Image",
-        url: location.href
-      });
-    }
+    if (!currentCard) return;
+    const img=currentCard.querySelector("img");
+    const data={title:currentCard.querySelector("h3")?.textContent||"Gallery Image",text:currentCard.querySelector("p")?.textContent||"Gallery image",url:location.href};
+    try{ if(navigator.share) await navigator.share(data); else { await navigator.clipboard?.writeText(data.url); window.__dyfiToast?.("Link copied ✓"); } }catch{}
   });
 
   loadMoreBtn?.addEventListener("click", () => {

@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {label:"X", url:"https://x.com/dyfitn"}
       ],
       contacts: [
-        {label:"Mail", value:"info@dyfitamilnadu.com", href:"mailto:info@dyfitamilnadu.com"},
+        {label:"Mail", value:"info@dyfitamilnadu.org", href:"mailto:info@dyfitamilnadu.org"},
         {label:"Phone", value:"1234567890", href:"tel:1234567890"}
       ]
     };

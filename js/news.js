@@ -43,6 +43,7 @@ function cardTemplate(n){
     <div class="news-card-body">
       <div class="meta-line"><span><i class="far fa-clock"></i> ${n.date} • ${n.time}</span><span><i class="fas fa-circle-check"></i> Official</span></div>
       <h2>${escapeHTML(n.title)}</h2><p>${escapeHTML(n.desc)}</p>
+      <button class="see-more-news" data-action="details" type="button">See More <i class="fas fa-arrow-right"></i></button>
       <div class="tag-line">${n.tags.map(t=>`<span>${escapeHTML(t)}</span>`).join('')}</div>
       <div class="card-actions">
         <button class="action ${isLiked?'liked':''}" data-action="like"><i class="${isLiked?'fas':'far'} fa-heart"></i><span>${isLiked?'Liked':'Like'}</span></button>
@@ -67,11 +68,24 @@ function bindCards(){
     e.preventDefault(); e.stopPropagation();
     const card=btn.closest('.news-card'); const news=NEWS.find(n=>n.id===Number(card.dataset.id)); if(!news)return;
     const action=btn.dataset.action;
+    if(action==='details'){ openNewsDetails(news); return; }
     if(action==='save'){ saved.has(news.id)?saved.delete(news.id):saved.add(news.id); persist(); render(); toast(saved.has(news.id)?'செய்தி Save செய்யப்பட்டது':'Saved list-ல் இருந்து நீக்கப்பட்டது'); }
     if(action==='like'){ liked.has(news.id)?liked.delete(news.id):liked.add(news.id); persist(); render(); toast(liked.has(news.id)?'Liked ❤️':'Like removed'); }
     if(action==='share'){ openNewsShare(news); }
     if(action==='pdf'){ await generatePDF(news); }
   }));
+}
+
+
+function openNewsDetails(news){
+  currentNews=news;
+  const d=$('#newsDetailDialog'); if(!d)return;
+  $('#detailBadge').textContent=news.badge; $('#detailTitle').textContent=news.title; $('#detailMeta').textContent=`${news.date} • ${news.time} • ${news.source}`;
+  $('#detailImage').src=news.image; $('#detailImage').alt=news.title; $('#detailDesc').textContent=news.desc;
+  $('#detailFull').innerHTML=`<p>${escapeHTML(news.desc)}</p><p>இந்த செய்தி தொடர்பான தகவல்கள், இளைஞர் செயல்பாடுகள் மற்றும் பொதுமக்கள் கவனிக்க வேண்டிய அம்சங்கள் குறித்து தொடர்ச்சியான தகவல்கள் கிடைக்கின்றன. அதிகாரப்பூர்வ புதுப்பிப்புகள் கிடைக்கும் போது இந்த செய்தி ஊட்டம் மூலம் மேலும் தகவல்கள் சேர்க்கப்படும்.</p><p>பதிவு நேரம்: ${escapeHTML(news.date)} • ${escapeHTML(news.time)}. மூலம்: ${escapeHTML(news.source)}.</p>`;
+  $('#detailTags').innerHTML=news.tags.map(t=>`<span>${escapeHTML(t)}</span>`).join('');
+  $('#detailSave').dataset.id=String(news.id); $('#detailSave').innerHTML=`<i class="${saved.has(news.id)?'fas':'far'} fa-bookmark"></i><span>${saved.has(news.id)?'Saved':'Save'}</span>`;
+  if(d.showModal)try{d.showModal();}catch{d.setAttribute('open','')}else d.setAttribute('open','');
 }
 
 function openNewsShare(news){ currentNews=news; const d=$('#shareDialog'); if(d?.showModal)d.showModal(); else d?.setAttribute('open',''); }
@@ -83,7 +97,10 @@ async function shareApp(){
 }
 
 async function handleShare(type){
-  const news=currentNews || NEWS[0]; const url=location.href.split('#')[0]+`#news-${news.id}`; const text=`${news.title} — இளைஞர் முழக்கம்`;
+  const news=currentNews || NEWS[0]; const url=location.href.split('#')[0]+`#news-${news.id}`; const text=`${news.title}
+${news.desc}
+${news.date} • ${news.time}
+${news.tags.join(' ')}`;
   if(type==='copy'){ await navigator.clipboard?.writeText(url); toast('News link copied ✓'); return; }
   if(type==='native'){ if(navigator.share){try{await navigator.share({title:news.title,text,url});}catch(e){}} else {await navigator.clipboard?.writeText(url);toast('Link copied ✓');} return; }
   const target=type==='whatsapp'?`https://wa.me/?text=${encodeURIComponent(text+' '+url)}`:type==='facebook'?`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`:`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
@@ -110,14 +127,16 @@ function setupSettings(){
   ['settingsBtn','sideSettings','footerSettings'].forEach(id=>document.getElementById(id)?.addEventListener('click',()=>{$('#settingsDialog')?.showModal?.();closeSidebar();}));
   ['dialogShare','sideShare','footerShare'].forEach(id=>document.getElementById(id)?.addEventListener('click',shareApp));
 }
-function openSidebar(){ $('#sidebar').classList.add('open');$('#overlay').classList.add('show');$('#sidebar').setAttribute('aria-hidden','false');$('#menuBtn').setAttribute('aria-expanded','true');document.body.classList.add('drawer-open'); }
-function closeSidebar(){ $('#sidebar').classList.remove('open');$('#overlay').classList.remove('show');$('#sidebar').setAttribute('aria-hidden','true');$('#menuBtn').setAttribute('aria-expanded','false');document.body.classList.remove('drawer-open'); }
 
 function init(){
   render(); renderTrending(); setupSettings();
-  $('#menuBtn')?.addEventListener('click',()=>$('#sidebar').classList.contains('open')?closeSidebar():openSidebar()); $('#sidebarClose')?.addEventListener('click',closeSidebar); $('#overlay')?.addEventListener('click',closeSidebar);
   $('#searchBtn')?.addEventListener('click',()=>{const p=$('#searchPanel');p.hidden=!p.hidden;if(!p.hidden){p.scrollIntoView({behavior:'smooth',block:'nearest'});$('#searchInput').focus();}});
   $('#clearSearch')?.addEventListener('click',()=>{$('#searchInput').value='';searchTerm='';render();});
+  $('#closeNewsDetail')?.addEventListener('click',()=>closeDialog('newsDetailDialog'));
+  $('#newsDetailDialog')?.addEventListener('click',e=>{if(e.target.id==='newsDetailDialog')closeDialog('newsDetailDialog');});
+  $('#detailShare')?.addEventListener('click',()=>currentNews&&openNewsShare(currentNews));
+  $('#detailPdf')?.addEventListener('click',()=>currentNews&&generatePDF(currentNews));
+  $('#detailSave')?.addEventListener('click',()=>{if(!currentNews)return;saved.has(currentNews.id)?saved.delete(currentNews.id):saved.add(currentNews.id);persist();openNewsDetails(currentNews);render();});
   $('#searchInput')?.addEventListener('input',e=>{searchTerm=e.target.value.toLowerCase().trim();render();});
   $$('#categoryBar .category-chip').forEach(chip=>chip.addEventListener('click',()=>{$$('#categoryBar .category-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');activeCategory=chip.dataset.category;render();window.scrollTo({top:0,behavior:'smooth'});}));
   $('#refreshFeed')?.addEventListener('click',()=>{const b=$('#refreshFeed');b.classList.add('spin');setTimeout(()=>b.classList.remove('spin'),700);render();toast('Feed refreshed ✓');});
@@ -125,7 +144,6 @@ function init(){
   $$('.dialog-close,[data-close]').forEach(b=>b.addEventListener('click',()=>closeDialog(b.dataset.close || b.closest('dialog')?.id)));
   $$('#shareDialog [data-share-type]').forEach(b=>b.addEventListener('click',()=>handleShare(b.dataset.shareType)));
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
-  let sx=0; document.addEventListener('touchstart',e=>sx=e.changedTouches[0].screenX,{passive:true}); document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].screenX-sx;if(dx>70&&sx<35)openSidebar();if(dx<-70&&$('#sidebar').classList.contains('open'))closeSidebar();},{passive:true});
   $('#breakingText').textContent=NEWS[0].title;
 }
 document.addEventListener('DOMContentLoaded',init);
