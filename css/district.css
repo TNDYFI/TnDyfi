@@ -170,3 +170,14 @@ body{padding-top:74px}
   .district-grid{grid-template-columns:repeat(4,1fr)}
   .dialog-sections{grid-template-columns:repeat(2,1fr)}
 }
+
+/* Keep the complete district name list visible instead of hiding it in a horizontal rail. */
+.district-list-wrap{display:block!important;visibility:visible!important;opacity:1!important}
+.district-scroll-box{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));overflow:visible;padding-bottom:0}
+.dist-row{min-width:0;width:100%}
+@media(min-width:600px){.district-scroll-box{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1000px){.district-scroll-box{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* v1110.5 district visibility safeguard */
+.district-list-wrap{display:block!important;visibility:visible!important;opacity:1!important;}
+.district-scroll-box{display:grid!important;visibility:visible!important;opacity:1!important;}

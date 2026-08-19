@@ -1244,3 +1244,101 @@ footer{
   .icon-btn, .menu-btn{ width:38px; height:38px; }
   .field-grid{ grid-template-columns:1fr; }
 }
+
+/* Home latest-news cards: intentionally aligned with the News feed visual language. */
+.home-section-eyebrow{display:block;font-size:9px;letter-spacing:1.5px;font-weight:900;color:var(--primary);margin-bottom:4px}
+.home-news-grid{grid-template-columns:1fr}
+.home-news-card{overflow:hidden;border:1px solid var(--border);border-radius:24px;background:var(--card);box-shadow:0 14px 40px rgba(15,23,42,.08);transition:transform .2s ease,box-shadow .2s ease}
+.home-news-card:hover{transform:translateY(-2px);box-shadow:0 22px 55px rgba(15,23,42,.13)}
+.home-news-image{position:relative;aspect-ratio:16/9;overflow:hidden;background:#111}
+.home-news-image img{width:100%!important;height:100%!important;object-fit:cover!important;display:block;transition:transform .45s ease}
+.home-news-card:hover .home-news-image img{transform:scale(1.025)}
+.home-news-image .badge{position:absolute;left:13px;top:13px;margin:0;background:rgba(0,0,0,.58);color:#fff;border-radius:999px;padding:7px 10px;font-size:9px;font-weight:900}
+.home-news-meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:9px;font-weight:800}
+.home-news-meta span:last-child{color:#12a866}
+.home-news-card .card-content h3{font-size:19px;line-height:1.45;margin:9px 0 6px}
+.home-news-card .card-content p{font-size:12px;line-height:1.75;margin:0;color:var(--muted)}
+.home-see-more{margin-top:13px;display:inline-flex;align-items:center;gap:7px;padding:10px 13px;border-radius:12px;background:rgba(213,0,0,.08);color:var(--primary);font-size:10px;font-weight:900;border:1px solid rgba(213,0,0,.12)}
+.home-see-more:active{transform:scale(.97)}
+.home-news-dialog{width:min(94vw,700px);max-height:88dvh;overflow:auto;border:0;border-radius:26px;padding:0;background:var(--card);color:var(--text);box-shadow:0 30px 100px rgba(0,0,0,.35)}
+.home-news-dialog::backdrop{background:rgba(0,0,0,.62);backdrop-filter:blur(3px)}
+.home-news-dialog-head{display:flex;justify-content:space-between;gap:14px;padding:22px 22px 16px}
+.home-news-dialog-head h2{font-size:24px;line-height:1.4;margin:9px 0 5px;font-weight:900}
+.home-news-dialog-head p{font-size:10px;color:var(--muted)}
+.home-news-close{width:40px;height:40px;border-radius:13px;background:var(--bg);color:var(--text);flex:0 0 auto}
+.home-news-dialog-image{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.home-news-dialog-body{padding:20px 22px}.home-news-dialog-body p{font-size:14px;line-height:2;color:var(--muted);white-space:pre-line}.home-news-dialog-body p+p{margin-top:12px}
+.home-news-dialog-actions{display:flex;gap:9px;padding:0 22px 22px}.home-news-dialog-actions button,.home-news-dialog-actions a{flex:1;display:inline-flex;justify-content:center;align-items:center;gap:7px;min-height:45px;border-radius:13px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:11px;font-weight:900;text-decoration:none}.home-news-dialog-actions button{color:var(--primary);background:rgba(213,0,0,.08)}
+@media(min-width:768px){.home-news-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.home-news-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* v1110.5: migrated premium News sidebar to the main Home page only */
+#sidebar.news-sidebar{position:fixed;z-index:1100;left:0;top:0;width:min(390px,88vw);height:100dvh;background:var(--card);border-right:1px solid var(--border);box-shadow:24px 0 80px rgba(0,0,0,.25);transform:translateX(-105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;overflow:hidden}#sidebar.news-sidebar.open{transform:translateX(0)}.side-hero{position:relative;padding:26px 20px 20px;background:linear-gradient(145deg,#ff1744,#d50000 62%,#9b0000);color:#fff;overflow:hidden}.side-hero:after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;right:-100px;top:-90px;background:rgba(255,255,255,.13)}.side-brand{display:flex;align-items:center;gap:11px;position:relative;z-index:1}.side-brand>div{display:flex;flex-direction:column}.side-brand strong{font-size:16px;font-weight:900}.side-brand small{font-size:10px;opacity:.78;margin-top:3px}.side-close{position:absolute;right:15px;top:15px;width:38px;height:38px;border-radius:13px;background:rgba(255,255,255,.16);color:#fff;z-index:3}.side-profile{margin-top:22px;display:flex;align-items:center;gap:11px;position:relative;z-index:1}.profile-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--primary);font-size:20px;font-weight:900;box-shadow:0 8px 25px rgba(0,0,0,.2)}.side-profile strong{display:block;font-size:13px}.side-profile span{display:block;font-size:10px;opacity:.76;margin-top:3px}.side-content{padding:16px 12px;overflow:auto;flex:1}.side-label{font-size:9px;letter-spacing:1.5px;color:var(--muted);font-weight:900;padding:8px 12px}.side-link{width:100%;min-height:50px;border-radius:15px;display:flex;align-items:center;gap:13px;padding:0 13px;color:var(--text);font-weight:800;font-size:13px;margin:4px 0;transition:.2s;background:transparent}.side-link>i:first-child{width:21px;text-align:center;color:var(--muted)}.side-link .arrow{margin-left:auto;font-size:9px;color:var(--muted)}.side-link:hover,.side-link.active{background:rgba(213,0,0,.09);color:var(--primary)}.side-link.active{box-shadow:inset 3px 0 0 var(--primary)}.side-link.active>i:first-child{color:var(--primary)}.side-action{text-align:left}.side-divider{height:1px;background:var(--border);margin:14px 8px}.side-footer{padding:13px 17px;border-top:1px solid var(--border);font-size:9px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}#sidebar.news-sidebar{left:0;}
+
+
+/* v1110.6 — Main page uses the original Ilangarmuzhakkam News sidebar language. */
+body.sidebar-open{overflow:hidden;touch-action:none}
+#sidebar.news-sidebar{width:min(390px,88vw);left:0;top:0;height:100dvh;transform:translateX(-105%);transition:transform .34s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;overflow:hidden;border-radius:0;z-index:1200}
+#sidebar.news-sidebar.open{transform:translateX(0)}
+#sidebar.news-sidebar .side-hero{flex:0 0 auto;min-height:250px;padding:30px 22px 22px;background:linear-gradient(145deg,#ff1744 0%,#e30613 55%,#b40000 100%)}
+#sidebar.news-sidebar .side-hero:before{content:"";position:absolute;width:260px;height:260px;right:-105px;top:-105px;border-radius:50%;background:rgba(255,255,255,.10)}
+#sidebar.news-sidebar .side-brand{gap:13px}.side-brand .brand-mark.big{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:rgba(180,0,0,.32);font-size:28px;flex:0 0 auto}
+#sidebar.news-sidebar .side-brand strong{font-family:'Noto Sans Tamil',Poppins,sans-serif;font-size:25px;line-height:1.05;letter-spacing:-.4px}
+#sidebar.news-sidebar .side-brand small{font-size:12px;margin-top:5px}
+#sidebar.news-sidebar .side-close{right:17px;top:18px;width:50px;height:50px;border-radius:17px;background:rgba(255,255,255,.16);font-size:22px}
+#sidebar.news-sidebar .side-profile{margin-top:30px;gap:14px}.profile-avatar{width:62px;height:62px;font-size:27px;border:4px solid rgba(255,255,255,.55)}
+#sidebar.news-sidebar .side-profile strong{font-family:Poppins,sans-serif;font-size:18px}.side-profile span{font-family:'Noto Sans Tamil',Poppins,sans-serif;font-size:13px}
+#sidebar.news-sidebar .side-content{padding:25px 18px 16px;overflow:auto;overscroll-behavior:contain}
+#sidebar.news-sidebar .side-label{font-family:Poppins,sans-serif;font-size:10px;letter-spacing:2px;padding:8px 12px 12px}
+#sidebar.news-sidebar .side-link{min-height:58px;margin:5px 0;padding:0 16px;border-radius:17px;font-family:'Noto Sans Tamil',Poppins,sans-serif;font-size:18px;font-weight:800;gap:15px}
+#sidebar.news-sidebar .side-link>i:first-child{width:26px;font-size:20px}.side-link .arrow{font-size:12px}
+#sidebar.news-sidebar .side-link.active{background:rgba(213,0,0,.10);box-shadow:inset 4px 0 0 var(--primary)}
+#sidebar.news-sidebar .side-link:hover{transform:none}
+#sidebar.news-sidebar .support-link>i:first-child{color:var(--primary)}
+#sidebar.news-sidebar .side-divider{margin:18px 9px;background:var(--border)}
+#sidebar.news-sidebar .side-footer{min-height:58px;padding:14px 20px;background:var(--card);font-family:Poppins,sans-serif;font-size:11px}
+#overlay{z-index:1150;background:rgba(10,14,22,.58);backdrop-filter:blur(2px)}
+.home-card-actions{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.home-card-actions button{min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;border:1px solid var(--border);border-radius:11px;background:var(--bg);color:var(--text);font-size:10px;font-weight:900}
+.home-card-actions button:first-child{color:var(--primary);background:rgba(213,0,0,.07)}
+.home-card-actions button.saved{color:var(--primary);border-color:rgba(213,0,0,.25)}
+.home-see-more{width:100%;justify-content:center}
+.home-news-dialog-actions{flex-wrap:wrap}.home-news-dialog-actions button,.home-news-dialog-actions a{min-width:calc(50% - 6px)}
+.global-card-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid rgba(148,163,184,.18)}
+.global-card-actions button{min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;border:1px solid var(--border);border-radius:11px;background:var(--bg);color:var(--text);font-size:10px;font-weight:800}
+.global-card-actions button:first-child{color:var(--primary)}.global-card-actions button.saved{color:var(--primary);border-color:rgba(213,0,0,.28)}
+.ui-pdf-sheet{position:fixed;left:-100000px;top:0;width:794px;min-height:1123px;padding:52px;background:#fff;color:#172033;font-family:'Noto Sans Tamil',Poppins,sans-serif;z-index:-1}.ui-pdf-sheet h1{font-size:34px;line-height:1.35;margin:25px 0 10px}.ui-pdf-sheet img{width:100%;max-height:420px;object-fit:cover;margin:18px 0;border-radius:12px}.ui-pdf-sheet p{font-size:17px;line-height:1.9;white-space:pre-line;margin:12px 0}.pdf-brand{font-size:18px;font-weight:900;color:#d50000;border-bottom:2px solid #d50000;padding-bottom:12px}.pdf-brand span{float:right;font-size:11px;color:#687185}.pdf-meta{font-size:13px;color:#687185}.pdf-foot{margin-top:35px;padding-top:15px;border-top:1px solid #e5e7eb;font-size:11px;color:#687185}
+@media(max-width:620px){#sidebar.news-sidebar{width:min(92vw,390px)}#sidebar.news-sidebar .side-hero{min-height:245px;padding:28px 20px 20px}#sidebar.news-sidebar .side-brand strong{font-size:23px}#sidebar.news-sidebar .side-link{font-size:17px;min-height:55px}.home-card-actions button{flex:1}.home-news-dialog-actions button,.home-news-dialog-actions a{min-width:100%}}
+
+/* v1110.8 — compact professional main sidebar */
+#sidebar.news-sidebar{width:min(360px,86vw)}
+#sidebar.news-sidebar .side-hero{min-height:214px;padding:22px 18px 18px}
+#sidebar.news-sidebar .side-brand{gap:10px}
+#sidebar.news-sidebar .side-dyfi-logo{width:52px;height:52px;border-radius:50%;object-fit:contain;background:#fff;flex:0 0 auto}
+#sidebar.news-sidebar .side-brand strong{font-size:18px;line-height:1.1;letter-spacing:0}
+#sidebar.news-sidebar .side-brand small{font-size:11px;margin-top:3px}
+#sidebar.news-sidebar .side-close{width:42px;height:42px;right:14px;top:14px;font-size:18px}
+#sidebar.news-sidebar .side-profile{margin-top:20px;gap:10px}
+#sidebar.news-sidebar .side-profile .profile-avatar{width:48px;height:48px;font-size:0;border:3px solid rgba(255,255,255,.55);overflow:hidden}
+#sidebar.news-sidebar .dyfi-mini-avatar img{width:100%;height:100%;object-fit:cover}
+#sidebar.news-sidebar .side-profile strong{font-size:14px}
+#sidebar.news-sidebar .side-profile span{font-size:10px}
+#sidebar.news-sidebar .side-content{padding:15px 12px 12px}
+#sidebar.news-sidebar .side-label{font-size:9px;padding:7px 11px 9px;letter-spacing:1.5px}
+#sidebar.news-sidebar .side-link{min-height:48px;margin:3px 0;padding:0 12px;border-radius:14px;font-size:14px;gap:11px}
+#sidebar.news-sidebar .side-link>i:first-child{width:21px;font-size:16px}
+#sidebar.news-sidebar .side-link .arrow{font-size:9px}
+#sidebar.news-sidebar .side-divider{margin:11px 8px}
+#sidebar.news-sidebar .side-footer{min-height:48px;padding:11px 16px;font-size:9px}
+
+.notification-trigger{position:relative}
+.notification-badge{position:absolute;right:-2px;top:-2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#d50000;color:#fff;border:2px solid var(--card);font:700 8px/12px Poppins,sans-serif;text-align:center}
+.notification-panel{position:fixed;top:0;right:-390px;width:min(370px,92vw);height:100dvh;background:var(--card);z-index:2100;box-shadow:-18px 0 50px rgba(0,0,0,.2);transition:right .28s cubic-bezier(.2,.8,.2,1);border-left:1px solid var(--border);overflow:auto}
+.notification-panel.active{right:0}
+.notification-panel .panel-header{position:sticky;top:0;background:var(--card);z-index:2;display:flex;align-items:center;justify-content:space-between;padding:18px;border-bottom:1px solid var(--border)}
+.notification-panel .panel-header strong{display:block;font-size:17px;font-weight:900}.notification-panel .panel-header span{display:block;margin-top:3px;color:var(--muted);font-size:11px}
+.notification-panel .panel-close{width:40px;height:40px;border-radius:13px;background:var(--bg);color:var(--text)}
+.notification-panel .notification-list{padding:8px 0}.notification-panel .notification-item{display:flex;gap:12px;padding:15px 17px;border-bottom:1px solid var(--border);background:var(--card)}
+.notification-panel .notification-item>i{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(213,0,0,.08);color:var(--primary);font-size:15px;flex:0 0 auto}
+.notification-panel .notification-item h4{font-size:13px;margin-bottom:4px}.notification-panel .notification-item p{color:var(--muted);font-size:11px;line-height:1.6}.notification-panel .notification-item time{display:block;margin-top:5px;color:var(--muted);font-size:9px}
+@media(max-width:420px){#sidebar.news-sidebar{width:min(88vw,350px)}#sidebar.news-sidebar .side-link{font-size:13px;min-height:46px}.notification-panel{width:90vw}}

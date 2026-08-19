@@ -1095,3 +1095,7 @@ footer{
     grid-template-columns:repeat(3,1fr);
   }
 }
+
+/* v1110.8 compact social cards */
+.social-links-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.social-links-grid .social-link{min-width:0;padding:11px 10px;border-radius:13px;font-size:12px;overflow:hidden}.social-links-grid .social-link span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.social-links-grid .social-link i{width:18px;flex:0 0 18px;text-align:center}
+@media(min-width:768px){.social-links-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}

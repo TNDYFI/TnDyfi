@@ -267,3 +267,7 @@ button,a{border:none;background:none;cursor:pointer;color:inherit;text-decoratio
     grid-template-columns:repeat(3,1fr);
   }
 }
+
+
+/* v1110.8 full-size gallery viewer */
+.image-dialog{width:100vw!important;max-width:100vw!important;height:100dvh!important;max-height:100dvh!important;border:0!important;border-radius:0!important;padding:0!important;background:#050505!important;display:flex;flex-direction:column;justify-content:center;align-items:center}.image-dialog::backdrop{background:#050505}.image-dialog #zoomImage{width:100%;height:calc(100dvh - 92px);max-width:100%;max-height:calc(100dvh - 92px);object-fit:contain}.image-dialog .dialog-bottom{position:absolute;left:0;right:0;bottom:0;padding:14px max(14px,env(safe-area-inset-left)) max(14px,env(safe-area-inset-bottom));display:flex;justify-content:center;gap:8px;background:linear-gradient(transparent,rgba(0,0,0,.86));padding-top:38px}.image-dialog .dialog-bottom button,.image-dialog .dialog-bottom a{min-height:42px;padding:0 14px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22);font-weight:800;font-size:12px}.image-dialog .close-x{position:absolute;z-index:3;right:16px;top:16px;width:42px;height:42px;border-radius:13px;background:rgba(0,0,0,.5);color:#fff}

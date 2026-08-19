@@ -267,3 +267,7 @@ img{display:block;max-width:100%}
 @media(min-width:1100px){
   .grid{grid-template-columns:repeat(4,1fr)}
 }
+
+
+/* v1110.8 members: See More only on cards, PDF inside details */
+.member-actions{justify-content:flex-start}.member-card .member-actions .see-more{background:rgba(213,0,0,.08);color:var(--primary)}.member-dialog-actions{display:flex;align-items:center;gap:8px}.member-pdf{height:42px;padding:0 13px;border-radius:13px;background:rgba(213,0,0,.09);color:var(--primary);font-weight:900}.member-dialog-actions .close-btn{flex:0 0 auto}.member-photo{height:200px}.member-card{min-width:0}.member-name{font-size:15px}.member-role{font-size:12px}.member-meta{font-size:11px}.social-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.social-links .social-link{min-width:0;padding:10px 11px;font-size:11px;overflow:hidden}.social-links .social-link i{flex:0 0 auto}@media(max-width:520px){.grid{grid-template-columns:1fr}.member-photo{height:230px}.social-links{grid-template-columns:1fr 1fr}}

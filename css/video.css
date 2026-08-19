@@ -1020,3 +1020,7 @@ select:focus-visible{
   }
 
 }
+
+
+/* v1110.8 playlist share */
+.video-body{position:relative}.playlist-share{margin-top:10px;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:10px;background:rgba(213,0,0,.08);color:var(--primary);font-size:10px;font-weight:900}.playlist-share:active{transform:scale(.97)}
