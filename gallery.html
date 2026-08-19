@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/gallery.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global-ui.css">
 </head>
 <body>
 
@@ -24,9 +25,6 @@
     <h1>Gallery</h1>
     <p>Tap image to zoom</p>
   </div>
-  <button class="mini-btn" id="filterBtn" aria-label="Filter">
-    <i class="fas fa-images"></i>
-  </button>
 </header>
 
 <section class="hero-box">
@@ -114,10 +112,11 @@
   <img id="zoomImage" src="" alt="Zoomed view">
   <div class="dialog-bottom">
     <button class="dialog-like" id="dialogLikeBtn"><i class="far fa-heart"></i> Like</button>
-    <button class="dialog-share" id="dialogShareBtn"><i class="fas fa-share-nodes"></i> Share</button>
+    <button class="dialog-share" id="dialogShareBtn"><i class="fas fa-share-nodes"></i> Share</button><a class="dialog-download" id="dialogDownloadBtn" href="#" download><i class="fas fa-download"></i> Download</a>
   </div>
 </dialog>
-<script type="module" src="js/app.js"></script>
-<script type="module" src="js/gallery.js"></script>
+<script src="js/app.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/global-ui.js"></script>
 </body>
 </html>

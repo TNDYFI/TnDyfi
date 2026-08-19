@@ -11,13 +11,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/global-ui.css">
 </head>
 <body>
 
 <div class="news-page-shell">
   <header class="news-topbar">
     <div class="top-left">
-      <button id="menuBtn" class="top-icon menu-trigger" aria-label="Open menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
       <a href="index.html" class="brand-mini">
         <span class="brand-mark"><i class="fas fa-bolt"></i></span>
         <span><strong>இளைஞர் முழக்கம்</strong><small>News Network</small></span>
@@ -28,34 +28,6 @@
       <button class="top-icon" id="settingsBtn" aria-label="Settings"><i class="fas fa-gear"></i></button>
     </div>
   </header>
-
-  <div class="overlay" id="overlay"></div>
-
-  <aside class="news-sidebar" id="sidebar" aria-hidden="true">
-    <div class="side-hero">
-      <div class="side-brand"><span class="brand-mark big"><i class="fas fa-bolt"></i></span><div><strong>இளைஞர் முழக்கம்</strong><small>Official News Feed</small></div></div>
-      <button id="sidebarClose" class="side-close" aria-label="Close menu"><i class="fas fa-xmark"></i></button>
-      <div class="side-profile"><div class="profile-avatar">இ</div><div><strong>Youth News Network</strong><span>தமிழ் இளைஞர் செய்தி தளம்</span></div></div>
-    </div>
-    <div class="side-content">
-      <p class="side-label">NAVIGATION</p>
-      <a href="index.html" class="side-link"><i class="fas fa-house"></i><span>முகப்பு</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="news.html" class="side-link active"><i class="fas fa-newspaper"></i><span>செய்திகள்</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="events.html" class="side-link"><i class="fas fa-calendar-days"></i><span>நிகழ்வுகள்</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="campaigns.html" class="side-link"><i class="fas fa-bullhorn"></i><span>பிரச்சாரங்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="district.html" class="side-link"><i class="fas fa-map-location-dot"></i><span>மாவட்டங்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="gallery.html" class="side-link"><i class="fas fa-images"></i><span>கேலரி</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="videos.html" class="side-link"><i class="fas fa-play-circle"></i><span>வீடியோக்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="members.html" class="side-link"><i class="fas fa-users"></i><span>உறுப்பினர்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="about.html" class="side-link"><i class="fas fa-circle-info"></i><span>எங்களை பற்றி</span><i class="fas fa-chevron-right arrow"></i></a>
-      <a href="contact.html" class="side-link"><i class="fas fa-phone"></i><span>தொடர்பு</span><i class="fas fa-chevron-right arrow"></i></a>
-      <div class="side-divider"></div>
-      <p class="side-label">QUICK ACTIONS</p>
-      <button class="side-link side-action" id="sideShare"><i class="fas fa-share-nodes"></i><span>App-ஐ பகிர்</span><i class="fas fa-chevron-right arrow"></i></button>
-      <button class="side-link side-action" id="sideSettings"><i class="fas fa-sliders"></i><span>Settings</span><i class="fas fa-chevron-right arrow"></i></button>
-    </div>
-    <div class="side-footer"><span>ILM • 2026</span><span>Premium News Experience</span></div>
-  </aside>
 
   <main>
     <section class="news-hero">
@@ -118,7 +90,14 @@
   <div class="share-grid"><button data-share-type="whatsapp"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></button><button data-share-type="facebook"><i class="fab fa-facebook"></i><span>Facebook</span></button><button data-share-type="x"><i class="fab fa-x-twitter"></i><span>X</span></button><button data-share-type="native"><i class="fas fa-share-nodes"></i><span>More</span></button><button data-share-type="copy"><i class="fas fa-link"></i><span>Copy Link</span></button></div>
 </dialog>
 
+<dialog id="newsDetailDialog" class="news-detail-dialog">
+  <div class="news-detail-head"><div><span class="news-badge" id="detailBadge">NEWS</span><h2 id="detailTitle">News</h2><p id="detailMeta"></p></div><button class="dialog-close" id="closeNewsDetail" type="button"><i class="fas fa-xmark"></i></button></div>
+  <img id="detailImage" class="news-detail-image" src="" alt="News image">
+  <div class="news-detail-body"><p id="detailDesc"></p><div id="detailFull" class="news-detail-full"></div><div id="detailTags" class="tag-line"></div></div>
+  <div class="news-detail-actions"><button id="detailShare" class="action"><i class="fas fa-share-nodes"></i><span>Share</span></button><button id="detailPdf" class="action"><i class="far fa-file-pdf"></i><span>PDF</span></button><button id="detailSave" class="action"><i class="far fa-bookmark"></i><span>Save</span></button></div>
+</dialog>
 <div class="toast" id="toast"></div>
-<script type="module" src="js/news.js"></script>
+<script src="js/news.js"></script>
+<script src="js/global-ui.js"></script>
 </body>
 </html>

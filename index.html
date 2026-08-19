@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Youth Connect Tamil Nadu | DYFI</title>
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <meta name="theme-color" content="#d50000">
   
@@ -19,6 +19,8 @@
       }
     });
   </script>
+  <link rel="stylesheet" href="css/global-ui.css">
+<noscript><style>#loader{display:none!important}</style></noscript>
 </head>
 <body>
 <!-- ✅ LOADER -->
@@ -31,6 +33,16 @@
     <p class="dyfi-subtitle">அனைவருக்கும் | கல்வி | அனைவருக்கும் | வேலை</p>
   </div>
 </div>
+<script>
+  // Boot failsafe: never leave the app behind the splash screen.
+  (function(){
+    var bootTimer=setTimeout(function(){
+      var l=document.getElementById('loader');
+      if(l){l.classList.add('loader-done');l.style.display='none';}
+    },2800);
+    window.addEventListener('dyfi:boot-ready',function(){clearTimeout(bootTimer);});
+  })();
+</script>
 
 <div id="swipeIndicator" class="swipe-indicator">
   <div class="spinner"></div>
@@ -49,87 +61,46 @@
   </a>
 
   <div class="header-actions">
-    <button id="searchBtn" class="icon-btn" aria-label="Search"><i class="fas fa-search"></i></button>
-    <button id="themeBtn" class="icon-btn" aria-label="Theme"><i class="fas fa-moon"></i></button>
-    <button id="moreBtn" class="icon-btn" aria-label="Notifications"><i class="fas fa-ellipsis-vertical"></i></button>
+    <button id="searchBtn" class="icon-btn" data-ui-search aria-label="Search"><i class="fas fa-search"></i></button>
+    <button id="notificationBtn" class="icon-btn notification-trigger" aria-label="Notifications"><i class="fas fa-bell"></i><span id="notificationBadge" class="notification-badge">3</span></button><button id="settingsBtn" class="icon-btn" data-ui-settings aria-label="Settings"><i class="fas fa-gear"></i></button>
   </div>
 </header>
 
-<aside id="sidebar">
-  <div class="sidebar-header">
-    <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-
-  <div class="profile">
-    <div class="profile-img-wrapper">
-      <img src="assets/red.png" alt="Profile">
+<aside class="news-sidebar" id="sidebar" aria-hidden="true">
+  <div class="side-hero">
+    <div class="side-brand">
+      <img class="side-dyfi-logo" src="assets/red.png" alt="DYFI Tamil Nadu State Committee">
+      <div><strong>DYFI TAMILNADU</strong><small>STATE Committee</small></div>
     </div>
-    <h2>DYFI Tamil Nadu</h2>
-    <p>@TnDyfi</p>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-title">
-      <i class="fas fa-home"></i>
-      <span>Main</span>
+    <button id="sidebarCloseBtn" class="side-close" aria-label="Close menu" type="button"><i class="fas fa-xmark"></i></button>
+    <div class="side-profile">
+      <div class="profile-avatar dyfi-mini-avatar"><img src="assets/red.png" alt="DYFI"></div>
+      <div><strong>DYFI Tamil Nadu</strong><span>State Committee</span></div>
     </div>
-    <ul class="side-list">
-      <li><a href="index.html" class="nav-link"><i class="fas fa-house"></i><span>Home</span></a></li>
-      <li><a href="about.html" class="nav-link"><i class="fas fa-circle-info"></i><span>About</span></a></li>
-      <li><a href="news.html" class="nav-link"><i class="fas fa-newspaper"></i><span>News</span></a></li>
-      <li><a href="events.html" class="nav-link"><i class="fas fa-calendar"></i><span>Events</span></a></li>
-      <li><a href="campaigns.html" class="nav-link"><i class="fas fa-bullhorn"></i><span>Campaigns</span></a></li>
-    </ul>
   </div>
-
-  <div class="nav-section">
-    <div class="nav-title">
-      <i class="fas fa-users"></i>
-      <span>Community</span>
-    </div>
-    <ul class="side-list">
-      <li><a href="members.html" class="nav-link"><i class="fas fa-users"></i><span>Members</span></a></li>
-      <li><a href="gallery.html" class="nav-link"><i class="fas fa-image"></i><span>Gallery</span></a></li>
-      <li><a href="videos.html" class="nav-link"><i class="fas fa-video"></i><span>Videos</span></a></li>
-    </ul>
+  <div class="side-content">
+    <p class="side-label">NAVIGATION</p>
+    <a href="index.html" class="side-link active"><i class="fas fa-house"></i><span>முகப்பு</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="news.html" class="side-link"><i class="fas fa-newspaper"></i><span>செய்திகள்</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="events.html" class="side-link"><i class="fas fa-calendar-days"></i><span>நிகழ்வுகள்</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="campaigns.html" class="side-link"><i class="fas fa-bullhorn"></i><span>பிரச்சாரங்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="district.html" class="side-link"><i class="fas fa-map-location-dot"></i><span>மாவட்டங்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="gallery.html" class="side-link"><i class="fas fa-images"></i><span>கேலரி</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="videos.html" class="side-link"><i class="fas fa-play-circle"></i><span>வீடியோக்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="members.html" class="side-link"><i class="fas fa-users"></i><span>உறுப்பினர்கள்</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="about.html" class="side-link"><i class="fas fa-circle-info"></i><span>எங்களை பற்றி</span><i class="fas fa-chevron-right arrow"></i></a>
+    <a href="contact.html" class="side-link"><i class="fas fa-phone"></i><span>தொடர்பு</span><i class="fas fa-chevron-right arrow"></i></a>
+    <div class="side-divider"></div>
+    <p class="side-label">QUICK ACTIONS</p>
+    <button class="side-link side-action" type="button" data-ui-share><i class="fas fa-share-nodes"></i><span>App-ஐ பகிர்</span><i class="fas fa-chevron-right arrow"></i></button>
+    <button class="side-link side-action" type="button" data-ui-settings><i class="fas fa-sliders"></i><span>Settings</span><i class="fas fa-chevron-right arrow"></i></button>
+    <div class="side-divider"></div>
+    <p class="side-label">SUPPORT</p>
+    <button class="side-link side-action support-link" type="button" data-ui-feedback><i class="fas fa-comment-dots"></i><span>Feedback</span><i class="fas fa-chevron-right arrow"></i></button>
+    <button class="side-link side-action support-link" type="button" data-ui-report><i class="fas fa-flag"></i><span>Report</span><i class="fas fa-chevron-right arrow"></i></button>
+    <button class="side-link side-action support-link" type="button" data-ui-ai><i class="fas fa-robot"></i><span>AI Assistant</span><i class="fas fa-chevron-right arrow"></i></button>
   </div>
-
-  <div class="nav-section">
-    <div class="nav-title">
-      <i class="fas fa-info-circle"></i>
-      <span>Info</span>
-    </div>
-    <ul class="side-list">
-      <li><a href="district.html" class="nav-link"><i class="fas fa-map-location-dot"></i><span>Districts</span></a></li>
-      <li><a href="contact.html" class="nav-link"><i class="fas fa-phone"></i><span>Contact</span></a></li>
-    </ul>
-  </div>
-
-  <div class="nav-section tools-section">
-    <div class="nav-title">
-      <i class="fas fa-tools"></i>
-      <span>Tools</span>
-    </div>
-    <ul class="side-list">
-      <li>
-        <button type="button" class="nav-link tool-btn feedback-btn" id="feedbackBtn">
-          <i class="fas fa-comment-dots"></i><span>Feedback</span>
-        </button>
-      </li>
-      <li>
-        <button type="button" class="nav-link tool-btn report-btn" id="reportBugBtn">
-          <i class="fas fa-bug"></i><span>Report</span>
-        </button>
-      </li>
-      <li>
-        <button type="button" class="nav-link tool-btn assistant-btn" id="assistantBtn">
-          <i class="fas fa-robot"></i><span>AI Assistant</span>
-        </button>
-      </li>
-    </ul>
-  </div>
+  <div class="side-footer"><span>ILM • 2026</span><span>Premium News Experience</span></div>
 </aside>
   
   <!------------hero section--------->
@@ -161,32 +132,32 @@
     <marquee>Welcome to Youth Connect Tamil Nadu Web Application</marquee>
   </div>
 </section>
-<section class="section">
+<section class="section home-news-section">
   <div class="section-title">
-    <h2>Latest News</h2>
+    <div><span class="home-section-eyebrow">LATEST UPDATES</span><h2>Latest News</h2></div>
     <a href="news.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
   </div>
-  <div id="newsContainer" class="card-grid">
-    <div class="news-card">
-      <img src="assets/news1.jpg" alt="News 1">
-      <div class="card-content"><span class="badge">BREAKING</span><h3>State Youth Conference Announced</h3><p>Chennai • 15 Aug 2026</p></div>
-    </div>
-    <div class="news-card">
-      <img src="assets/news2.jpg" alt="News 2">
-      <div class="card-content"><span class="badge">UPDATE</span><h3>Volunteer Registration Portal Updated</h3><p>New profile fields and quick onboarding added.</p></div>
-    </div>
-    <div class="news-card">
-      <img src="assets/news3.jpg" alt="News 3">
-      <div class="card-content"><span class="badge">CAMPAIGN</span><h3>Green Tamil Nadu Tree Drive</h3><p>Madurai • Plantation activities expanded.</p></div>
-    </div>
-    <div class="news-card">
-      <img src="assets/news4.jpg" alt="News 4">
-      <div class="card-content"><span class="badge">EVENT</span><h3>District Committee Meeting Completed</h3><p>Coimbatore • New action plan approved.</p></div>
-    </div>
-    <div class="news-card">
-      <img src="assets/news5.jpg" alt="News 5">
-      <div class="card-content"><span class="badge">NOTICE</span><h3>New Social Service Activities Started</h3><p>Volunteers working across local communities.</p></div>
-    </div>
+  <div id="newsContainer" class="card-grid home-news-grid">
+    <article class="news-card home-news-card" data-home-news="1">
+      <div class="home-news-image"><img src="assets/banner1.jpg" alt="State Youth Conference"><span class="badge">BREAKING</span></div>
+      <div class="card-content"><div class="home-news-meta"><span><i class="far fa-clock"></i> 15 Aug 2026</span><span>OFFICIAL</span></div><h3>State Youth Conference Announced</h3><p>Chennai • Youth conference and state-level activities.</p><div class="home-card-actions"><button type="button" data-home-share="1"><i class="fas fa-share-nodes"></i><span>Share</span></button><button type="button" data-home-pdf="1"><i class="far fa-file-pdf"></i><span>PDF</span></button><button type="button" data-home-save="1"><i class="far fa-bookmark"></i><span>Save</span></button></div><button class="home-see-more" type="button" data-news-id="1">See More <i class="fas fa-arrow-right"></i></button></div>
+    </article>
+    <article class="news-card home-news-card" data-home-news="2">
+      <div class="home-news-image"><img src="assets/banner2.jpg" alt="Volunteer Registration"><span class="badge">UPDATE</span></div>
+      <div class="card-content"><div class="home-news-meta"><span><i class="far fa-clock"></i> 15 Aug 2026</span><span>OFFICIAL</span></div><h3>Volunteer Registration Portal Updated</h3><p>New profile fields and quick onboarding have been added.</p><div class="home-card-actions"><button type="button" data-home-share="2"><i class="fas fa-share-nodes"></i><span>Share</span></button><button type="button" data-home-pdf="2"><i class="far fa-file-pdf"></i><span>PDF</span></button><button type="button" data-home-save="2"><i class="far fa-bookmark"></i><span>Save</span></button></div><button class="home-see-more" type="button" data-news-id="2">See More <i class="fas fa-arrow-right"></i></button></div>
+    </article>
+    <article class="news-card home-news-card" data-home-news="3">
+      <div class="home-news-image"><img src="assets/gallery1.jpg" alt="Green Tamil Nadu"><span class="badge">CAMPAIGN</span></div>
+      <div class="card-content"><div class="home-news-meta"><span><i class="far fa-clock"></i> 14 Aug 2026</span><span>OFFICIAL</span></div><h3>Green Tamil Nadu Tree Drive</h3><p>Madurai • Plantation activities and volunteer participation.</p><div class="home-card-actions"><button type="button" data-home-share="3"><i class="fas fa-share-nodes"></i><span>Share</span></button><button type="button" data-home-pdf="3"><i class="far fa-file-pdf"></i><span>PDF</span></button><button type="button" data-home-save="3"><i class="far fa-bookmark"></i><span>Save</span></button></div><button class="home-see-more" type="button" data-news-id="3">See More <i class="fas fa-arrow-right"></i></button></div>
+    </article>
+    <article class="news-card home-news-card" data-home-news="4">
+      <div class="home-news-image"><img src="assets/event1.jpg" alt="District Committee Meeting"><span class="badge">EVENT</span></div>
+      <div class="card-content"><div class="home-news-meta"><span><i class="far fa-clock"></i> 14 Aug 2026</span><span>OFFICIAL</span></div><h3>District Committee Meeting Completed</h3><p>Coimbatore • New action plan and follow-up activities.</p><div class="home-card-actions"><button type="button" data-home-share="4"><i class="fas fa-share-nodes"></i><span>Share</span></button><button type="button" data-home-pdf="4"><i class="far fa-file-pdf"></i><span>PDF</span></button><button type="button" data-home-save="4"><i class="far fa-bookmark"></i><span>Save</span></button></div><button class="home-see-more" type="button" data-news-id="4">See More <i class="fas fa-arrow-right"></i></button></div>
+    </article>
+    <article class="news-card home-news-card" data-home-news="5">
+      <div class="home-news-image"><img src="assets/gallery2.jpg" alt="Social Service Activities"><span class="badge">NOTICE</span></div>
+      <div class="card-content"><div class="home-news-meta"><span><i class="far fa-clock"></i> 13 Aug 2026</span><span>OFFICIAL</span></div><h3>New Social Service Activities Started</h3><p>Volunteers are working across local communities.</p><div class="home-card-actions"><button type="button" data-home-share="5"><i class="fas fa-share-nodes"></i><span>Share</span></button><button type="button" data-home-pdf="5"><i class="far fa-file-pdf"></i><span>PDF</span></button><button type="button" data-home-save="5"><i class="far fa-bookmark"></i><span>Save</span></button></div><button class="home-see-more" type="button" data-news-id="5">See More <i class="fas fa-arrow-right"></i></button></div>
+    </article>
   </div>
 </section>
 
@@ -241,6 +212,13 @@
   </div>
 </section>
 
+<dialog id="homeNewsDialog" class="home-news-dialog">
+  <div class="home-news-dialog-head"><div><span id="homeNewsBadge" class="badge">NEWS</span><h2 id="homeNewsTitle">News</h2><p id="homeNewsMeta"></p></div><button id="closeHomeNews" class="home-news-close" type="button" aria-label="Close"><i class="fas fa-times"></i></button></div>
+  <img id="homeNewsImage" class="home-news-dialog-image" src="" alt="">
+  <div class="home-news-dialog-body"><p id="homeNewsText"></p><p id="homeNewsExtra"></p></div>
+  <div class="home-news-dialog-actions"><button id="homeNewsShare" type="button"><i class="fas fa-share-nodes"></i> Share</button><button id="homeNewsPdf" type="button"><i class="far fa-file-pdf"></i> PDF</button><button id="homeNewsSave" type="button"><i class="far fa-bookmark"></i> Save</button><a id="homeNewsOpen" href="news.html"><i class="fas fa-newspaper"></i> News Page</a></div>
+</dialog>
+
 <div id="videoModal" class="modal">
   <span class="close-btn" id="closeVideoBtn">&times;</span>
   <div class="modal-content">
@@ -264,31 +242,17 @@
 
 <div id="overlay"></div>
 
-<div id="searchPopup" class="popup">
-  <div class="popup-content">
-    <div class="search-popup-wrapper">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Search anything..." id="globalSearch">
-    </div>
-    <button id="closeSearch" class="popup-close"><i class="fas fa-times"></i></button>
-  </div>
-</div>
-
-<div id="notificationPanel" class="notification-panel">
-  <div class="panel-header">
-    <h3>Notifications</h3>
-    <button id="closeNotification" class="popup-close"><i class="fas fa-times"></i></button>
-  </div>
+  <aside class="notification-panel" id="notificationPanel" aria-hidden="true">
+  <div class="panel-header"><div><strong>Notifications</strong><span>Latest updates</span></div><button id="closeNotification" class="panel-close" type="button" aria-label="Close"><i class="fas fa-xmark"></i></button></div>
   <div class="notification-list" id="notificationList">
-    <div class="notification-item">
-      <i class="fas fa-bell"></i>
-      <div><h4>Welcome</h4><p>Thank you for joining Youth Connect.</p></div>
-    </div>
+    <article class="notification-item"><i class="fas fa-bell"></i><div><h4>Welcome</h4><p>DYFI Tamil Nadu State Committee web application is ready.</p><time>Now</time></div></article>
+    <article class="notification-item"><i class="fas fa-newspaper"></i><div><h4>News Update</h4><p>New news stories are available in the News section.</p><time>Today</time></div></article>
+    <article class="notification-item"><i class="fas fa-calendar-days"></i><div><h4>Events</h4><p>Check the latest events and programme details.</p><time>Today</time></div></article>
   </div>
-</div>
+</aside>
 
 <footer>
-  <div class="footer-logo"><img src="assets/logo.png" alt="Footer Logo"></div>
+  <div class="footer-logo"><img src="assets/red.png" alt="Footer Logo"></div>
   <h3>Youth Connect Tamil Nadu</h3>
   <p>Building an informed, active and socially responsible youth community.</p>
   <div class="footer-social">
@@ -300,81 +264,8 @@
   <p class="copyright">© 2026 Youth Connect. All Rights Reserved.</p>
 </footer>
 
-<dialog id="feedbackDialog" class="modal-box">
-  <div class="modal-head">
-    <div><h3>Feedback</h3><p>Send your feedback to our team</p></div>
-    <button type="button" class="close-dialog-btn" id="closeFeedback"><i class="fas fa-times"></i></button>
-  </div>
-  <form id="feedbackForm" action="https://api.web3forms.com/submit" method="POST" class="modal-form">
-    <input type="hidden" name="access_key" value="5e51a205-46d1-4db6-916f-0703efb327ab">
-    <input type="hidden" name="subject" value="DYFI Feedback">
-    <input type="hidden" name="from_name" value="DYFI Website">
-    <div class="field-grid">
-      <div class="field"><label>Name *</label><input type="text" name="name" id="feedbackName" placeholder="Enter your name" required></div>
-      <div class="field"><label>State *</label><select name="state" id="feedbackState" required><option value="">Choose state</option><option>Tamil Nadu</option><option>Pondicherry</option></select></div>
-      <div class="field"><label>District *</label><input type="text" name="district" id="feedbackDistrict" placeholder="Enter your district" required></div>
-      <div class="field"><label>Contact Number</label><input type="tel" name="phone" id="feedbackPhone" placeholder="Enter contact number"></div>
-      <div class="field"><label>Email</label><input type="email" name="email" id="feedbackEmail" placeholder="Enter email address"></div>
-      <div class="field"><label>Subject *</label><input type="text" name="feedback_subject" id="feedbackSubject" placeholder="Write subject" required></div>
-    </div>
-    <div class="field"><label>Message *</label><textarea name="message" id="feedbackMessage" rows="5" placeholder="Write your feedback..." required></textarea></div>
-    <div class="modal-actions"><button type="button" class="cancel-btn" id="cancelFeedback">Cancel</button><button type="submit" class="send-btn">Send Feedback</button></div>
-  </form>
-</dialog>
-
-<dialog id="bugDialog" class="modal-box">
-  <div class="modal-head">
-    <div><h3>Report Bug</h3><p>Tell us what went wrong</p></div>
-    <button type="button" class="close-dialog-btn" id="closeBug"><i class="fas fa-times"></i></button>
-  </div>
-  <form id="bugForm" action="https://api.web3forms.com/submit" method="POST" class="modal-form">
-    <input type="hidden" name="access_key" value="5e51a205-46d1-4db6-916f-0703efb327ab">
-    <input type="hidden" name="subject" value="DYFI Bug Report">
-    <input type="hidden" name="from_name" value="DYFI Website">
-    <div class="field"><label>Name *</label><input type="text" name="name" id="bugName" placeholder="Enter your name" required></div>
-    <div class="field"><label>Details *</label><input type="text" name="details" id="bugDetails" placeholder="Example: Menu not opening" required></div>
-    <div class="field"><label>Message *</label><textarea name="message" id="bugMessage" rows="5" placeholder="Describe the bug in detail..." required></textarea></div>
-    <div class="modal-actions"><button type="button" class="cancel-btn" id="cancelBug">Cancel</button><button type="submit" class="send-btn">Send Bug Report</button></div>
-  </form>
-</dialog>
-
-<div id="bot-container" class="draggable-bot bot-hidden">
-  <div class="bot-header">
-    <button id="closeBot" class="close-bot-btn" type="button">&times;</button>
-  </div>
-
-  <div class="container">
-    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-    <df-messenger
-      intent="welcome"
-      chat-title="Kavin Assistant"
-      agent-id="5b378a03-accb-407c-8e12-e15b8602d3cd"
-      language-code="en"
-      chat-icon="images/bot.png"
-      chat-icon-size="80px">
-      <style>
-        df-messenger{
-          --df-messenger-bot-message:#fff;
-          --df-messenger-button-titlebar-color:#b70821;
-          --df-messenger-chat-background-color:#A9A9A9;
-          --df-messenger-font-color:#000;
-          --df-messenger-send-icon:#00adff;
-          --df-messenger-user-message:#9FE2BF;
-          --df-messenger-chip-border-color:#008000;
-          --df-messenger-chat-icon-size:140px;
-        }
-        df-messenger::part(chat-window){
-          height:500px !important;
-          max-height:80vh !important;
-        }
-      </style>
-    </df-messenger>
-  </div>
-</div>
-
-<script type="module" src="js/firebase.js"></script>
-<script type="module" src="js/app.js"></script>
-<script src="js/search.js"></script>
+<script src="js/app.js"></script>
 <script src="js/notification.js"></script>
+<script src="js/global-ui.js"></script>
 </body>
 </html>
