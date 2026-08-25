@@ -56,20 +56,22 @@
 </section>
 
 <section class="district-wrap">
-  <div class="section-title">
-    <h2>District Mini Map</h2>
-    <span>Tap to open details</span>
+  <div class="section-title district-section-head">
+    <div>
+      <h2>District Mini Map</h2>
+      <span>Tap to open details</span>
+    </div>
+    <div class="district-menu-wrap">
+      <button id="districtMoreBtn" class="district-more-btn" type="button" aria-label="More district options" aria-expanded="false"><i class="fas fa-ellipsis-vertical"></i></button>
+      <div id="districtMoreMenu" class="district-more-menu" hidden>
+        <button id="allDistrictPdfBtn" type="button"><i class="far fa-file-pdf"></i><span>Download All Districts PDF</span></button>
+      </div>
+    </div>
   </div>
   <div id="districtGrid" class="district-grid"></div>
 </section>
 
-<section class="district-list-wrap">
-  <div class="section-title">
-    <h2>District Name List</h2>
-    <span>Quick scroll</span>
-  </div>
-  <div id="districtScrollBox" class="district-scroll-box"></div>
-</section>
+
 
 <dialog id="districtDialog" class="district-dialog">
   <div class="dialog-head">
@@ -106,6 +108,12 @@
       <h4>Contact Details</h4>
       <div id="dlgContact" class="contact-row"></div>
     </section>
+  </div>
+
+  <div class="district-dialog-actions">
+    <button id="districtShareBtn" type="button"><i class="fas fa-share-nodes"></i><span>Share</span></button>
+    <button id="districtSaveBtn" type="button"><i class="far fa-bookmark"></i><span>Save</span></button>
+    <button id="districtPdfBtn" type="button"><i class="far fa-file-pdf"></i><span>Download PDF</span></button>
   </div>
 </dialog>
 
