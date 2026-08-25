@@ -181,3 +181,33 @@ body{padding-top:74px}
 /* v1110.5 district visibility safeguard */
 .district-list-wrap{display:block!important;visibility:visible!important;opacity:1!important;}
 .district-scroll-box{display:grid!important;visibility:visible!important;opacity:1!important;}
+
+
+.dist-card .district-see-more{
+  position:absolute;right:12px;bottom:11px;
+  display:inline-flex;align-items:center;gap:6px;
+  min-height:32px;padding:0 10px;border-radius:10px;
+  background:rgba(255,255,255,.16);color:#fff;
+  border:1px solid rgba(255,255,255,.24);
+  font-size:10px;font-weight:900;
+  backdrop-filter:blur(8px);
+}
+.dist-card .district-see-more:active{transform:scale(.96)}
+.district-dialog-actions{display:flex;justify-content:flex-end;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.district-dialog-actions button{min-height:46px;padding:0 16px;border-radius:13px;background:var(--primary);color:#fff;font-weight:900;display:inline-flex;align-items:center;gap:8px}
+
+
+/* District single-list layout: keep only the card grid, no duplicate second list. */
+.district-list-wrap{display:none!important}
+.district-section-head{position:relative;align-items:center}
+.district-section-head>div:first-child{min-width:0}
+.district-section-head>div:first-child .section-title{margin:0}
+.district-menu-wrap{position:relative;flex:0 0 auto}
+.district-more-btn{width:42px;height:42px;border-radius:13px;background:var(--card);color:var(--text);border:1px solid var(--border);box-shadow:var(--shadow);display:grid;place-items:center}
+.district-more-menu{position:absolute;right:0;top:48px;z-index:20;min-width:220px;padding:7px;border-radius:15px;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow-lg)}
+.district-more-menu button{width:100%;min-height:44px;padding:0 12px;border-radius:11px;background:transparent;color:var(--text);display:flex;align-items:center;gap:9px;text-align:left;font-size:11px;font-weight:900}
+.district-more-menu button:hover{background:rgba(213,0,0,.08);color:var(--primary)}
+.district-dialog-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.district-dialog-actions button{min-width:0;justify-content:center}
+@media(max-width:520px){.district-dialog-actions button{padding:0 9px;font-size:11px}.district-dialog-actions button i{font-size:12px}}
+html.dark .district-more-menu{background:#080808!important;border-color:#242424!important}

@@ -239,3 +239,25 @@ body{
 .hero-box{position:relative;overflow:hidden}.hero-box:after{content:'DYFI';position:absolute;right:-24px;top:-30px;font-size:150px;font-weight:900;line-height:1;color:rgba(255,255,255,.08)}
 .contact-grid{grid-template-columns:1fr!important}.contact-card{display:grid;grid-template-columns:64px 1fr auto;align-items:center;text-align:left;gap:14px;padding:16px;border-radius:20px}.contact-card .card-icon{margin:0;width:58px;height:58px}.contact-card h3{margin:0}.contact-card p{margin:4px 0 0}.contact-card .contact-btn{min-width:96px;height:40px}.info-panel{border-radius:20px}.action-row{gap:8px}.action-pill{padding:10px 13px;font-size:12px}
 @media(max-width:600px){.contact-card{grid-template-columns:52px 1fr;gap:10px}.contact-card .contact-btn{grid-column:2;width:max-content}.contact-card .card-icon{width:52px;height:52px}}
+
+
+/* Contact page — true black dark theme overrides */
+html.dark .contact-card,
+html.dark .info-panel,
+html.dark .action-pill{
+  background:#0a0a0a!important;
+  color:#f5f5f5!important;
+  border-color:#242424!important;
+}
+html.dark .contact-card.highlight{
+  background:linear-gradient(180deg,#0a0a0a,#100000)!important;
+}
+html.dark .contact-card h3,
+html.dark .contact-card p,
+html.dark .info-panel h3,
+html.dark .info-panel p{color:var(--text)!important}
+html.dark .contact-card p,
+html.dark .info-panel p{color:var(--muted)!important}
+html.dark .card-icon.x{background:rgba(255,255,255,.08);color:#f5f5f5}
+html.dark .card-icon.website{background:rgba(255,255,255,.06);color:#ff1f3d}
+html.dark .action-pill{color:#f5f5f5!important;background:rgba(255,31,61,.08)!important}

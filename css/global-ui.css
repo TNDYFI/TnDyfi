@@ -15,3 +15,81 @@
 .lang-pills{display:flex;gap:5px}.ui-lang-btn{border:1px solid var(--ui-border);background:var(--ui-card);color:var(--ui-text);border-radius:10px;padding:8px 9px;font-size:10px;font-weight:800}.ui-lang-btn.active{background:var(--ui-primary);color:#fff;border-color:var(--ui-primary)}
 df-messenger{z-index:100000!important}
 @media(max-width:620px){.ui-settings-dialog,.ui-form-dialog,.ui-search-dialog{width:94vw}.ui-setting{padding:11px}.ui-setting-copy strong{font-size:11px}.ui-setting-copy span{font-size:9px}.ui-lang-btn{padding:7px 8px}}
+
+/* Global mobile bottom navigation — shared by every page */
+.bottom-nav{
+  position:fixed;
+  left:12px; right:12px;
+  bottom:max(10px,env(safe-area-inset-bottom));
+  height:66px;
+  display:flex; align-items:center; justify-content:space-around; gap:5px;
+  padding:7px;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(22px) saturate(150%);
+  -webkit-backdrop-filter:blur(22px) saturate(150%);
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:23px;
+  box-shadow:0 18px 50px rgba(15,23,42,.18);
+  z-index:99999;
+  box-sizing:border-box;
+}
+html.dark .bottom-nav{background:rgba(18,18,18,.94);border-color:rgba(255,255,255,.10);box-shadow:0 18px 50px rgba(0,0,0,.48)}
+.bottom-nav a{
+  flex:1; min-width:0; height:52px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  color:#64748b; text-decoration:none; font-size:9px; font-weight:800;
+  border-radius:17px; transition:transform .2s ease,background .2s ease,color .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.bottom-nav a i{font-size:18px;line-height:1}
+.bottom-nav a.active{color:#d50000;background:rgba(213,0,0,.09)}
+.bottom-nav a:active{transform:scale(.94)}
+body:has(.bottom-nav){padding-bottom:96px}
+@media(min-width:700px){.bottom-nav{left:50%;right:auto;width:min(560px,calc(100% - 28px));transform:translateX(-50%)}}
+
+
+/* =========================================================
+   GLOBAL TRUE-BLACK DARK MODE — shared by every page
+   ========================================================= */
+html.dark{
+  --bg:#000000;
+  --card:#0a0a0a;
+  --text:#f5f5f5;
+  --muted:#a3a3a3;
+  --border:#242424;
+  --glass:rgba(0,0,0,.90);
+  --shadow:0 16px 44px rgba(0,0,0,.58);
+  --shadow-lg:0 28px 80px rgba(0,0,0,.72);
+  --primary:#ff1f3d;
+  --primary-2:#ff475d;
+}
+html.dark body,html.dark main,html.dark section,html.dark article,html.dark header,html.dark footer,html.dark aside{
+  color:var(--text);
+}
+html.dark body{background:#000!important;color:var(--text)!important}
+html.dark input,html.dark textarea,html.dark select{background:#0a0a0a!important;color:var(--text)!important;border-color:#292929!important}
+html.dark input::placeholder,html.dark textarea::placeholder{color:#777!important}
+html.dark dialog,html.dark .premium-dialog,html.dark .ui-search-dialog,html.dark .ui-settings-dialog,html.dark .ui-form-dialog,html.dark .ui-ai-dialog,html.dark .news-detail-dialog,html.dark .video-dialog,html.dark .district-dialog{background:#080808!important;color:var(--text)!important;border-color:#242424!important}
+html.dark .card,html.dark .news-card,html.dark .event-card,html.dark .campaign-card,html.dark .profile-card,html.dark .info-item,html.dark .social-link,html.dark .quick-item,html.dark .summary-card,html.dark .search-bar,html.dark .search-box,html.dark .chip,html.dark .category-btn,html.dark .gallery-card,html.dark .load-more,html.dark .dlg-card,html.dark .rail-card,html.dark .setting-item,html.dark .setting-share,html.dark .ui-setting,html.dark .ui-search-result,html.dark .ui-btn{
+  background:#0a0a0a!important;color:var(--text)!important;border-color:#242424!important;
+}
+html.dark .dlg-card p,html.dark .dlg-card li,html.dark .info-item span,html.dark .profile-card p,html.dark .social-link span,html.dark .quick-item span,html.dark .section-title span,html.dark .top-title p,html.dark .muted,html.dark .ui-setting-copy span{color:var(--muted)!important}
+html.dark .topbar,html.dark .page-header,html.dark .news-topbar{background:rgba(0,0,0,.92)!important;border-color:#222!important}
+html.dark .back-btn,html.dark .icon-btn,html.dark .menu-btn,html.dark .popup-close,html.dark .close-x,html.dark .close-btn,html.dark .dialog-close{background:#0a0a0a!important;color:#f5f5f5!important;border-color:#292929!important}
+html.dark .bottom-nav{background:rgba(7,7,7,.96)!important;border-color:#262626!important}
+html.dark .bottom-nav a{color:#8c8c8c}
+html.dark .bottom-nav a.active{color:#ff1f3d;background:rgba(255,31,61,.12)}
+html.dark .footer,html.dark .side-footer{background:#000!important;color:#8e8e8e!important}
+html.dark #sidebar.news-sidebar{background:#050505!important;border-color:#252525!important}
+html.dark #sidebar.news-sidebar .side-content{background:#050505!important}
+html.dark #sidebar.news-sidebar .side-link{color:#f5f5f5!important}
+html.dark #sidebar.news-sidebar .side-link>i:first-child,html.dark #sidebar.news-sidebar .side-link .arrow{color:#888!important}
+html.dark .ui-pdf-sheet,html.dark .pdf-render{background:#fff!important;color:#111!important}
+html.dark .profile-cover{background:#080808!important}
+html.dark .quick-links .quick-item{background:#0a0a0a!important}
+html.dark .home-news-dialog-body p,html.dark .dlg-desc,html.dark .news-detail-body p{color:#b2b2b2!important}
+html.dark .notification-panel,html.dark .notification-panel .panel-header,html.dark .notification-panel .notification-item{background:#050505!important;color:var(--text)!important;border-color:#242424!important}
+html.dark .notification-panel .notification-item p,html.dark .notification-panel .notification-item time{color:#999!important}
+
+/* Sidebar end spacing: keep AI Assistant visually separated from the footer. */
+#sidebar.news-sidebar .side-content > .support-link:last-child{margin-bottom:54px}

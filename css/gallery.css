@@ -269,5 +269,126 @@ button,a{border:none;background:none;cursor:pointer;color:inherit;text-decoratio
 }
 
 
-/* v1110.8 full-size gallery viewer */
-.image-dialog{width:100vw!important;max-width:100vw!important;height:100dvh!important;max-height:100dvh!important;border:0!important;border-radius:0!important;padding:0!important;background:#050505!important;display:flex;flex-direction:column;justify-content:center;align-items:center}.image-dialog::backdrop{background:#050505}.image-dialog #zoomImage{width:100%;height:calc(100dvh - 92px);max-width:100%;max-height:calc(100dvh - 92px);object-fit:contain}.image-dialog .dialog-bottom{position:absolute;left:0;right:0;bottom:0;padding:14px max(14px,env(safe-area-inset-left)) max(14px,env(safe-area-inset-bottom));display:flex;justify-content:center;gap:8px;background:linear-gradient(transparent,rgba(0,0,0,.86));padding-top:38px}.image-dialog .dialog-bottom button,.image-dialog .dialog-bottom a{min-height:42px;padding:0 14px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22);font-weight:800;font-size:12px}.image-dialog .close-x{position:absolute;z-index:3;right:16px;top:16px;width:42px;height:42px;border-radius:13px;background:rgba(0,0,0,.5);color:#fff}
+/* Full-screen gallery lightbox — isolated from the gallery cards so no duplicate like controls appear. */
+.image-lightbox[hidden]{display:none!important}
+.image-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:100vw;
+  height:100dvh;
+  background:#050505;
+  color:#fff;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .18s ease,visibility .18s ease;
+  overscroll-behavior:contain;
+}
+.image-lightbox.show{opacity:1;visibility:visible}
+body.gallery-lightbox-open{overflow:hidden!important;touch-action:none}
+.image-lightbox .lightbox-stage{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:68px 12px 104px;
+  min-height:0;
+}
+.image-lightbox #zoomImage{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:0;
+  user-select:none;
+  -webkit-user-drag:none;
+  touch-action:none;
+}
+.image-lightbox .close-x{
+  position:absolute;
+  top:max(14px,env(safe-area-inset-top));
+  right:max(14px,env(safe-area-inset-right));
+  z-index:4;
+  width:46px;
+  height:46px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:rgba(0,0,0,.62);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+.image-lightbox .dialog-bottom{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:4;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  padding:12px 14px max(14px,env(safe-area-inset-bottom));
+  background:linear-gradient(transparent,rgba(0,0,0,.9) 34%);
+}
+.image-lightbox .dialog-bottom button,
+.image-lightbox .dialog-bottom a{
+  min-width:0;
+  min-height:50px;
+  border-radius:15px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background:rgba(255,255,255,.11);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.22);
+  font:800 12px Poppins,sans-serif;
+  text-decoration:none;
+  backdrop-filter:blur(12px);
+}
+.image-lightbox .dialog-like.active{background:var(--primary);border-color:var(--primary)}
+.image-lightbox .dialog-download{background:rgba(255,255,255,.94)!important;color:#111!important}
+@media(min-width:768px){
+  .image-lightbox .lightbox-stage{padding:76px 30px 112px}
+  .image-lightbox .dialog-bottom{left:50%;right:auto;bottom:18px;width:min(560px,calc(100% - 40px));transform:translateX(-50%);padding:0;background:none}
+}
+
+
+/* Precision gallery zoom controls */
+.image-lightbox .zoom-controls{
+  position:absolute;
+  top:max(14px,env(safe-area-inset-top));
+  left:max(14px,env(safe-area-inset-left));
+  z-index:5;
+  display:flex;
+  gap:7px;
+}
+.image-lightbox .zoom-controls button{
+  width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;
+  background:rgba(0,0,0,.62);color:#fff;
+  border:1px solid rgba(255,255,255,.22);
+  backdrop-filter:blur(12px);
+  font-size:14px;
+}
+.image-lightbox .zoom-controls button:disabled{opacity:.35}
+.image-lightbox #zoomImage{transition:transform .16s ease;will-change:transform}
+
+
+/* Precision viewer download action */
+.image-lightbox .dialog-download-top{
+  position:absolute;top:max(14px,env(safe-area-inset-top));right:max(70px,calc(env(safe-area-inset-right) + 70px));z-index:5;
+  min-height:42px;padding:0 13px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  background:rgba(255,255,255,.94);color:#111;border:1px solid rgba(255,255,255,.45);font:900 11px Poppins,sans-serif;text-decoration:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);backdrop-filter:blur(12px);
+}
+.image-lightbox #zoomImage{cursor:grab;transform-origin:50% 50%;}
+@media(max-width:520px){.image-lightbox .dialog-download-top{right:66px;padding:0 10px}.image-lightbox .dialog-download-top span{display:none}}
