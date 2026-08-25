@@ -72,10 +72,27 @@
   }
 
   function setupSwipeRefresh(){
-    let start=0,armed=false;const indicator=$('#swipeIndicator');
-    document.addEventListener('touchstart',e=>{if(location.pathname.endsWith('registration.html')||location.pathname.endsWith('login.html'))return;if(window.scrollY<=0&&e.touches[0]){start=e.touches[0].clientY;armed=false;}},{passive:true});
-    document.addEventListener('touchmove',e=>{if(!start||window.scrollY>0)return;const d=e.touches[0].clientY-start;if(d>55){armed=true;indicator?.classList.add('active');}},{passive:true});
-    document.addEventListener('touchend',()=>{if(armed){indicator?.classList.remove('active');window.location.reload();}start=0;armed=false;},{passive:true});
+    let start=0,armed=false,moved=false;
+    const indicator=$('#swipeIndicator');
+    const threshold=160;
+    document.addEventListener('touchstart',e=>{
+      if(location.pathname.endsWith('registration.html')||location.pathname.endsWith('login.html'))return;
+      if(window.scrollY<=0 && e.touches[0]){start=e.touches[0].clientY;armed=false;moved=false;}
+      else start=0;
+    },{passive:true});
+    document.addEventListener('touchmove',e=>{
+      if(!start || window.scrollY>0 || !e.touches[0])return;
+      const d=e.touches[0].clientY-start;
+      moved=Math.abs(d)>12;
+      if(d>=threshold){armed=true;indicator?.classList.add('active');}
+      else if(d<threshold){armed=false;indicator?.classList.remove('active');}
+    },{passive:true});
+    document.addEventListener('touchend',()=>{
+      if(armed && moved){indicator?.classList.remove('active');window.location.reload();}
+      else indicator?.classList.remove('active');
+      start=0;armed=false;moved=false;
+    },{passive:true});
+    document.addEventListener('touchcancel',()=>{indicator?.classList.remove('active');start=0;armed=false;moved=false;},{passive:true});
   }
 
   function init(){

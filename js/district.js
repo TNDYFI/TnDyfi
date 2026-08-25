@@ -68,16 +68,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const grid = document.getElementById("districtGrid");
-  const scrollBox = document.getElementById("districtScrollBox");
   const search = document.getElementById("districtSearch");
   const clearBtn = document.getElementById("clearSearchBtn");
   const dialog = document.getElementById("districtDialog");
   const closeDialog = document.getElementById("closeDialog");
   const tnCount = document.getElementById("tnCount");
   const districtCount = document.getElementById("districtCount");
-  const copyBtn = document.getElementById("copyDistrictBtn");
+  const districtPdfBtn = document.getElementById("districtPdfBtn");
+  const districtShareBtn = document.getElementById("districtShareBtn");
+  const districtSaveBtn = document.getElementById("districtSaveBtn");
+  const districtMoreBtn = document.getElementById("districtMoreBtn");
+  const districtMoreMenu = document.getElementById("districtMoreMenu");
+  const allDistrictPdfBtn = document.getElementById("allDistrictPdfBtn");
 
-  if (!grid || !scrollBox || !search || !dialog) return;
+  if (!grid || !search || !dialog) return;
+
+  let selectedDistrict = null;
 
   districtCount.textContent = districts.length.toString();
   animateCounter(tnCount, districts.reduce((sum, d) => sum + d.count, 0));
@@ -95,11 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderDistricts(list) {
     grid.innerHTML = "";
-    scrollBox.innerHTML = "";
 
     if (list.length === 0) {
       grid.innerHTML = `<div class="empty-box">No district found matching your search.</div>`;
-      scrollBox.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:13px;">No district found</div>`;
       return;
     }
 
@@ -110,23 +114,24 @@ document.addEventListener("DOMContentLoaded", () => {
       card.innerHTML = `
         <div class="name">${d.ta}</div>
         <div class="count">${d.count.toLocaleString()} Members</div>
-        <div class="tap">Tap for details</div>
+        <button class="district-see-more" type="button"><span>See More</span><i class="fas fa-arrow-right"></i></button>
       `;
       card.addEventListener("click", () => openDistrict(d));
+      card.querySelector(".district-see-more")?.addEventListener("click", e => { e.stopPropagation(); openDistrict(d); });
       grid.appendChild(card);
-
-      const row = document.createElement("div");
-      row.className = "dist-row";
-      row.style.background = d.color;
-      row.innerHTML = `<span>${d.ta}</span><span>${d.count.toLocaleString()}</span>`;
-      row.addEventListener("click", () => openDistrict(d));
-      scrollBox.appendChild(row);
     });
   }
 
   function openDistrict(d) {
     const data = detailsMap[d.name];
+    selectedDistrict = d;
     if(!data) return;
+    const saved = getSavedDistricts();
+    if(districtSaveBtn){
+      const isSaved=saved.has(d.name);
+      districtSaveBtn.classList.toggle("saved",isSaved);
+      districtSaveBtn.innerHTML=isSaved?'<i class="fas fa-bookmark"></i><span>Saved</span>':'<i class="far fa-bookmark"></i><span>Save</span>';
+    }
     document.getElementById("dlgName").textContent = d.ta;
     document.getElementById("dlgCount").textContent = `${d.count.toLocaleString()} Members`;
     document.getElementById("dlgTag").textContent = d.name;
@@ -160,14 +165,70 @@ document.addEventListener("DOMContentLoaded", () => {
   closeDialog.addEventListener("click", () => dialog.close());
   dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
 
-  copyBtn.addEventListener("click", async () => {
-    const text = districts.map(d => `${d.ta} (${d.name}) - ${d.count.toLocaleString()} Members`).join("\n");
-    try {
-      await navigator.clipboard.writeText(text);
-      copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-      setTimeout(() => copyBtn.innerHTML = '<i class="fas fa-copy"></i>', 1500);
-    } catch {}
+  districtPdfBtn?.addEventListener("click", () => {
+    if (!selectedDistrict) return;
+    const data = detailsMap[selectedDistrict.name];
+    const body = [
+      `${selectedDistrict.ta} (${selectedDistrict.name})`,
+      `உறுப்பினர் எண்ணிக்கை: ${selectedDistrict.count.toLocaleString()}`,
+      data.districtDetails,
+      ...data.membership
+    ].join("\n\n");
+    window.__dyfiPDF?.({
+      title: `${selectedDistrict.ta} மாவட்ட விவரங்கள்`,
+      meta: `${selectedDistrict.count.toLocaleString()} Members`,
+      body,
+      extra: "DYFI Tamil Nadu District Network"
+    });
   });
 
+
+  function getSavedDistricts(){
+    try{return new Set(JSON.parse(localStorage.getItem("dyfi_saved_districts")||"[]"));}catch{return new Set();}
+  }
+
+  districtSaveBtn?.addEventListener("click",()=>{
+    if(!selectedDistrict)return;
+    const set=getSavedDistricts();
+    if(set.has(selectedDistrict.name))set.delete(selectedDistrict.name);else set.add(selectedDistrict.name);
+    localStorage.setItem("dyfi_saved_districts",JSON.stringify([...set]));
+    const saved=set.has(selectedDistrict.name);
+    districtSaveBtn.classList.toggle("saved",saved);
+    districtSaveBtn.innerHTML=saved?'<i class="fas fa-bookmark"></i><span>Saved</span>':'<i class="far fa-bookmark"></i><span>Save</span>';
+    window.__dyfiToast?.(saved?'District saved ✓':'District removed from saved');
+  });
+
+  districtShareBtn?.addEventListener("click",async()=>{
+    if(!selectedDistrict)return;
+    const data=detailsMap[selectedDistrict.name];
+    const text=`${selectedDistrict.ta} (${selectedDistrict.name})\nMembers: ${selectedDistrict.count.toLocaleString()}\n\n${data.districtDetails}`;
+    try{
+      if(navigator.share) await navigator.share({title:`${selectedDistrict.ta} மாவட்ட விவரங்கள்`,text,url:location.href.split("#")[0]});
+      else {await navigator.clipboard?.writeText(text);window.__dyfiToast?.("District details copied ✓");}
+    }catch(e){}
+  });
+
+  districtMoreBtn?.addEventListener("click",e=>{
+    e.stopPropagation();
+    const hidden=districtMoreMenu?.hidden;
+    if(districtMoreMenu)districtMoreMenu.hidden=!hidden;
+    districtMoreBtn.setAttribute("aria-expanded",String(hidden));
+  });
+  document.addEventListener("click",e=>{
+    if(!e.target.closest(".district-menu-wrap") && districtMoreMenu){districtMoreMenu.hidden=true;districtMoreBtn?.setAttribute("aria-expanded","false");}
+  });
+
+  allDistrictPdfBtn?.addEventListener("click",async()=>{
+    if(!window.__dyfiPDF)return;
+    districtMoreMenu.hidden=true;
+    districtMoreBtn?.setAttribute("aria-expanded","false");
+    const body=districts.map((d,i)=>`${i+1}. ${d.ta} (${d.name}) — ${d.count.toLocaleString()} Members`).join("\n");
+    await window.__dyfiPDF?.({
+      title:"தமிழ்நாடு DYFI அனைத்து மாவட்டங்கள்",
+      meta:`${districts.length} Districts • ${districts.reduce((sum,d)=>sum+d.count,0).toLocaleString()} Members`,
+      body,
+      extra:"DYFI Tamil Nadu District Network — Complete District List"
+    });
+  });
   renderDistricts(districts);
 });

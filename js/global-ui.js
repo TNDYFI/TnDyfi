@@ -65,10 +65,10 @@
   window.__dyfiPDF=async function(item){try{toast(lang()==='en'?'Preparing PDF...':'PDF தயாராகிறது...');await loadPDF();const wrap=document.createElement('div');wrap.className='ui-pdf-sheet';wrap.innerHTML=`<div class="pdf-brand">DYFI TAMILNADU STATE COMMITTEE <span>OFFICIAL WEB APP</span></div><h1>${esc(item.title||'Content')}</h1><div class="pdf-meta">${esc(item.meta||item.date||new Date().toLocaleDateString())}</div>${item.image?`<img src="${esc(item.image)}" crossorigin="anonymous">`:''}<p>${esc(item.body||item.desc||item.text||'')}</p><p>${esc(item.extra||item.place||'')}</p><div class="pdf-foot">DYFI Tamil Nadu State Committee • ${new Date().toLocaleString()}</div>`;document.body.appendChild(wrap);await new Promise(r=>setTimeout(r,350));const canvas=await html2canvas(wrap,{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#fff'});const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',compress:true});const w=190,h=canvas.height*w/canvas.width;let remaining=h;const data=canvas.toDataURL('image/jpeg',.95);pdf.addImage(data,'JPEG',10,10,w,h,'','FAST');remaining-=277;while(remaining>0){pdf.addPage();pdf.addImage(data,'JPEG',10,10-(h-remaining),w,h,'','FAST');remaining-=277;}pdf.save((item.title||'document').replace(/[<>:"/\\|?*]/g,'').slice(0,70)+'.pdf');wrap.remove();toast(lang()==='en'?'PDF downloaded ✓':'PDF பதிவிறக்கம் செய்யப்பட்டது ✓');}catch(e){console.error(e);toast(lang()==='en'?'PDF could not be created':'PDF உருவாக்க முடியவில்லை');}};
 
   function genericActions(){
-    const selectors=['.event-card','.campaign-card','.gallery-card','.dist-card','.contact-card','.about-card'];
+    const selectors=['.event-card','.campaign-card','.gallery-card','.about-card'];
     const enhance=()=>{$$(selectors.join(',')).forEach(card=>{const title=card.querySelector('h3,.card-title,.name')?.textContent?.trim()||'Content';const text=(card.innerText||'').replace(/\s+/g,' ').trim();const img=card.querySelector('img');card.dataset.globalTitle=title;card.dataset.globalText=text;if(img)card.dataset.globalImage=img.currentSrc||img.src;let actions=card.querySelector('.action-row');if(!actions){actions=document.createElement('div');actions.className='global-card-actions';card.appendChild(actions);}else actions.classList.add('global-card-actions');if(!actions.querySelector('[data-card-share]')){const b=document.createElement('button');b.type='button';b.dataset.cardShare='';b.className='global-mini-action';b.innerHTML='<i class="fas fa-share-nodes"></i><span data-i18n="Share">Share</span>';actions.appendChild(b);}if(!actions.querySelector('[data-card-pdf]')){const b=document.createElement('button');b.type='button';b.dataset.cardPdf='';b.className='global-mini-action';b.innerHTML='<i class="far fa-file-pdf"></i><span data-i18n="PDF">PDF</span>';actions.appendChild(b);}if(!actions.querySelector('[data-card-save]')){const b=document.createElement('button');b.type='button';b.dataset.cardSave='';b.className='global-mini-action';b.innerHTML='<i class="far fa-bookmark"></i><span data-i18n="Save">Save</span>';actions.appendChild(b);}});};enhance();translate();}
 
-  function cardActions(){document.addEventListener('click',async e=>{const b=e.target.closest('[data-card-share],[data-card-pdf],[data-card-save]');if(!b)return;e.stopPropagation();const c=b.closest('.event-card,.campaign-card,.gallery-card,.dist-card,.contact-card,.about-card');if(!c)return;const title=c.dataset.globalTitle||'Content',text=c.dataset.globalText||title,image=c.dataset.globalImage||'';if(b.hasAttribute('data-card-share')){const url=location.href.split('#')[0]+'#'+encodeURIComponent(title);try{if(navigator.share)await navigator.share({title,text,url});else{await navigator.clipboard?.writeText(url);toast('Link copied ✓')}}catch{}}else if(b.hasAttribute('data-card-pdf'))window.__dyfiPDF?.({title,text,body:text,image,meta:page.replace('.html','')});else{const key='dyfi_saved_cards';const set=new Set(JSON.parse(localStorage.getItem(key)||'[]'));set.has(page+'|'+title)?set.delete(page+'|'+title):set.add(page+'|'+title);localStorage.setItem(key,JSON.stringify([...set]));b.classList.toggle('saved',set.has(page+'|'+title));b.querySelector('i').className=set.has(page+'|'+title)?'fas fa-bookmark':'far fa-bookmark';toast(set.has(page+'|'+title)?'Saved ✓':'Removed from saved');}});}
+  function cardActions(){document.addEventListener('click',async e=>{const b=e.target.closest('[data-card-share],[data-card-pdf],[data-card-save]');if(!b)return;e.stopPropagation();const c=b.closest('.event-card,.campaign-card,.gallery-card,.about-card');if(!c)return;const title=c.dataset.globalTitle||'Content',text=c.dataset.globalText||title,image=c.dataset.globalImage||'';if(b.hasAttribute('data-card-share')){const url=location.href.split('#')[0]+'#'+encodeURIComponent(title);try{if(navigator.share)await navigator.share({title,text,url});else{await navigator.clipboard?.writeText(url);toast('Link copied ✓')}}catch{}}else if(b.hasAttribute('data-card-pdf'))window.__dyfiPDF?.({title,text,body:text,image,meta:page.replace('.html','')});else{const key='dyfi_saved_cards';const set=new Set(JSON.parse(localStorage.getItem(key)||'[]'));set.has(page+'|'+title)?set.delete(page+'|'+title):set.add(page+'|'+title);localStorage.setItem(key,JSON.stringify([...set]));b.classList.toggle('saved',set.has(page+'|'+title));b.querySelector('i').className=set.has(page+'|'+title)?'fas fa-bookmark':'far fa-bookmark';toast(set.has(page+'|'+title)?'Saved ✓':'Removed from saved');}});}
 
   function chatFallback(){const box=$('#uiChatMessages'),input=$('#uiChatInput'),form=$('#uiChatForm');if(!box||!input||!form)return;if(!box.children.length){const m=document.createElement('div');m.className='ui-msg bot';m.textContent='வணக்கம்! Dialogflow AI Assistant தொடங்க தயாராக உள்ளது. கீழே கேள்வியை உள்ளிடுங்கள்.';box.appendChild(m);}const add=(who,text)=>{const m=document.createElement('div');m.className='ui-msg '+who;m.textContent=text;box.appendChild(m);requestAnimationFrame(()=>box.scrollTop=box.scrollHeight);};const reply=t=>{const x=t.toLowerCase();if(/news|செய்தி/.test(x))return 'News page-ல் complete news, search, share, save, See More மற்றும் PDF options உள்ளன.';if(/event|நிகழ்வு/.test(x))return 'Events page-ல் நிகழ்வுகளின் image மற்றும் full details பார்க்கலாம்.';if(/district|மாவட்ட/.test(x))return 'Districts page-ல் அனைத்து மாவட்டங்களையும் பார்க்கலாம்.';if(/feedback|கருத்து/.test(x))return 'Main sidebar → Feedback திறந்து form-ஐ அனுப்புங்கள்.';if(/report|பிரச்சினை|bug/.test(x))return 'Main sidebar → Report திறந்து issue details-ஐ அனுப்புங்கள்.';return 'News, Events, Districts, Feedback அல்லது Report பற்றி கேளுங்கள்.';};const send=()=>{const t=input.value.trim();if(!t)return;add('user',t);input.value='';input.style.height='44px';setTimeout(()=>add('bot',reply(t)),180)};form.addEventListener('submit',e=>{e.preventDefault();send()});input.addEventListener('input',()=>{input.style.height='44px';input.style.height=Math.min(input.scrollHeight,110)+'px'});input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});$$('.ui-quick [data-q]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.q;send()}));}
 
@@ -88,15 +88,47 @@
         toast(lang()==='en'?'Submit failed. Please try again.':'அனுப்ப முடியவில்லை. மீண்டும் முயற்சிக்கவும்.');
       }finally{btn.disabled=false;btn.textContent=old;}});});}
 
+  function updateProfileQuickActions(){
+    const card=$('#profileQuickActions');
+    if(card) card.hidden=lang()!=='en';
+  }
+
   function language(){
-    const set=l=>{localStorage.setItem('dyfi_language',l);document.documentElement.lang=l==='en'?'en':'ta';const df=$('#dyfiDialogflow');if(df)df.setAttribute('language-code',l==='en'?'en':'ta');translate();toast(l==='en'?'English enabled ✓':'தமிழ் செயல்படுத்தப்பட்டது ✓');};
+    const set=l=>{localStorage.setItem('dyfi_language',l);document.documentElement.lang=l==='en'?'en':'ta';const df=$('#dyfiDialogflow');if(df)df.setAttribute('language-code',l==='en'?'en':'ta');translate();updateProfileQuickActions();toast(l==='en'?'English enabled ✓':'தமிழ் செயல்படுத்தப்பட்டது ✓');};
     $$('.ui-lang-btn').forEach(b=>b.addEventListener('click',()=>set(b.dataset.lang)));
     document.addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(b&&!b.closest('#uiSettingsDialog'))set(b.dataset.lang);});
+    updateProfileQuickActions();
+  }
+
+  function injectBottomNav(){
+    const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+    const items=[
+      ['index.html','Home','fas fa-house'],
+      ['news.html','News','fas fa-newspaper'],
+      ['events.html','Events','fas fa-calendar-days'],
+      ['gallery.html','Gallery','fas fa-image'],
+      ['profile.html','Profile','fas fa-user']
+    ];
+    let nav=document.querySelector('.bottom-nav');
+    if(!nav){
+      nav=document.createElement('nav');
+      nav.className='bottom-nav';
+      document.body.appendChild(nav);
+    }
+    nav.setAttribute('aria-label','Primary navigation');
+    nav.innerHTML=items.map(([href,label,icon])=>`<a href="${href}"${current===href?' class="active"':''} data-bottom-nav="${href}"><i class="${icon}"></i><span>${label}</span></a>`).join('');
+    nav.addEventListener('click',e=>{
+      const link=e.target.closest('a[data-bottom-nav]');
+      if(!link)return;
+      e.preventDefault();
+      const href=link.getAttribute('href');
+      if(href) window.location.assign(href);
+    });
   }
 
   function init(){
     if(window.__dyfiGlobalUIReady)return;window.__dyfiGlobalUIReady=true;
-    inject();headers();search();genericActions();cardActions();chatFallback();forms();language();
+    inject();injectBottomNav();headers();search();genericActions();cardActions();chatFallback();forms();language();
     const theme=$('#uiTheme');if(theme){theme.checked=localStorage.getItem('theme')==='dark';theme.addEventListener('change',()=>{localStorage.setItem('theme',theme.checked?'dark':'light');document.documentElement.classList.toggle('dark',theme.checked);});}
     const notify=$('#uiNotify');if(notify){notify.checked=localStorage.getItem('dyfi_notifications')==='on';notify.addEventListener('change',e=>{localStorage.setItem('dyfi_notifications',e.target.checked?'on':'off');toast(e.target.checked?'Notifications enabled ✓':'Notifications disabled ✓');});}
     $('#uiShareApp')?.addEventListener('click',shareApp);
