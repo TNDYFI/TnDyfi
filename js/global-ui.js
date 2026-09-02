@@ -100,6 +100,28 @@
     updateProfileQuickActions();
   }
 
+  function setupBottomNavScroll(){
+    const nav=document.querySelector('.bottom-nav');
+    if(!nav || nav.dataset.scrollReady==='1')return;
+    nav.dataset.scrollReady='1';
+    let lastY=Math.max(0,window.scrollY||0);
+    let ticking=false;
+    const update=()=>{
+      const y=Math.max(0,window.scrollY||0);
+      const delta=y-lastY;
+      if(y<=8 || delta < -3){
+        nav.classList.remove('nav-hidden');
+      }else if(delta > 3){
+        nav.classList.add('nav-hidden');
+      }
+      lastY=y; ticking=false;
+    };
+    window.addEventListener('scroll',()=>{
+      if(ticking)return; ticking=true; requestAnimationFrame(update);
+    },{passive:true});
+    nav.classList.remove('nav-hidden');
+  }
+
   function injectBottomNav(){
     const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
     const items=[
@@ -117,6 +139,7 @@
     }
     nav.setAttribute('aria-label','Primary navigation');
     nav.innerHTML=items.map(([href,label,icon])=>`<a href="${href}"${current===href?' class="active"':''} data-bottom-nav="${href}"><i class="${icon}"></i><span>${label}</span></a>`).join('');
+    setupBottomNavScroll();
     nav.addEventListener('click',e=>{
       const link=e.target.closest('a[data-bottom-nav]');
       if(!link)return;
