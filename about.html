@@ -14,8 +14,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="css/global-ui.css">
+
+<style id="dyfi-universal-loader-style">
+#loader{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#fff;color:#111;transition:opacity .35s ease,visibility .35s ease;}
+#loader.loader-done{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-logo{text-align:center;padding:28px;}
+.star-logo{width:64px;height:64px;fill:#d50000;display:block;margin:0 auto 14px;}
+.dyfi-title{margin:0;font:800 28px/1.1 Poppins,Arial,sans-serif;letter-spacing:.5px;}
+.dyfi-title span{display:block;font:800 11px/1.5 'Noto Sans Tamil',Arial,sans-serif;margin-top:7px;}
+.dyfi-subtitle{margin:9px 0 0;font:600 10px/1.5 'Noto Sans Tamil',Arial,sans-serif;color:#777;}
+html.dark #loader{background:#000;color:#f5f5f5;}
+html.dark .dyfi-subtitle{color:#999;}
+</style>
+<script>(function(){try{if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark')}catch(e){};})();</script>
 </head>
 <body>
+<div id="loader" aria-label="Loading">
+  <div class="loader-logo">
+    <svg class="star-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+    <h1 class="dyfi-title">DYFI <span>தமிழ்நாடு மாநிலக் குழு</span></h1>
+    <p class="dyfi-subtitle">அனைவருக்கும் | கல்வி | அனைவருக்கும் | வேலை</p>
+  </div>
+</div>
+<script>(function(){var done=function(){var l=document.getElementById('loader');if(l){l.classList.add('loader-done');setTimeout(function(){l.style.display='none'},350)}};window.addEventListener('load',done,{once:true});setTimeout(done,3000);})();</script>
+
 
 <header class="topbar">
   <a class="back-btn" href="index.html" aria-label="Back">
