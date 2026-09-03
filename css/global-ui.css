@@ -95,3 +95,12 @@ html.dark .notification-panel .notification-item p,html.dark .notification-panel
 
 /* Sidebar end spacing: keep AI Assistant visually separated from the footer. */
 #sidebar.news-sidebar .side-content > .support-link:last-child{margin-bottom:54px}
+
+/* Gallery image viewer: keep the primary bottom navigation completely hidden */
+body.gallery-lightbox-open .bottom-nav,
+body.gallery-lightbox-open .bottom-nav.nav-hidden{
+  transform:translateY(120%) !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}

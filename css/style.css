@@ -1375,3 +1375,12 @@ body.sidebar-open{overflow:hidden;touch-action:none}
 /* Extra breathing room below the last AI Assistant item in the sidebar */
 #sidebar.news-sidebar .side-content > .support-link:last-child{margin-bottom:54px}
 #sidebar.news-sidebar .side-content{padding-bottom:8px}
+
+/* Gallery image viewer: keep the primary bottom navigation completely hidden */
+body.gallery-lightbox-open .bottom-nav,
+body.gallery-lightbox-open .bottom-nav.nav-hidden{
+  transform:translateY(120%) !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
